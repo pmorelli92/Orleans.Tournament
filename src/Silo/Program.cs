@@ -18,8 +18,8 @@ namespace Snaelro.Silo
             logger.LogInformation("Starting silo");
             await Startup.SiloHost.StartAsync();
 
-            logger.LogInformation("Stopping web host");
             await webHost.RunAsync(Startup.StopExecution.Token);
+            logger.LogInformation("Stopping web host");
 
             await Startup.SiloHost.StopAsync();
             logger.LogInformation("Stopping silo");
