@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <AssemblyName>Snaelro.API</AssemblyName>
+        <RootNamespace>Snaelro.API</RootNamespace>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Ben.Demystifier" Version="0.1.1" />
+        <PackageReference Include="JWTSimpleServer.InMemoryRefreshTokenStore" Version="0.0.2" />
+        <PackageReference Include="Npgsql" Version="4.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Microsoft.Orleans.Client" Version="2.1.0-rc2" />
+        <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="2.1.0-rc2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Domain\Domain.csproj" />
+        <ProjectReference Include="..\Projections\Projections.csproj" />
+        <ProjectReference Include="..\WebSockets\WebSockets.csproj" />
+        <ProjectReference Include="..\Utils.Mvc\Utils.Mvc.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="OrleansAdoNetContent\**" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <AssemblyName>Snaelro.Projections</AssemblyName>
+        <RootNamespace>Snaelro.Projections</RootNamespace>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Npgsql" Version="4.0.3" />
+        <PackageReference Include="Dapper" Version="1.50.5" />
+        <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator.Build" Version="2.1.0-rc2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Domain\Domain.csproj" />
+      <ProjectReference Include="..\Domain.Abstractions\Domain.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+      tier: backend
+      role: client
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: api
+        tier: backend
+        role: client
+    spec:
+      containers:
+      - name: snaelro-api
+        image: snaelro-api:local
+        ports:
+        - name: http
+          containerPort: 7003
+        envFrom:
+        - configMapRef:
+            name: api-config
+        env:
+        - name: POSTGRES_CONNECTION
+          valueFrom:
+            secretKeyRef:
+              name: postgres-connection
+              key: value
+        - name: JWT_ISSUER_KEY
+          valueFrom:
+            secretKeyRef:
+              name: jwt-issuer-key
+              key: value
+        lifecycle:
+          preStop:
+            httpGet:
+              path: "leave"
+              port: 7003
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-identity-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+      tier: backend
+      role: identity
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: api
+        tier: backend
+        role: identity
+    spec:
+      containers:
+      - name: snaelro-api-identity
+        image: snaelro-api-identity:local
+        ports:
+        - name: http
+          containerPort: 7004
+        envFrom:
+        - configMapRef:
+            name: api-identity-config
+        env:
+        - name: POSTGRES_CONNECTION
+          valueFrom:
+            secretKeyRef:
+              name: postgres-connection
+              key: value
+        - name: JWT_ISSUER_KEY
+          valueFrom:
+            secretKeyRef:
+              name: jwt-issuer-key
+              key: value
+        lifecycle:
+          preStop:
+            httpGet:
+              path: "leave"
+              port: 7004
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60

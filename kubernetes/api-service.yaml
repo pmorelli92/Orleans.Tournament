@@ -1,0 +1,31 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: api-service
+spec:
+  selector:
+    app: api
+    tier: backend
+    role: client
+  ports:
+  - name: http
+    port: 80
+    targetPort: 7003 #internal port
+    nodePort: 30703 #external port
+  type: NodePort
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: api-identity-service
+spec:
+  selector:
+    app: api
+    tier: backend
+    role: identity
+  ports:
+  - name: http
+    port: 80
+    targetPort: 7004 #internal port
+    nodePort: 30704 #external port
+  type: NodePort
