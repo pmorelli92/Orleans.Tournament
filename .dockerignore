@@ -1,0 +1,12 @@
+/bin
+/obj
+/out
+/TestResults
+/.git
+.gitignore
+/.idea
+/.vs
+/.vscode
+/postgres
+.md
+/tests

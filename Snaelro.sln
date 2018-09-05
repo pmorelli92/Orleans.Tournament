@@ -22,6 +22,13 @@ ProjectSection(SolutionItems) = preProject
 	postgres\03_Persistence.sql = postgres\03_Persistence.sql
 EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_kubernetes", "_kubernetes", "{CDFC1C35-F669-4397-9543-F4500376CF56}"
+ProjectSection(SolutionItems) = preProject
+	kubernetes\silo-config-maps.yaml = kubernetes\silo-config-maps.yaml
+	kubernetes\silo-deployment.yaml = kubernetes\silo-deployment.yaml
+	kubernetes\silo-service.yaml = kubernetes\silo-service.yaml
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

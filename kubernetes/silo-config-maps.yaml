@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: silo-config
+data:
+  ASPNETCORE_ENVIRONMENT: Development
+  ASPNETCORE_URLS: http://*:7000
+  CLUSTER_ID: Orleans-Local
+  SERVICE_ID: Snaelro
+  SILO_PORT: "11111"
+  GATEWAY_PORT: "30000"
+  BUILD_VERSION: 0.0.1
+
+##Create secrets
+##kubectl create secret generic postgres-connection --from-literal=value="Server=192.168.99.100;Port=30302;User Id=rudev;Password=masterkey1;Database=snaelro"

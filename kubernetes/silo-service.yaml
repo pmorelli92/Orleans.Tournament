@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: silo-service
+spec:
+  selector:
+    app: silo
+  ports:
+  - name: http
+    port: 80
+    targetPort: 7000 #internal port
+    nodePort: 30700 #external port
+  type: NodePort
