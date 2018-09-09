@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
-using Snaelro.Domain.Aggregates;
+using Snaelro.Domain.Teams.Aggregates;
 using Snaelro.Utils.Configuration;
 using Snaelro.Utils.Extensions;
 using Snaelro.Utils.Middlewares;
