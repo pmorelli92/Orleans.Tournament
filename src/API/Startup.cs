@@ -1,24 +1,58 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Orleans;
+using Orleans.Configuration;
+using Orleans.Hosting;
+using Snaelro.Domain.Aggregates;
+using Snaelro.Utils.Configuration;
+using Snaelro.Utils.Extensions;
+using Snaelro.Utils.Middlewares;
 
 namespace Snaelro.API
 {
     public class Startup
     {
-        public void ConfigureServices(IServiceCollection services)
+        private readonly FromEnvironment _fromEnvironment;
+
+        public Startup(IConfiguration configuration)
         {
+            _fromEnvironment = FromEnvironment.Build(configuration);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void ConfigureServices(IServiceCollection services)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            services.AddMvc();
 
-            app.Run(async (context) => { await context.Response.WriteAsync("Hello World!"); });
+            services.AddSingleton(CreateClient());
+            services.AddSingleton(AppStopper.New);
+            services.AddSingleton(_fromEnvironment);
+        }
+
+        private IClusterClient CreateClient()
+        {
+            return new ClientBuilder()
+                .Configure<ClusterOptions>(options =>
+                {
+                    options.ClusterId = _fromEnvironment.ClusterId;
+                    options.ServiceId = _fromEnvironment.ServiceId;
+                })
+                .UseAdoNetClustering(opt =>
+                {
+                    opt.Invariant = _fromEnvironment.PostgresInvariant;
+                    opt.ConnectionString = _fromEnvironment.PostgresConnection;
+                })
+                .ConfigureApplicationParts(parts =>
+                    parts.AddApplicationPart(typeof(TeamGrain).Assembly).WithReferences())
+                .Build();
+        }
+
+        public void Configure(IApplicationBuilder appBuilder)
+        {
+            appBuilder.UseLeave();
+            appBuilder.UseVersionCheck();
+
+            appBuilder.UseMvc();
         }
     }
 }

@@ -8,11 +8,25 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Ben.Demystifier" Version="0.1.1" />
+        <PackageReference Include="Npgsql" Version="4.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Microsoft.Orleans.Client" Version="2.0.3" />
+        <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="2.0.0" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Domain\Domain.csproj" />
         <ProjectReference Include="..\Utils\Utils.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Remove="OrleansAdoNetContent\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Teams\Controllers" />
+      <Folder Include="Teams\Models" />
+    </ItemGroup>
+    
 </Project>

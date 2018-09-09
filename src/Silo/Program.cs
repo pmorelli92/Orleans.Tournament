@@ -3,6 +3,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Orleans.Hosting;
+using Snaelro.Utils.Middlewares;
 
 namespace Snaelro.Silo
 {
@@ -12,19 +14,21 @@ namespace Snaelro.Silo
         {
             var webHost = CreateWebHostBuilder(args).Build();
             var logger = webHost.Services.GetService<ILogger<Program>>();
+            var siloHost = webHost.Services.GetService<ISiloHost>();
+            var appStopper = webHost.Services.GetService<AppStopper>();
 
-            logger.LogInformation("Silo -> Starting");
-            await Startup.SiloHost.StartAsync();
+            logger.LogInformation("[ISiloHost] starting");
+            await siloHost.StartAsync();
 
-            await webHost.RunAsync(Startup.StopExecution.Token);
-            logger.LogInformation("Web Host -> Ending");
+            logger.LogInformation("[IWebHost] starting");
+            await webHost.RunAsync(appStopper.TokenSource.Token);
+            logger.LogInformation("[IWebHost] ending");
 
-            logger.LogInformation("Silo -> Stopping");
+            logger.LogInformation("[ISiloHost] stopping");
+            await siloHost.StopAsync();
 
-            await Startup.SiloHost.StopAsync();
-            await Startup.SiloHost.Stopped;
-
-            logger.LogInformation("Silo -> Stopped");
+            await siloHost.Stopped;
+            logger.LogInformation("[ISiloHost] stopped");
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

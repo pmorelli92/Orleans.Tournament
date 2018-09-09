@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -7,17 +6,14 @@ using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Snaelro.Domain.Aggregates;
-using Snaelro.Silo.Middlewares;
 using Snaelro.Utils.Configuration;
 using Snaelro.Utils.Extensions;
+using Snaelro.Utils.Middlewares;
 
 namespace Snaelro.Silo
 {
     public class Startup
     {
-        internal static ISiloHost SiloHost;
-        internal static CancellationTokenSource StopExecution;
-
         private readonly FromEnvironment _fromEnvironment;
 
         public Startup(IConfiguration configuration)
@@ -28,15 +24,15 @@ namespace Snaelro.Silo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton(_fromEnvironment);
 
-            SiloHost = CreateSilo();
-            StopExecution = new CancellationTokenSource();
+            services.AddSingleton(CreateSilo());
+            services.AddSingleton(AppStopper.New);
+            services.AddSingleton(_fromEnvironment);
         }
 
         private ISiloHost CreateSilo()
         {
-            SiloHost = new SiloHostBuilder()
+            return new SiloHostBuilder()
                 .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = _fromEnvironment.ClusterId;
@@ -58,14 +54,13 @@ namespace Snaelro.Silo
                     parts.AddApplicationPart(typeof(TeamGrain).Assembly).WithReferences())
                 .ConfigureLogging(logging => logging.AddConsole())
                 .Build();
-
-            return SiloHost;
         }
 
         public void Configure(IApplicationBuilder appBuilder)
         {
+            appBuilder.UseLeave();
             appBuilder.UseVersionCheck();
-            appBuilder.Map("/leave", b => b.UseMiddleware<LeaveMiddleware>());
+
             appBuilder.UseMvc();
         }
     }
