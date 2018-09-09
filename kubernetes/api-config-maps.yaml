@@ -10,4 +10,4 @@ data:
   BUILD_VERSION: 0.0.1
 
 ##Create secrets
-##kubectl create secret generic postgres-connection --from-literal=value="Server=192.168.99.100;Port=30302;User Id=rudev;Password=masterkey1;Database=snaelro"
+##kubectl create secret generic postgres-connection --from-literal=value="Server=192.168.99.100;Port=30702;User Id=dbuser;Password=dbpassword;Database=snaelro"

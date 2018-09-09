@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+      tier: infrastructure
+      role: database
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: postgres
+        tier: infrastructure
+        role: database
+    spec:
+      containers:
+      - name: snaelro-postgres
+        image: snaelro-postgres:local
+        ports:
+        - name: postgresql
+          containerPort: 5432
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
