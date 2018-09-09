@@ -47,8 +47,9 @@ namespace Snaelro.Silo
                 {
                     opt.Invariant = _fromEnvironment.PostgresInvariant;
                     opt.ConnectionString = _fromEnvironment.PostgresConnection;
+                    // opt.UseJsonFormat = true;
                 })
-                .AddStateStorageBasedLogConsistencyProviderAsDefault()
+                .AddLogStorageBasedLogConsistencyProviderAsDefault()
                 .ConfigureEndpoints(_fromEnvironment.SiloPort, _fromEnvironment.GatewayPort)
                 .ConfigureApplicationParts(parts =>
                     parts.AddApplicationPart(typeof(TeamGrain).Assembly).WithReferences())
