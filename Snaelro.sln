@@ -27,6 +27,9 @@ ProjectSection(SolutionItems) = preProject
 	kubernetes\silo-config-maps.yaml = kubernetes\silo-config-maps.yaml
 	kubernetes\silo-deployment.yaml = kubernetes\silo-deployment.yaml
 	kubernetes\silo-service.yaml = kubernetes\silo-service.yaml
+	kubernetes\api-config-maps.yaml = kubernetes\api-config-maps.yaml
+	kubernetes\api-deployment.yaml = kubernetes\api-deployment.yaml
+	kubernetes\api-service.yaml = kubernetes\api-service.yaml
 EndProjectSection
 EndProject
 Global
