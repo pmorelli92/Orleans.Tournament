@@ -6,7 +6,6 @@ using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Snaelro.Domain.Snaelro.Domain;
-using Snaelro.Domain.Teams.Aggregates;
 using Snaelro.Utils.Mvc.Configuration;
 using Snaelro.Utils.Mvc.Extensions;
 using Snaelro.Utils.Mvc.Middlewares;
@@ -52,8 +51,9 @@ namespace Snaelro.Silo
                 })
                 .AddLogStorageBasedLogConsistencyProviderAsDefault()
                 .ConfigureEndpoints(_fromEnvironment.SiloPort, _fromEnvironment.GatewayPort)
-                .ConfigureApplicationParts(parts =>
-                    parts.AddApplicationPart(typeof(TeamGrain).Assembly).WithReferences())
+                .ConfigureApplicationParts(parts => parts
+                    .AddApplicationPart(typeof(Domain.Teams.Aggregates.TeamGrain).Assembly).WithReferences()
+                    .AddApplicationPart(typeof(Projections.Teams.Subscriber).Assembly).WithReferences())
                 .AddMemoryGrainStorage(_fromEnvironment.PubSubStore)
                 .AddSimpleMessageStreamProvider(Constants.TeamStream)
                 .ConfigureLogging(logging => logging.AddConsole())
