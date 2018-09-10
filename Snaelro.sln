@@ -4,7 +4,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9F5EA531-C4D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silo", "src\Silo\Silo.csproj", "{D2A953E7-DB1B-465E-AEBA-EEF188379B0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "src\Utils\Utils.csproj", "{754FB138-6786-411A-8C21-2703CF356B6A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils.Mvc", "src\Utils.Mvc\Utils.Mvc.csproj", "{754FB138-6786-411A-8C21-2703CF356B6A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_misc", "_misc", "{DA678CE1-A6E5-4F52-9486-10C1EEE2888D}"
 ProjectSection(SolutionItems) = preProject

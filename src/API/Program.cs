@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Orleans;
-using Snaelro.Utils.Middlewares;
+using Snaelro.Utils.Mvc.Middlewares;
 
 namespace Snaelro.API
 {

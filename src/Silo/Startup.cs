@@ -5,10 +5,11 @@ using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
+using Snaelro.Domain.Snaelro.Domain;
 using Snaelro.Domain.Teams.Aggregates;
-using Snaelro.Utils.Configuration;
-using Snaelro.Utils.Extensions;
-using Snaelro.Utils.Middlewares;
+using Snaelro.Utils.Mvc.Configuration;
+using Snaelro.Utils.Mvc.Extensions;
+using Snaelro.Utils.Mvc.Middlewares;
 
 namespace Snaelro.Silo
 {
@@ -53,6 +54,8 @@ namespace Snaelro.Silo
                 .ConfigureEndpoints(_fromEnvironment.SiloPort, _fromEnvironment.GatewayPort)
                 .ConfigureApplicationParts(parts =>
                     parts.AddApplicationPart(typeof(TeamGrain).Assembly).WithReferences())
+                .AddMemoryGrainStorage(_fromEnvironment.PubSubStore)
+                .AddSimpleMessageStreamProvider(Constants.TeamStream)
                 .ConfigureLogging(logging => logging.AddConsole())
                 .Build();
         }

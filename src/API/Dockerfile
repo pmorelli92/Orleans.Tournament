@@ -1,6 +1,6 @@
 FROM microsoft/dotnet:2.1-sdk-alpine AS build
 COPY src/API/ src/API/
-COPY src/Utils/ src/Utils/
+COPY src/Utils.Mvc/ src/Utils.Mvc/
 COPY src/Domain/ src/Domain/
 
 RUN dotnet publish src/API -o out

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Snaelro.Utils.Configuration;
+using Snaelro.Utils.Mvc.Configuration;
 
-namespace Snaelro.Utils.Middlewares
+namespace Snaelro.Utils.Mvc.Middlewares
 {
     public class VersionMiddleware
     {

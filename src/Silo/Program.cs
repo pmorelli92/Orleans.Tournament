@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Orleans.Hosting;
-using Snaelro.Utils.Middlewares;
+using Snaelro.Utils.Mvc.Middlewares;
 
 namespace Snaelro.Silo
 {

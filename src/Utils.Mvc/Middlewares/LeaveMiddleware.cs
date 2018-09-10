@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Snaelro.Utils.Middlewares
+namespace Snaelro.Utils.Mvc.Middlewares
 {
     public class LeaveMiddleware
     {

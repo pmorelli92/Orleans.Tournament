@@ -1,6 +1,6 @@
 FROM microsoft/dotnet:2.1-sdk-alpine AS build
 COPY src/Silo/ src/Silo/
-COPY src/Utils/ src/Utils/
+COPY src/Utils.Mvc/ src/Utils.Mvc/
 COPY src/Domain/ src/Domain/
 
 RUN dotnet publish src/Silo -o out

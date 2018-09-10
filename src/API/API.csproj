@@ -17,15 +17,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Domain\Domain.csproj" />
-        <ProjectReference Include="..\Utils\Utils.csproj" />
+        <ProjectReference Include="..\Utils.Mvc\Utils.Mvc.csproj" />
     </ItemGroup>
 
     <ItemGroup>
         <None Remove="OrleansAdoNetContent\**" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Teams\Models" />
-    </ItemGroup>
-    
 </Project>

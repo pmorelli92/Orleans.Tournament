@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
-using Snaelro.Utils.Extensions;
+using Snaelro.Utils.Mvc.Extensions;
 
-namespace Snaelro.Utils.Configuration
+namespace Snaelro.Utils.Mvc.Configuration
 {
     public class FromEnvironment
     {
@@ -35,5 +35,8 @@ namespace Snaelro.Utils.Configuration
 
         public string BuildVersion
             => _configuration.GetEnvVar("BUILD_VERSION");
+
+        public string PubSubStore
+            => "PubSubStore";
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Builder;
-using Snaelro.Utils.Middlewares;
+using Snaelro.Utils.Mvc.Middlewares;
 
-namespace Snaelro.Utils.Extensions
+namespace Snaelro.Utils.Mvc.Extensions
 {
     public static class ApplicationBuilderExtensions
     {

@@ -5,9 +5,9 @@ using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Snaelro.Domain.Teams.Aggregates;
-using Snaelro.Utils.Configuration;
-using Snaelro.Utils.Extensions;
-using Snaelro.Utils.Middlewares;
+using Snaelro.Utils.Mvc.Configuration;
+using Snaelro.Utils.Mvc.Extensions;
+using Snaelro.Utils.Mvc.Middlewares;
 
 namespace Snaelro.API
 {

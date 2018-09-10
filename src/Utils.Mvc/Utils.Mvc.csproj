@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <AssemblyName>Snaelro.Utils</AssemblyName>
-        <RootNamespace>Snaelro.Utils</RootNamespace>
+        <AssemblyName>Snaelro.Utils.Mvc</AssemblyName>
+        <RootNamespace>Snaelro.Utils.Mvc</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
@@ -11,5 +11,5 @@
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
         <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
     </ItemGroup>
-    
+
 </Project>
