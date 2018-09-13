@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="LanguageExt.Core" Version="3.0.22" />
         <PackageReference Include="Microsoft.Orleans.EventSourcing" Version="2.0.0" />
         <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="2.0.0" />
         <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator.Build" Version="2.0.0" />

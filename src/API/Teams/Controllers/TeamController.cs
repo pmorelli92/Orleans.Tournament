@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Orleans;
 using Snaelro.API.Teams.Input;
-using Snaelro.Domain.Teams.Aggregates;
+using Snaelro.Domain.Teams;
 using Snaelro.Domain.Teams.Commands;
 
 namespace Snaelro.API.Teams.Controllers
@@ -31,7 +31,7 @@ namespace Snaelro.API.Teams.Controllers
             return Ok(new { id = teamId });
         }
 
-        [HttpPut("api/team/{teamId:Guid}/player", Name = "Add player to team")]
+        [HttpPut("api/team/{teamId:Guid}/players", Name = "Add player to team")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         public async Task<IActionResult> AddPlayers([FromRoute] Guid teamId, [FromBody] PlayerModel model)
         {
@@ -49,8 +49,9 @@ namespace Snaelro.API.Teams.Controllers
         public async Task<IActionResult> GetTeamName([FromRoute] Guid teamId)
         {
             var team = _clusterClient.GetGrain<ITeamGrain>(teamId);
-            var teamName = await team.GetNameAsync();
-            return Ok(teamName);
+            var nameResult = await team.GetNameAsync();
+
+            return nameResult.Match<IActionResult>(Ok, f => BadRequest());
         }
 
         [HttpGet("api/team/{teamId:Guid}/players", Name = "Get team players")]
@@ -58,8 +59,9 @@ namespace Snaelro.API.Teams.Controllers
         public async Task<IActionResult> GetTeamPlayers([FromRoute] Guid teamId)
         {
             var team = _clusterClient.GetGrain<ITeamGrain>(teamId);
-            var teamName = await team.GetPlayersAsync();
-            return Ok(teamName);
+            var playersResult = await team.GetPlayersAsync();
+
+            return playersResult.Match<IActionResult>(Ok, f => BadRequest());
         }
     }
 }

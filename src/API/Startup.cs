@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
-using Snaelro.Domain.Teams.Aggregates;
 using Snaelro.Utils.Mvc.Configuration;
 using Snaelro.Utils.Mvc.Extensions;
 using Snaelro.Utils.Mvc.Middlewares;

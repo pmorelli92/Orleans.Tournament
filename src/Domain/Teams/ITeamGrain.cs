@@ -1,9 +1,10 @@
 using System.Collections.Immutable;
 using System.Threading.Tasks;
+using LanguageExt;
 using Orleans;
 using Snaelro.Domain.Teams.Commands;
 
-namespace Snaelro.Domain.Teams.Aggregates
+namespace Snaelro.Domain.Teams
 {
     // Commands
     public partial interface ITeamGrain : IGrainWithGuidKey
@@ -14,10 +15,10 @@ namespace Snaelro.Domain.Teams.Aggregates
     }
 
     // Queries
-    public partial interface ITeamGrain : IGrainWithGuidKey
+    public partial interface ITeamGrain
     {
-        Task<string> GetNameAsync();
+        Task<Validation<TeamErrorCodes, string>> GetNameAsync();
 
-        Task<IImmutableList<string>> GetPlayersAsync();
+        Task<Validation<TeamErrorCodes, IImmutableList<string>>> GetPlayersAsync();
     }
 }
