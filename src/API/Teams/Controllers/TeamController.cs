@@ -21,25 +21,26 @@ namespace Snaelro.API.Teams.Controllers
 
         [HttpPut("api/team/create/{teamName}", Name = "Create team")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
-        public async Task<IActionResult> CreateTeam([FromRoute] string teamName)
+        public IActionResult CreateTeam([FromRoute] string teamName)
         {
             var teamId = Guid.NewGuid();
             var team = _clusterClient.GetGrain<ITeamGrain>(teamId);
 
-            await team.CreateAsync(new CreateTeam(teamName));
+            team.CreateAsync(new CreateTeam(teamName));
 
             return Ok(new { id = teamId });
         }
 
         [HttpPut("api/team/{teamId:Guid}/players", Name = "Add player to team")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
-        public async Task<IActionResult> AddPlayers([FromRoute] Guid teamId, [FromBody] PlayerModel model)
+        public IActionResult AddPlayers([FromRoute] Guid teamId, [FromBody] PlayerModel model)
         {
             var team = _clusterClient.GetGrain<ITeamGrain>(teamId);
 
-            await Task.WhenAll(model.Names
+            model.Names
                 .Select(e => new AddPlayer(e))
-                .Select(async e => await team.AddPlayerAsync(e)));
+                .ToList()
+                .ForEach(e => team.AddPlayerAsync(e));
 
             return Ok(new { id = teamId });
         }
