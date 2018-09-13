@@ -6,6 +6,7 @@ using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Snaelro.Domain.Snaelro.Domain;
+using Snaelro.Projections;
 using Snaelro.Utils.Mvc.Configuration;
 using Snaelro.Utils.Mvc.Extensions;
 using Snaelro.Utils.Mvc.Middlewares;
@@ -32,7 +33,7 @@ namespace Snaelro.Silo
 
         public void OrleansDependencyInjection(IServiceCollection services)
         {
-            services.AddSingleton(new Projections.Options.Postgres(_fromEnvironment.PostgresConnection));
+            services.AddSingleton(new PostgresOptions(_fromEnvironment.PostgresConnection));
         }
 
         private ISiloHost CreateSilo()

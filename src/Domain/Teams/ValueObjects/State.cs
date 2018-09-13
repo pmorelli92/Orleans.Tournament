@@ -6,16 +6,26 @@ namespace Snaelro.Domain.Teams.ValueObjects
 {
     public class State
     {
-        public IImmutableList<string> Messages { get; private set; }
+        public bool Created { get; private set; }
+
+        public string Name { get; private set; }
+
+        public IImmutableList<string> Players { get; private set; }
 
         public State()
         {
-            Messages = new List<string>().ToImmutableList();
+            Players = new List<string>().ToImmutableList();
         }
 
-        public void Apply(Echoed @event)
+        public void Apply(TeamCreated @event)
         {
-            Messages = Messages.Add(@event.Message);
+            Created = true;
+            Name = @event.Name;
+        }
+
+        public void Apply(PlayerAdded @event)
+        {
+            Players = Players.Add(@event.Name);
         }
     }
 }

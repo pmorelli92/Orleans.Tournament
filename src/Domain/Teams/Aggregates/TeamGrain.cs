@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Orleans;
 using Orleans.EventSourcing;
 using Orleans.Streams;
 using Snaelro.Domain.Snaelro.Domain;
+using Snaelro.Domain.Teams.Commands;
 using Snaelro.Domain.Teams.Events;
 using Snaelro.Domain.Teams.ValueObjects;
 
@@ -21,23 +23,39 @@ namespace Snaelro.Domain.Teams.Aggregates
             await base.OnActivateAsync();
         }
 
-        public async Task<string> EchoAsync(string message)
+        public async Task CreateAsync(CreateTeam cmd)
         {
-            var str = $"[TeamGrain] echoed: {message} from " +
-                      $"grain with id: {this.GetPrimaryKey()} " +
-                      $"and identity: {IdentityString}";
-
-            var evt = new Echoed(str);
+            var evt = new TeamCreated(cmd.Name);
 
             RaiseEvent(evt);
             await _stream.OnNextAsync(evt);
-
-            return str;
         }
 
-        public Task<IEnumerable<string>> GetMessagesAsync()
+        public async Task AddPlayerAsync(AddPlayer cmd)
         {
-            return Task.FromResult(State.Messages.AsEnumerable());
+            if (State.Created)
+            {
+                var evt = new PlayerAdded(cmd.Name);
+
+                RaiseEvent(evt);
+                await _stream.OnNextAsync(evt);
+            }
+        }
+
+        public Task<string> GetNameAsync()
+        {
+            return Task.FromResult(
+                State.Created == false
+                    ? "TODO: Error2"
+                    : State.Name);
+        }
+
+        public Task<IImmutableList<string>> GetPlayersAsync()
+        {
+            return Task.FromResult(
+                State.Created == false
+                    ? null
+                    : State.Players);
         }
     }
 }

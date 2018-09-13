@@ -1,10 +1,10 @@
-namespace Snaelro.Projections.Options
+namespace Snaelro.Projections
 {
-    public class Postgres
+    public class PostgresOptions
     {
         public string ConnectionString { get; }
 
-        public Postgres(string connectionString)
+        public PostgresOptions(string connectionString)
         {
             ConnectionString = connectionString;
         }

@@ -1,13 +1,23 @@
-using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Orleans;
+using Snaelro.Domain.Teams.Commands;
 
 namespace Snaelro.Domain.Teams.Aggregates
 {
-    public interface ITeamGrain : IGrainWithGuidKey
+    // Commands
+    public partial interface ITeamGrain : IGrainWithGuidKey
     {
-        Task<string> EchoAsync(string message);
+        Task CreateAsync(CreateTeam cmd);
 
-        Task<IEnumerable<string>> GetMessagesAsync();
+        Task AddPlayerAsync(AddPlayer cmd);
+    }
+
+    // Queries
+    public partial interface ITeamGrain : IGrainWithGuidKey
+    {
+        Task<string> GetNameAsync();
+
+        Task<IImmutableList<string>> GetPlayersAsync();
     }
 }

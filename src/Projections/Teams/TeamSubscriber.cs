@@ -10,10 +10,12 @@ namespace Snaelro.Projections.Teams
     [ImplicitStreamSubscription(Constants.StreamNamespace)]
     public class TeamSubscriber : Grain, ISubscriber
     {
-        private readonly Options.Postgres _postgresOptions;
+        private readonly ProjectionManager<TeamProjection> _projectionManager;
 
-        public TeamSubscriber(Options.Postgres postgresOptions)
-            => _postgresOptions = postgresOptions;
+        public TeamSubscriber(PostgresOptions postgresOptions)
+        {
+            _projectionManager = new ProjectionManager<TeamProjection>("read", "team_projection", postgresOptions);
+        }
 
         public override async Task OnActivateAsync()
         {
@@ -24,15 +26,35 @@ namespace Snaelro.Projections.Teams
             await base.OnActivateAsync();
         }
 
-        public Task OnNextAsync(object item, StreamSequenceToken token = null)
+        public Task OnNextAsync(object evt, StreamSequenceToken token = null)
         {
-            if (item is Echoed echoed)
+            switch (evt)
             {
-                Console.WriteLine($"Postgres opt: {_postgresOptions.ConnectionString}");
-                Console.WriteLine($"Received: {this.GetPrimaryKey()} message: {echoed.Message}");
+                case TeamCreated obj:
+                    return Handle(obj);
+                case PlayerAdded obj:
+                    return Handle(obj);
+                default:
+                    Console.WriteLine($"[TeamSubscriber] event of type {evt.GetType()} unhandled");
+                    return Task.CompletedTask;
             }
+        }
 
-            return Task.CompletedTask;
+        private async Task Handle(TeamCreated evt)
+        {
+            var projection = TeamProjection.New.SetName(evt.Name);
+            await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
+            Console.WriteLine("[TeamSubscriber] TeamCreated handled");
+        }
+
+        private async Task Handle(PlayerAdded evt)
+        {
+            var projection =
+                (await _projectionManager.GetProjectionAsync(this.GetPrimaryKey()))
+                .AddPlayer(evt.Name);
+
+            await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
+            Console.WriteLine("[TeamSubscriber] PlayedAdded handled");
         }
     }
 }
