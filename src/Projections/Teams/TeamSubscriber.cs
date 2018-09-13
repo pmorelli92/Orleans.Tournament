@@ -7,14 +7,14 @@ using Snaelro.Domain.Teams.Events;
 
 namespace Snaelro.Projections.Teams
 {
-    public interface IRandomReceiver : IGrainWithGuidKey
-    {
-        Task DoSmth();
-    }
-
     [ImplicitStreamSubscription(Constants.StreamNamespace)]
-    public class Subscriber : Grain, IRandomReceiver
+    public class TeamSubscriber : Grain, ISubscriber
     {
+        private readonly Options.Postgres _postgresOptions;
+
+        public TeamSubscriber(Options.Postgres postgresOptions)
+            => _postgresOptions = postgresOptions;
+
         public override async Task OnActivateAsync()
         {
             var guid = this.GetPrimaryKey();
@@ -28,15 +28,11 @@ namespace Snaelro.Projections.Teams
         {
             if (item is Echoed echoed)
             {
+                Console.WriteLine($"Postgres opt: {_postgresOptions.ConnectionString}");
                 Console.WriteLine($"Received: {this.GetPrimaryKey()} message: {echoed.Message}");
             }
 
             return Task.CompletedTask;
-        }
-
-        public Task DoSmth()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -42,8 +42,7 @@ namespace Snaelro.API
                     opt.Invariant = _fromEnvironment.PostgresInvariant;
                     opt.ConnectionString = _fromEnvironment.PostgresConnection;
                 })
-                .ConfigureApplicationParts(parts =>
-                    parts.AddApplicationPart(typeof(TeamGrain).Assembly).WithReferences())
+                .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
                 .Build();
         }
 

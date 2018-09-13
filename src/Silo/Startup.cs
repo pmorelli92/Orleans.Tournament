@@ -30,6 +30,11 @@ namespace Snaelro.Silo
             services.AddSingleton(_fromEnvironment);
         }
 
+        public void OrleansDependencyInjection(IServiceCollection services)
+        {
+            services.AddSingleton(new Projections.Options.Postgres(_fromEnvironment.PostgresConnection));
+        }
+
         private ISiloHost CreateSilo()
         {
             return new SiloHostBuilder()
@@ -51,12 +56,11 @@ namespace Snaelro.Silo
                 })
                 .AddLogStorageBasedLogConsistencyProviderAsDefault()
                 .ConfigureEndpoints(_fromEnvironment.SiloPort, _fromEnvironment.GatewayPort)
-                .ConfigureApplicationParts(parts => parts
-                    .AddApplicationPart(typeof(Domain.Teams.Aggregates.TeamGrain).Assembly).WithReferences()
-                    .AddApplicationPart(typeof(Projections.Teams.Subscriber).Assembly).WithReferences())
+                .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
                 .AddMemoryGrainStorage(_fromEnvironment.PubSubStore)
                 .AddSimpleMessageStreamProvider(Constants.TeamStream)
                 .ConfigureLogging(logging => logging.AddConsole())
+                .ConfigureServices(OrleansDependencyInjection)
                 .Build();
         }
 
