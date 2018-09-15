@@ -1,12 +1,18 @@
+using System;
+
 namespace Snaelro.Domain.Teams.Commands
 {
-    public class AddPlayer
+    public class AddPlayer : ITraceable
     {
         public string Name { get; }
 
-        public AddPlayer(string name)
+        public Guid TraceId { get; }
+
+        public AddPlayer(string name, Guid traceId)
         {
             Name = name;
+            TraceId = traceId;
         }
+
     }
 }

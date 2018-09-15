@@ -1,12 +1,17 @@
+using System;
+
 namespace Snaelro.Domain.Teams.Events
 {
-    public class PlayerAdded
+    public class PlayerAdded : ITraceable
     {
         public string Name { get; }
 
-        public PlayerAdded(string name)
+        public Guid TraceId { get; }
+
+        public PlayerAdded(string name, Guid traceId)
         {
             Name = name;
+            TraceId = traceId;
         }
     }
 }

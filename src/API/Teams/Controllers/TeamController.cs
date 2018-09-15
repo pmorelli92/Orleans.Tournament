@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Orleans;
 using Snaelro.API.Teams.Input;
+using Snaelro.API.Teams.Output;
 using Snaelro.Domain.Teams;
 using Snaelro.Domain.Teams.Commands;
 
@@ -19,14 +20,14 @@ namespace Snaelro.API.Teams.Controllers
             _clusterClient = clusterClient;
         }
 
-        [HttpPut("api/team/create/{teamName}", Name = "Create team")]
+        [HttpPut("api/team/create", Name = "Create team")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
-        public IActionResult CreateTeam([FromRoute] string teamName)
+        public IActionResult CreateTeam([FromBody] CreateModel model)
         {
             var teamId = Guid.NewGuid();
             var team = _clusterClient.GetGrain<ITeamGrain>(teamId);
 
-            team.CreateAsync(new CreateTeam(teamName));
+            team.CreateAsync(new CreateTeam(model.Name, model.TraceId));
 
             return Ok(new { id = teamId });
         }
@@ -38,31 +39,23 @@ namespace Snaelro.API.Teams.Controllers
             var team = _clusterClient.GetGrain<ITeamGrain>(teamId);
 
             model.Names
-                .Select(e => new AddPlayer(e))
+                .Select(e => new AddPlayer(e, model.TraceId))
                 .ToList()
                 .ForEach(e => team.AddPlayerAsync(e));
 
             return Ok(new { id = teamId });
         }
 
-        [HttpGet("api/team/{teamId:Guid}", Name = "Get team name")]
+        [HttpGet("api/team/{teamId:Guid}", Name = "Get team")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetTeamName([FromRoute] Guid teamId)
         {
             var team = _clusterClient.GetGrain<ITeamGrain>(teamId);
-            var nameResult = await team.GetNameAsync();
+            var teamResult = await team.GetTeamAsync();
 
-            return nameResult.Match<IActionResult>(Ok, f => BadRequest());
-        }
-
-        [HttpGet("api/team/{teamId:Guid}/players", Name = "Get team players")]
-        [ProducesResponseType((int) HttpStatusCode.OK)]
-        public async Task<IActionResult> GetTeamPlayers([FromRoute] Guid teamId)
-        {
-            var team = _clusterClient.GetGrain<ITeamGrain>(teamId);
-            var playersResult = await team.GetPlayersAsync();
-
-            return playersResult.Match<IActionResult>(Ok, f => BadRequest());
+            return teamResult.Match<IActionResult>(
+                s => Ok(TeamResponse.From(teamId, s)),
+                f => BadRequest());
         }
     }
 }

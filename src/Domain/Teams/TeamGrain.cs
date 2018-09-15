@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using System.Threading.Tasks;
 using LanguageExt;
 using Orleans;
@@ -30,17 +29,14 @@ namespace Snaelro.Domain.Teams
         }
 
         public Task CreateAsync(CreateTeam cmd)
-            => PersistPublish(new TeamCreated(cmd.Name));
+            => PersistPublish(new TeamCreated(cmd.Name, cmd.TraceId));
 
         public Task AddPlayerAsync(AddPlayer cmd)
             => TeamExists(State).Match(
-                s => PersistPublish(new PlayerAdded(cmd.Name)),
+                s => PersistPublish(new PlayerAdded(cmd.Name, cmd.TraceId)),
                 f => Task.CompletedTask);
 
-        public Task<Validation<TeamErrorCodes, string>> GetNameAsync()
-            => Task.FromResult(TeamExists(State).Map(s => State.Name));
-
-        public Task<Validation<TeamErrorCodes, IImmutableList<string>>> GetPlayersAsync()
-            => Task.FromResult(TeamExists(State).Map(s => State.Players));
+        public Task<Validation<TeamErrorCodes, State>> GetTeamAsync()
+            => Task.FromResult(TeamExists(State).Map(s => State));
     }
 }

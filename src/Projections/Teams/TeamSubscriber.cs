@@ -35,7 +35,7 @@ namespace Snaelro.Projections.Teams
                 case PlayerAdded obj:
                     return Handle(obj);
                 default:
-                    Console.WriteLine($"[TeamSubscriber] event of type {evt.GetType()} unhandled");
+                    Console.WriteLine($"[Team][Projection] event of type {evt.GetType()} unhandled");
                     return Task.CompletedTask;
             }
         }
@@ -44,7 +44,7 @@ namespace Snaelro.Projections.Teams
         {
             var projection = TeamProjection.New.SetName(evt.Name);
             await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
-            Console.WriteLine("[TeamSubscriber] TeamCreated handled");
+            Console.WriteLine($"[Team][Projection] TeamCreated handled");
         }
 
         private async Task Handle(PlayerAdded evt)
@@ -54,7 +54,7 @@ namespace Snaelro.Projections.Teams
                 .AddPlayer(evt.Name);
 
             await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
-            Console.WriteLine("[TeamSubscriber] PlayedAdded handled");
+            Console.WriteLine($"[Team][Projection] PlayedAdded handled");
         }
     }
 }

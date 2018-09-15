@@ -59,6 +59,7 @@ namespace Snaelro.Silo
                 .ConfigureEndpoints(_fromEnvironment.SiloPort, _fromEnvironment.GatewayPort)
                 .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
                 .AddMemoryGrainStorage(_fromEnvironment.PubSubStore)
+                .AddSimpleMessageStreamProvider("ws")
                 .AddSimpleMessageStreamProvider(Constants.TeamStream)
                 .ConfigureLogging(logging => logging.AddConsole())
                 .ConfigureServices(OrleansDependencyInjection)

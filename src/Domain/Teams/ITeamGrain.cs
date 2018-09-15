@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using System.Threading.Tasks;
 using LanguageExt;
 using Orleans;
@@ -17,8 +16,6 @@ namespace Snaelro.Domain.Teams
     // Queries
     public partial interface ITeamGrain
     {
-        Task<Validation<TeamErrorCodes, string>> GetNameAsync();
-
-        Task<Validation<TeamErrorCodes, IImmutableList<string>>> GetPlayersAsync();
+        Task<Validation<TeamErrorCodes, ValueObjects.State>> GetTeamAsync();
     }
 }

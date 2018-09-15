@@ -19,6 +19,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Domain\Domain.csproj" />
         <ProjectReference Include="..\Projections\Projections.csproj" />
+        <ProjectReference Include="..\Sockets\Sockets.csproj" />
         <ProjectReference Include="..\Utils.Mvc\Utils.Mvc.csproj" />
     </ItemGroup>
 
