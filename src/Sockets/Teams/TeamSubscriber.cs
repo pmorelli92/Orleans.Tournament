@@ -25,11 +25,24 @@ namespace Snaelro.Sockets.Teams
             {
                 var streamToPublish = GetStreamProvider("ws");
                 var stream = streamToPublish.GetStream<object>(obj.TraceId, Constants.StreamNamespace);
-                await stream.OnNextAsync(evt);
+                await stream.OnNextAsync(new WebSocketMessage(evt.GetType().Name, evt));
                 Console.WriteLine($"[Team][WebSocket] published event with TraceId: {obj.TraceId}]");
             }
             else
                 Console.WriteLine($"[Team][WebSocket] event of type {evt.GetType()} unhandled");
+        }
+    }
+
+    public class WebSocketMessage
+    {
+        public string Type { get; set; }
+
+        public object Payload { get; set; }
+
+        public WebSocketMessage(string type, object payload)
+        {
+            Type = type;
+            Payload = payload;
         }
     }
 }
