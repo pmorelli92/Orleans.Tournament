@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-identity-config
+data:
+  ASPNETCORE_ENVIRONMENT: Development
+  ASPNETCORE_URLS: http://*:7003
+  BUILD_VERSION: 0.0.1
+
+##kubectl create secret generic jwt-issuer-key --from-literal=value="mUL-M6N5]4;S9XHp"

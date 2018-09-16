@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-deployment
+  name: api-identity-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: api
       tier: backend
-      role: client
+      role: identity
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -19,23 +19,18 @@ spec:
       labels:
         app: api
         tier: backend
-        role: client
+        role: identity
     spec:
       containers:
-      - name: snaelro-api
-        image: snaelro-api:local
+      - name: snaelro-api-identity
+        image: snaelro-api-identity:local
         ports:
         - name: http
-          containerPort: 7001
+          containerPort: 7003
         envFrom:
         - configMapRef:
-            name: api-config
+            name: api-identity-config
         env:
-        - name: POSTGRES_CONNECTION
-          valueFrom:
-            secretKeyRef:
-              name: postgres-connection
-              key: value
         - name: JWT_ISSUER_KEY
           valueFrom:
             secretKeyRef:
@@ -45,6 +40,6 @@ spec:
           preStop:
             httpGet:
               path: "leave"
-              port: 7001
+              port: 7003
       restartPolicy: Always
       terminationGracePeriodSeconds: 60
