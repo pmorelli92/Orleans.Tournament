@@ -73,14 +73,15 @@ namespace Snaelro.API
                 {
                     if (context.WebSockets.IsWebSocketRequest)
                     {
-                        //TODO: Manage authentication
+                        // TODO: Manage authentication
+                        // TODO: For now, the TraceId identifies a set of messages but it should be replaced by UserId
 
                         var logger = appBuilder.ApplicationServices.GetRequiredService<ILogger<Startup>>();
                         var subscription = default(StreamSubscriptionHandle<object>);
 
                         try
                         {
-                            //TODO: Get the TraceId that the user wants to hear
+                            //TODO: Get the TraceId that the user wants to listen to
                             Guid.TryParse(
                                 context.Request.Query.FirstOrDefault(e => e.Key == "traceId").Value,
                                 out var traceId);
@@ -89,8 +90,6 @@ namespace Snaelro.API
                             logger.LogInformation("[Websocket] opened connection for TraceId: {traceId}", traceId);
 
                             var streamProvider = _clusterClient.GetStreamProvider(name: "ws");
-
-                            streamProvider.TryGetStreamSubscrptionManager(out var sm);
                             subscription =
                                 await streamProvider
                                     .GetStream<object>(traceId, Constants.StreamNamespace)

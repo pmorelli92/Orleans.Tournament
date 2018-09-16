@@ -2,6 +2,8 @@ FROM microsoft/dotnet:2.1-sdk-alpine AS build
 COPY src/API/ src/API/
 COPY src/Utils.Mvc/ src/Utils.Mvc/
 COPY src/Domain/ src/Domain/
+COPY src/Domain.Abstractions/ src/Domain.Abstractions/
+COPY src/WebSockets/ src/WebSockets/
 
 RUN dotnet publish src/API -o out
 FROM microsoft/dotnet:2.1-aspnetcore-runtime-alpine

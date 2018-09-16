@@ -8,5 +8,5 @@ ENV POSTGRES_PASSWORD="dbpassword"
 ENV POSTGRES_USER="dbuser"
 ENV POSTGRES_DB="snaelro"
 
-## Local build, use from root folder of the repository
+## Local build, use from postgres folder of the repository
 # eval $(minikube docker-env) && docker build -t snaelro-postgres:local -f Dockerfile .
