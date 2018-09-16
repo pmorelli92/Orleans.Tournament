@@ -23,12 +23,12 @@ namespace Snaelro.WebSockets.Teams
             if (evt is ITraceable obj)
             {
                 var streamToPublish = GetStreamProvider("ws");
-                var stream = streamToPublish.GetStream<object>(obj.TraceId, Constants.StreamNamespace);
+                var stream = streamToPublish.GetStream<object>(obj.InvokerUserId, Constants.StreamNamespace);
                 await stream.OnNextAsync(new WebSocketMessage(evt.GetType().Name, evt));
             }
             else
                 PrefixLogger.LogError(
-                    "unhandled event of type {evtType} for id: {grainId}", evt.GetType(), this.GetPrimaryKey());
+                    "unhandled event of type {evtType} for resource id: {grainId}", evt.GetType(), this.GetPrimaryKey());
         }
     }
 }

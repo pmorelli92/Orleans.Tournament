@@ -8,8 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Ben.Demystifier" Version="0.1.1" />
-        <PackageReference Include="Npgsql" Version="4.0.2" />
+        <PackageReference Include="JWTSimpleServer.InMemoryRefreshTokenStore" Version="0.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 

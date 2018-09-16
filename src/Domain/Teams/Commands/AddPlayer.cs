@@ -7,12 +7,18 @@ namespace Snaelro.Domain.Teams.Commands
     {
         public string Name { get; }
 
+        public Guid TeamId { get; }
+
         public Guid TraceId { get; }
 
-        public AddPlayer(string name, Guid traceId)
+        public Guid InvokerUserId { get; }
+
+        public AddPlayer(string name, Guid teamId, Guid traceId, Guid invokerUserId)
         {
             Name = name;
+            TeamId = teamId;
             TraceId = traceId;
+            InvokerUserId = invokerUserId;
         }
 
     }

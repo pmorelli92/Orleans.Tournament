@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Newtonsoft.Json;
@@ -6,6 +7,8 @@ namespace Snaelro.Projections.Teams
 {
     public class TeamProjection
     {
+        public Guid Id { get; }
+
         public string Name { get; }
 
         public IImmutableList<string> Players { get; }
@@ -19,9 +22,11 @@ namespace Snaelro.Projections.Teams
 
         [JsonConstructor]
         internal TeamProjection(
+            Guid id,
             string name,
             IImmutableList<string> players)
         {
+            Id = Id;
             Name = name;
             Players = players;
         }
@@ -30,10 +35,10 @@ namespace Snaelro.Projections.Teams
     // Since the projection is immutable we get shortcuts for creating new instances
     internal static class TeamProjectionExtensions
     {
-        internal static TeamProjection SetName(this TeamProjection @this, string name)
-            => new TeamProjection(name, @this.Players);
+        internal static TeamProjection SetName(this TeamProjection @this, Guid id, string name)
+            => new TeamProjection(id, name, @this.Players);
 
         internal static TeamProjection AddPlayer(this TeamProjection @this, string player)
-            => new TeamProjection(@this.Name, @this.Players.Add(player));
+            => new TeamProjection(@this.Id, @this.Name, @this.Players.Add(player));
     }
 }

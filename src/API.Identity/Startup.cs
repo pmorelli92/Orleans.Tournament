@@ -1,27 +1,35 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using JWTSimpleServer.Abstractions;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Snaelro.Utils.Mvc.Configuration;
+using Snaelro.Utils.Mvc.Extensions;
 
 namespace Snaelro.API.Identity
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        private readonly FromEnvironment _fromEnvironment;
+
+        public Startup(IConfiguration configuration)
         {
+            _fromEnvironment = FromEnvironment.Build(configuration);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void ConfigureServices(IServiceCollection services)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            services
+                .AddSingleton(_fromEnvironment)
+                .AddSingleton<IAuthenticationProvider, AuthProvider>()
+                .AddJwtSimpleServer(setup => setup.IssuerSigningKey = _fromEnvironment.JwtIssuerKey)
+                .AddJwtInMemoryRefreshTokenStore()
+                .AddMvc();
+        }
 
-            app.Run(async (context) => { await context.Response.WriteAsync("Hello World!"); });
+        public void Configure(IApplicationBuilder appBuilder)
+        {
+            appBuilder.UseJwtSimpleServer(setup => setup.IssuerSigningKey =  _fromEnvironment.JwtIssuerKey);
+            appBuilder.UseVersionCheck();
         }
     }
 }

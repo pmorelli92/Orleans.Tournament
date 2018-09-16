@@ -36,7 +36,7 @@ namespace Snaelro.Domain.Abstractions.Grains
             await HandleAsync(evt, token);
 
             PrefixLogger.LogInformation(
-                "handled event of type {evtType} for id: {grainId}", evt.GetType(), this.GetPrimaryKey());
+                "handled event of type {evtType} for resource id: {grainId}", evt.GetType(), this.GetPrimaryKey());
         }
 
         public abstract Task HandleAsync(object evt, StreamSequenceToken token = null);

@@ -24,11 +24,11 @@ namespace Snaelro.Silo
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-
-            services.AddSingleton(CreateSilo());
-            services.AddSingleton(AppStopper.New);
-            services.AddSingleton(_fromEnvironment);
+            services
+                .AddSingleton(CreateSilo())
+                .AddSingleton(AppStopper.New)
+                .AddSingleton(_fromEnvironment)
+                .AddMvc();
         }
 
         public void OrleansDependencyInjection(IServiceCollection services)

@@ -33,7 +33,7 @@ namespace Snaelro.Domain.Abstractions.Grains
             RaiseEvent(evt);
 
             PrefixLogger.LogInformation(
-                "handled event of type {evtType} for id: {grainId}", evt.GetType(), this.GetPrimaryKey());
+                "handled event of type {evtType} for resource id: {grainId}", evt.GetType(), this.GetPrimaryKey());
 
             await _stream.OnNextAsync(evt);
         }

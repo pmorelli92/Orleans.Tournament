@@ -38,5 +38,8 @@ namespace Snaelro.Utils.Mvc.Configuration
 
         public string PubSubStore
             => "PubSubStore";
+
+        public string JwtIssuerKey
+            => _configuration.GetEnvVar("JWT_ISSUER_KEY");
     }
 }

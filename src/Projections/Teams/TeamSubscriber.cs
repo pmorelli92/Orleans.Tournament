@@ -34,14 +34,14 @@ namespace Snaelro.Projections.Teams
                     break;
                 default:
                     PrefixLogger.LogError(
-                        "unhandled event of type {evtType} for id: {grainId}", evt.GetType(), this.GetPrimaryKey());
+                        "unhandled event of type {evtType} for resource id: {grainId}", evt.GetType(), this.GetPrimaryKey());
                     break;
             }
         }
 
         private async Task Handle(TeamCreated evt)
         {
-            var projection = TeamProjection.New.SetName(evt.Name);
+            var projection = TeamProjection.New.SetName(evt.TeamId, evt.Name);
             await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
         }
 
