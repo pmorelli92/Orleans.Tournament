@@ -1,11 +1,10 @@
 using LanguageExt;
-using Snaelro.Domain.Teams.ValueObjects;
 
 namespace Snaelro.Domain.Teams
 {
     public static class TeamRules
     {
-        public static Validation<TeamErrorCodes, State> TeamExists(State state)
+        public static Validation<TeamErrorCodes, TeamState> TeamExists(TeamState state)
         {
             if (state.Created)
                 return state;

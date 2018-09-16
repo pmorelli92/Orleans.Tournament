@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Immutable;
+using Snaelro.Domain.Teams;
 
 namespace Snaelro.API.Teams.Output
 {
@@ -18,7 +19,7 @@ namespace Snaelro.API.Teams.Output
             Players = players;
         }
 
-        public static TeamResponse From(Guid id, Domain.Teams.ValueObjects.State state)
+        public static TeamResponse From(Guid id, TeamState state)
             => new TeamResponse(id, state.Name, state.Players);
     }
 }

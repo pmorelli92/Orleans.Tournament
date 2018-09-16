@@ -14,6 +14,7 @@ using Orleans.Configuration;
 using Orleans.Hosting;
 using Orleans.Runtime;
 using Orleans.Streams;
+using Orleans.Streams.PubSub;
 using Snaelro.Domain.Snaelro.Domain;
 using Snaelro.Utils.Mvc.Configuration;
 using Snaelro.Utils.Mvc.Extensions;
@@ -88,6 +89,8 @@ namespace Snaelro.API
                             logger.LogInformation("[Websocket] opened connection for TraceId: {traceId}", traceId);
 
                             var streamProvider = _clusterClient.GetStreamProvider(name: "ws");
+
+                            streamProvider.TryGetStreamSubscrptionManager(out var sm);
                             subscription =
                                 await streamProvider
                                     .GetStream<object>(traceId, Constants.StreamNamespace)

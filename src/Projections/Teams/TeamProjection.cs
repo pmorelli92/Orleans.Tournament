@@ -27,6 +27,7 @@ namespace Snaelro.Projections.Teams
         }
     }
 
+    // Since the projection is immutable we get shortcuts for creating new instances
     internal static class TeamProjectionExtensions
     {
         internal static TeamProjection SetName(this TeamProjection @this, string name)

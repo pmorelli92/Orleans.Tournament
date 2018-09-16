@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using Snaelro.Domain.Teams.Events;
 
-namespace Snaelro.Domain.Teams.ValueObjects
+namespace Snaelro.Domain.Teams
 {
-    public class State
+    public class TeamState
     {
         public bool Created { get; private set; }
 
@@ -12,7 +12,7 @@ namespace Snaelro.Domain.Teams.ValueObjects
 
         public IImmutableList<string> Players { get; private set; }
 
-        public State()
+        public TeamState()
         {
             Players = new List<string>().ToImmutableList();
         }

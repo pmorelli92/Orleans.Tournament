@@ -1,42 +1,41 @@
-using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Streams;
+using Snaelro.Domain.Abstractions;
+using Snaelro.Domain.Abstractions.Grains;
 using Snaelro.Domain.Snaelro.Domain;
 using Snaelro.Domain.Teams.Events;
 
 namespace Snaelro.Projections.Teams
 {
     [ImplicitStreamSubscription(Constants.StreamNamespace)]
-    public class TeamSubscriber : Grain, ISubscriber
+    public class TeamSubscriber : SubscriberGrain
     {
         private readonly ProjectionManager<TeamProjection> _projectionManager;
 
-        public TeamSubscriber(PostgresOptions postgresOptions)
+        public TeamSubscriber(PostgresOptions postgresOptions, ILogger<TeamSubscriber> logger)
+            : base(
+                new StreamOptions(Constants.TeamStream, Constants.StreamNamespace),
+                new PrefixLogger(logger, "[Team][Projection]"))
         {
             _projectionManager = new ProjectionManager<TeamProjection>("read", "team_projection", postgresOptions);
         }
 
-        public override async Task OnActivateAsync()
-        {
-            var guid = this.GetPrimaryKey();
-            var streamProvider = GetStreamProvider(Constants.TeamStream);
-            var stream = streamProvider.GetStream<object>(guid, Constants.StreamNamespace);
-            await stream.SubscribeAsync(OnNextAsync);
-            await base.OnActivateAsync();
-        }
-
-        public Task OnNextAsync(object evt, StreamSequenceToken token = null)
+        public override async Task HandleAsync(object evt, StreamSequenceToken token = null)
         {
             switch (evt)
             {
                 case TeamCreated obj:
-                    return Handle(obj);
+                    await Handle(obj);
+                    break;
                 case PlayerAdded obj:
-                    return Handle(obj);
+                    await Handle(obj);
+                    break;
                 default:
-                    Console.WriteLine($"[Team][Projection] event of type {evt.GetType()} unhandled");
-                    return Task.CompletedTask;
+                    PrefixLogger.LogError(
+                        "unhandled event of type {evtType} for id: {grainId}", evt.GetType(), this.GetPrimaryKey());
+                    break;
             }
         }
 
@@ -44,7 +43,6 @@ namespace Snaelro.Projections.Teams
         {
             var projection = TeamProjection.New.SetName(evt.Name);
             await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
-            Console.WriteLine($"[Team][Projection] TeamCreated handled");
         }
 
         private async Task Handle(PlayerAdded evt)
@@ -54,7 +52,6 @@ namespace Snaelro.Projections.Teams
                 .AddPlayer(evt.Name);
 
             await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
-            Console.WriteLine($"[Team][Projection] PlayedAdded handled");
         }
     }
 }

@@ -8,18 +8,14 @@ using Snaelro.Domain.Snaelro.Domain;
 namespace Snaelro.Sockets.Teams
 {
     [ImplicitStreamSubscription(Constants.StreamNamespace)]
-    public class TeamSubscriber : Grain, ISubscriber
+    public class TeamSubscriber : Subscriber
     {
-        public override async Task OnActivateAsync()
+        public TeamSubscriber()
+            : base(Constants.TeamStream, Constants.StreamNamespace)
         {
-            var guid = this.GetPrimaryKey();
-            var streamProvider = GetStreamProvider(Constants.TeamStream);
-            var stream = streamProvider.GetStream<object>(guid, Constants.StreamNamespace);
-            await stream.SubscribeAsync(OnNextAsync);
-            await base.OnActivateAsync();
         }
 
-        public async Task OnNextAsync(object evt, StreamSequenceToken token = null)
+        public override async Task OnNextAsync(object evt, StreamSequenceToken token = null)
         {
             if (evt is ITraceable obj)
             {

@@ -17,7 +17,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Domain\Domain.csproj" />
-        <ProjectReference Include="..\Sockets\Sockets.csproj" />
+        <ProjectReference Include="..\WebSockets\WebSockets.csproj" />
         <ProjectReference Include="..\Utils.Mvc\Utils.Mvc.csproj" />
     </ItemGroup>
 

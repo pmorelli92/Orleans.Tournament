@@ -1,4 +1,5 @@
 using System;
+using Snaelro.Domain.Abstractions;
 
 namespace Snaelro.Domain.Teams.Events
 {

@@ -35,9 +35,7 @@ namespace Snaelro.Projections
         public async Task UpdateProjection(Guid id, T projection)
         {
             using (var connection = new NpgsqlConnection(_postgresOptions.ConnectionString))
-            {
                 await connection.ExecuteAsync(_updateCommand, param: new { id, payload = JsonConvert.SerializeObject(projection) });
-            }
         }
     }
 }

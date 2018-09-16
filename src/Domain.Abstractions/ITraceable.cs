@@ -1,6 +1,6 @@
 using System;
 
-namespace Snaelro.Domain
+namespace Snaelro.Domain.Abstractions
 {
     public interface ITraceable
     {
