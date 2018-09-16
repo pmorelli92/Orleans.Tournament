@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSockets", "src\WebSocket
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Abstractions", "src\Domain.Abstractions\Domain.Abstractions.csproj", "{3974D7FF-A47C-40D7-9B9D-F1ABB983F1C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Identity", "src\API.Identity\API.Identity.csproj", "{EBEE5B9C-6AD2-45D4-B847-40CE3C800221}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,7 @@ Global
 		{19C0E3F7-419E-4AA3-B48D-C4655D345E9F} = {7566F4C4-F404-4350-9FC9-3C7EF042720B}
 		{333D1632-ACF8-485B-A110-76F4F18DB277} = {7566F4C4-F404-4350-9FC9-3C7EF042720B}
 		{3974D7FF-A47C-40D7-9B9D-F1ABB983F1C2} = {9F5EA531-C4D9-4063-A782-CC0D4AD26844}
+		{EBEE5B9C-6AD2-45D4-B847-40CE3C800221} = {3AC1680A-85E5-4E50-9ACF-03284A0A5B39}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D2A953E7-DB1B-465E-AEBA-EEF188379B0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -91,5 +94,9 @@ Global
 		{3974D7FF-A47C-40D7-9B9D-F1ABB983F1C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3974D7FF-A47C-40D7-9B9D-F1ABB983F1C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3974D7FF-A47C-40D7-9B9D-F1ABB983F1C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBEE5B9C-6AD2-45D4-B847-40CE3C800221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBEE5B9C-6AD2-45D4-B847-40CE3C800221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBEE5B9C-6AD2-45D4-B847-40CE3C800221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBEE5B9C-6AD2-45D4-B847-40CE3C800221}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
