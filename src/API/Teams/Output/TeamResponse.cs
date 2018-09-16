@@ -19,7 +19,7 @@ namespace Snaelro.API.Teams.Output
             Players = players;
         }
 
-        public static TeamResponse From(Guid id, TeamState state)
-            => new TeamResponse(id, state.Name, state.Players);
+        public static TeamResponse From(TeamState state)
+            => new TeamResponse(state.Id, state.Name, state.Players);
     }
 }

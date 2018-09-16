@@ -10,6 +10,7 @@ using Snaelro.API.Teams.Input;
 using Snaelro.API.Teams.Output;
 using Snaelro.Domain.Teams;
 using Snaelro.Domain.Teams.Commands;
+using Snaelro.Utils.Mvc.Responses;
 
 namespace Snaelro.API.Teams.Controllers
 {
@@ -27,7 +28,7 @@ namespace Snaelro.API.Teams.Controllers
             => new Guid(User.Claims.Single(e => e.Type == ClaimTypes.NameIdentifier).Value);
 
         [HttpPut("api/team/create", Name = "Create team")]
-        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ResourceResponse), (int) HttpStatusCode.OK)]
         public IActionResult CreateTeam([FromBody] CreateModel model)
         {
             var teamId = Guid.NewGuid();
@@ -36,11 +37,11 @@ namespace Snaelro.API.Teams.Controllers
 
             team.CreateAsync(new CreateTeam(model.Name, teamId, traceId, GetUserId));
 
-            return Ok(new { id = teamId, traceId = traceId });
+            return Ok(new ResourceResponse(teamId, traceId));
         }
 
         [HttpPut("api/team/{teamId:Guid}/players", Name = "Add player to team")]
-        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TraceResponse), (int) HttpStatusCode.OK)]
         public IActionResult AddPlayers([FromRoute] Guid teamId, [FromBody] PlayerModel model)
         {
             var traceId = Guid.NewGuid();
@@ -51,18 +52,19 @@ namespace Snaelro.API.Teams.Controllers
                 .ToList()
                 .ForEach(e => team.AddPlayerAsync(e));
 
-            return Ok(new { id = teamId, traceId = traceId });
+            return Ok(new TraceResponse(traceId));
         }
 
         [HttpGet("api/team/{teamId:Guid}", Name = "Get team")]
-        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ResourceResponse), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetTeamName([FromRoute] Guid teamId)
         {
             var team = _clusterClient.GetGrain<ITeamGrain>(teamId);
             var teamResult = await team.GetTeamAsync();
 
             return teamResult.Match<IActionResult>(
-                s => Ok(TeamResponse.From(teamId, s)),
+                s => Ok(TeamResponse.From(s)),
                 f => BadRequest());
         }
     }
