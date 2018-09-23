@@ -27,8 +27,7 @@ namespace Snaelro.Silo
             services
                 .AddSingleton(CreateSilo())
                 .AddSingleton(AppStopper.New)
-                .AddSingleton(_fromEnvironment)
-                .AddMvc();
+                .AddSingleton(_fromEnvironment);
         }
 
         public void OrleansDependencyInjection(IServiceCollection services)
@@ -63,13 +62,10 @@ namespace Snaelro.Silo
                 .AddSimpleMessageStreamProvider(Constants.TeamStream)
                 .ConfigureLogging(logging => logging.AddConsole())
                 .ConfigureServices(OrleansDependencyInjection)
-                .UseDashboard(options => {
-                    options.Username = "USERNAME";
-                    options.Password = "PASSWORD";
-                    options.Host = "*";
-                    options.Port = 7005;
-                    options.HostSelf = true;
-                    options.CounterUpdateIntervalMs = 1000;
+                .UseDashboard(options =>
+                {
+                    options.HostSelf = false;
+                    options.CounterUpdateIntervalMs = 5000;
                 })
                 .Build();
         }
@@ -78,8 +74,6 @@ namespace Snaelro.Silo
         {
             appBuilder.UseLeave();
             appBuilder.UseVersionCheck();
-
-            appBuilder.UseMvc();
         }
     }
 }
