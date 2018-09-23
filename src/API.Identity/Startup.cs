@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Snaelro.API.Identity.Authentication;
 using Snaelro.Utils.Mvc.Configuration;
 using Snaelro.Utils.Mvc.Extensions;
 
@@ -21,6 +22,7 @@ namespace Snaelro.API.Identity
             services
                 .AddSingleton(_fromEnvironment)
                 .AddSingleton<IAuthenticationProvider, AuthProvider>()
+                .AddSingleton<IUserStore>(e => new UserStore(e.GetService<FromEnvironment>().PostgresConnection))
                 .AddJwtSimpleServer(setup => setup.IssuerSigningKey = _fromEnvironment.JwtIssuerKey)
                 .AddJwtInMemoryRefreshTokenStore()
                 .AddMvc();
@@ -30,6 +32,7 @@ namespace Snaelro.API.Identity
         {
             appBuilder.UseJwtSimpleServer(setup => setup.IssuerSigningKey =  _fromEnvironment.JwtIssuerKey);
             appBuilder.UseVersionCheck();
+            appBuilder.UseMvc();
         }
     }
 }

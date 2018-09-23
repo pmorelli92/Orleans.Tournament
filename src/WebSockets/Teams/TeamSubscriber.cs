@@ -28,7 +28,7 @@ namespace Snaelro.WebSockets.Teams
             }
             else
                 PrefixLogger.LogError(
-                    "unhandled event of type {evtType} for resource id: {grainId}", evt.GetType(), this.GetPrimaryKey());
+                    "unhandled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
         }
     }
 }

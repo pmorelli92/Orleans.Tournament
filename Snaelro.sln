@@ -22,6 +22,7 @@ ProjectSection(SolutionItems) = preProject
 	postgres\02_orleans_clustering_data.sql = postgres\02_orleans_clustering_data.sql
 	postgres\03_orleans_persistence.sql = postgres\03_orleans_persistence.sql
 	postgres\04_read_schema.sql = postgres\04_read_schema.sql
+	postgres\05_auth_schema.sql = postgres\05_auth_schema.sql
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_kubernetes", "_kubernetes", "{CDFC1C35-F669-4397-9543-F4500376CF56}"

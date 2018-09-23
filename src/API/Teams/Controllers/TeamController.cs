@@ -14,7 +14,6 @@ using Snaelro.Utils.Mvc.Responses;
 
 namespace Snaelro.API.Teams.Controllers
 {
-    [Authorize(Roles = "level_one")]
     public class TeamController : ControllerBase
     {
         private readonly IClusterClient _clusterClient;
@@ -27,7 +26,8 @@ namespace Snaelro.API.Teams.Controllers
         private Guid GetUserId
             => new Guid(User.Claims.Single(e => e.Type == ClaimTypes.NameIdentifier).Value);
 
-        [HttpPut("api/team/create", Name = "Create team")]
+        [Authorize(Roles = "write")]
+        [HttpPost("api/team/create", Name = "Create team")]
         [ProducesResponseType(typeof(ResourceResponse), (int) HttpStatusCode.OK)]
         public IActionResult CreateTeam([FromBody] CreateModel model)
         {
@@ -37,9 +37,10 @@ namespace Snaelro.API.Teams.Controllers
 
             team.CreateAsync(new CreateTeam(model.Name, teamId, traceId, GetUserId));
 
-            return Ok(new ResourceResponse(teamId, traceId));
+            return Created(teamId.ToString(), new ResourceResponse(teamId, traceId));
         }
 
+        [Authorize(Roles = "write")]
         [HttpPut("api/team/{teamId:Guid}/players", Name = "Add player to team")]
         [ProducesResponseType(typeof(TraceResponse), (int) HttpStatusCode.OK)]
         public IActionResult AddPlayers([FromRoute] Guid teamId, [FromBody] PlayerModel model)
@@ -55,17 +56,18 @@ namespace Snaelro.API.Teams.Controllers
             return Ok(new TraceResponse(traceId));
         }
 
+        [Authorize(Roles = "read")]
         [HttpGet("api/team/{teamId:Guid}", Name = "Get team")]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(ResourceResponse), (int) HttpStatusCode.OK)]
-        public async Task<IActionResult> GetTeamName([FromRoute] Guid teamId)
+        [ProducesResponseType(typeof(TeamResponse), (int) HttpStatusCode.OK)]
+        public async Task<IActionResult> GetTeam([FromRoute] Guid teamId)
         {
             var team = _clusterClient.GetGrain<ITeamGrain>(teamId);
             var teamResult = await team.GetTeamAsync();
 
             return teamResult.Match<IActionResult>(
                 s => Ok(TeamResponse.From(s)),
-                f => BadRequest());
+                f => NotFound());
         }
     }
 }

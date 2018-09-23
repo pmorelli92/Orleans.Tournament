@@ -1,32 +1,32 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using JWTSimpleServer;
 using JWTSimpleServer.Abstractions;
+using Snaelro.API.Identity.Authentication;
 
 namespace Snaelro.API.Identity
 {
     public class AuthProvider : IAuthenticationProvider
     {
-        public Task ValidateClientAuthentication(JwtSimpleServerContext context)
+        private readonly IUserStore _userStore;
+
+        public AuthProvider(IUserStore userStore)
         {
-            if(context.UserName == "demo" && context.Password == "demo")
-            {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Role, "level_one"),
-                    new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
-                };
-
-                context.Success(claims);
-            }
-            else
-            {
-                context.Reject("Invalid user authentication");
-            }
-
-            return Task.CompletedTask;
+            _userStore = userStore ?? throw new ArgumentNullException(nameof(userStore));
         }
+
+        public async Task ValidateClientAuthentication(JwtSimpleServerContext context)
+        {
+            (await _userStore.GetUserAsync(context.UserName, context.Password)).Match(
+                s => context.Success(GetUserClaims(s)),
+                f => context.Reject("Invalid user authentication"));
+        }
+
+        public List<Claim> GetUserClaims(User user)
+            => new[] { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) }
+                .Concat(user.Claims.Select(e => new Claim(ClaimTypes.Role, e))).ToList();
     }
 }

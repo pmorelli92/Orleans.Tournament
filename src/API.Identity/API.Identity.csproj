@@ -8,6 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="BCrypt.Net-Core" Version="1.5.0" />
+        <PackageReference Include="Npgsql" Version="4.0.3" />
+        <PackageReference Include="Dapper" Version="1.50.5" />
+        <PackageReference Include="LanguageExt.Core" Version="3.0.24" />
         <PackageReference Include="JWTSimpleServer.InMemoryRefreshTokenStore" Version="0.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
