@@ -2,7 +2,7 @@ FROM microsoft/dotnet:2.1-sdk-alpine AS build
 COPY src/Silo.Dashboard/ src/Silo.Dashboard/
 COPY src/Utils.Mvc/ src/Utils.Mvc/
 
-RUN dotnet publish src/Silo.Dashboard -o out
+RUN dotnet publish src/Silo.Dashboard -o out -c Release
 FROM microsoft/dotnet:2.1-aspnetcore-runtime-alpine
 COPY --from=build /src/Silo.Dashboard/out /app
 WORKDIR /app

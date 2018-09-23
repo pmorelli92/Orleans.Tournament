@@ -2,7 +2,7 @@ FROM microsoft/dotnet:2.1-sdk-alpine AS build
 COPY src/API.Identity/ src/API.Identity/
 COPY src/Utils.Mvc/ src/Utils.Mvc/
 
-RUN dotnet publish src/API.Identity -o out
+RUN dotnet publish src/API.Identity -o out -c Release
 FROM microsoft/dotnet:2.1-aspnetcore-runtime-alpine
 COPY --from=build /src/API.Identity/out /app
 WORKDIR /app

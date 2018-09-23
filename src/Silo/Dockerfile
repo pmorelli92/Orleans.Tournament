@@ -6,7 +6,7 @@ COPY src/Domain.Abstractions/ src/Domain.Abstractions/
 COPY src/Projections/ src/Projections/
 COPY src/WebSockets/ src/WebSockets/
 
-RUN dotnet publish src/Silo -o out
+RUN dotnet publish src/Silo -o out -c Release
 FROM microsoft/dotnet:2.1-aspnetcore-runtime-alpine
 COPY --from=build /src/Silo/out /app
 WORKDIR /app
