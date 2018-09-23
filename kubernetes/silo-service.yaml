@@ -10,4 +10,8 @@ spec:
     port: 80
     targetPort: 7000 #internal port
     nodePort: 30700 #external port
+  - name: dashboard
+    port: 81
+    targetPort: 7005 #internal port
+    nodePort: 30705 #external port
   type: NodePort

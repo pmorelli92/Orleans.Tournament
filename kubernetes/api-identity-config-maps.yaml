@@ -8,3 +8,4 @@ data:
   BUILD_VERSION: 0.0.1
 
 ##kubectl create secret generic jwt-issuer-key --from-literal=value="mUL-M6N5]4;S9XHp"
+##kubectl create secret generic postgres-connection --from-literal=value="Server=192.168.99.100;Port=30702;User Id=dbuser;Password=dbpassword;Database=snaelro"

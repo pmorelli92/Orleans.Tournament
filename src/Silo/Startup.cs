@@ -63,6 +63,14 @@ namespace Snaelro.Silo
                 .AddSimpleMessageStreamProvider(Constants.TeamStream)
                 .ConfigureLogging(logging => logging.AddConsole())
                 .ConfigureServices(OrleansDependencyInjection)
+                .UseDashboard(options => {
+                    options.Username = "USERNAME";
+                    options.Password = "PASSWORD";
+                    options.Host = "*";
+                    options.Port = 7005;
+                    options.HostSelf = true;
+                    options.CounterUpdateIntervalMs = 1000;
+                })
                 .Build();
         }
 

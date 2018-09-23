@@ -8,12 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.Orleans.OrleansTelemetryConsumers.Counters" Version="2.1.0-rc2" />
         <PackageReference Include="Npgsql" Version="4.0.3" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.Orleans.Server" Version="2.1.0-rc2" />
         <PackageReference Include="Microsoft.Orleans.EventSourcing" Version="2.1.0-rc2" />
         <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="2.0.0" />
         <PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="2.1.0-rc2" />
+        <PackageReference Include="OrleansDashboard" Version="2.0.9" />
     </ItemGroup>
 
     <ItemGroup>

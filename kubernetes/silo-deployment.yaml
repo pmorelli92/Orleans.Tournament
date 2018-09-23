@@ -27,6 +27,8 @@ spec:
         ports:
         - name: http
           containerPort: 7000
+        - name: dashboard
+          containerPort: 7005
         envFrom:
         - configMapRef:
             name: silo-config
