@@ -35,9 +35,6 @@ ProjectSection(SolutionItems) = preProject
 	kubernetes\api-service.yaml = kubernetes\api-service.yaml
 	kubernetes\postgres-deployment.yaml = kubernetes\postgres-deployment.yaml
 	kubernetes\postgres-service.yaml = kubernetes\postgres-service.yaml
-	kubernetes\api-identity-config-maps.yaml = kubernetes\api-identity-config-maps.yaml
-	kubernetes\api-identity-deployment.yaml = kubernetes\api-identity-deployment.yaml
-	kubernetes\api-identity-service.yaml = kubernetes\api-identity-service.yaml
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{7566F4C4-F404-4350-9FC9-3C7EF042720B}"

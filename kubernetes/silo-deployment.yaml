@@ -26,9 +26,7 @@ spec:
         image: snaelro-silo:local
         ports:
         - name: http
-          containerPort: 7000
-        - name: dashboard
-          containerPort: 7005
+          containerPort: 7001
         envFrom:
         - configMapRef:
             name: silo-config
@@ -42,6 +40,52 @@ spec:
           preStop:
             httpGet:
               path: "leave"
-              port: 7000
+              port: 7001
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: silo-dashboard-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: silo
+      tier: backend
+      role: dashboard
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: silo
+        tier: backend
+        role: dashboard
+    spec:
+      containers:
+      - name: snaelro-silo-dashboard
+        image: snaelro-silo-dashboard:local
+        ports:
+        - name: http
+          containerPort: 7002
+        envFrom:
+        - configMapRef:
+            name: silo-dashboard-config
+        env:
+        - name: POSTGRES_CONNECTION
+          valueFrom:
+            secretKeyRef:
+              name: postgres-connection
+              key: value
+        lifecycle:
+          preStop:
+            httpGet:
+              path: "leave"
+              port: 7002
       restartPolicy: Always
       terminationGracePeriodSeconds: 60

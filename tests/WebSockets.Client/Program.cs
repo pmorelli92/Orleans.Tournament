@@ -25,9 +25,9 @@ namespace Snaelro.Tests.WebSockets.Client
                 return;
 
             if (env.ToUpperInvariant() == "M")
-                _uri = new Uri($"ws://192.168.99.100:30701/ws");
+                _uri = new Uri($"ws://192.168.99.100:30703/ws");
             else if (env.ToUpperInvariant() == "L")
-                _uri = new Uri($"ws://localhost:7001/ws");
+                _uri = new Uri($"ws://localhost:7003/ws");
             else
                 return;
 

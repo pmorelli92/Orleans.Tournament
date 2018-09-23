@@ -14,7 +14,6 @@ namespace Snaelro.API
     public class Startup
     {
         private readonly FromEnvironment _fromEnvironment;
-        private IClusterClient _clusterClient;
 
         public Startup(IConfiguration configuration)
         {
@@ -33,7 +32,7 @@ namespace Snaelro.API
 
         private IClusterClient CreateClient()
         {
-            _clusterClient = new ClientBuilder()
+            return new ClientBuilder()
                 .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = _fromEnvironment.ClusterId;
@@ -47,8 +46,6 @@ namespace Snaelro.API
                 .AddSimpleMessageStreamProvider("ws")
                 .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
                 .Build();
-
-            return _clusterClient;
         }
 
         public void Configure(IApplicationBuilder appBuilder)

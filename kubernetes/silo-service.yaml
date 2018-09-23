@@ -5,13 +5,27 @@ metadata:
 spec:
   selector:
     app: silo
+    tier: backend
+    role: host
   ports:
   - name: http
     port: 80
-    targetPort: 7000 #internal port
-    nodePort: 30700 #external port
-  - name: dashboard
-    port: 81
-    targetPort: 7005 #internal port
-    nodePort: 30705 #external port
+    targetPort: 7001 #internal port
+    nodePort: 30701 #external port
+  type: NodePort
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: silo-dashboard-service
+spec:
+  selector:
+    app: silo
+    tier: backend
+    role: dashboard
+  ports:
+  - name: http
+    port: 80
+    targetPort: 7002 #internal port
+    nodePort: 30702 #external port
   type: NodePort

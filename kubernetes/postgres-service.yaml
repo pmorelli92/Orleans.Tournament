@@ -9,6 +9,6 @@ spec:
   - name: tcp
     port: 5432
     targetPort: 5432 #internal port
-    nodePort: 30702 #external port
+    nodePort: 30700 #external port
     protocol: TCP
   type: NodePort

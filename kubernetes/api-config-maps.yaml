@@ -4,12 +4,20 @@ metadata:
   name: api-config
 data:
   ASPNETCORE_ENVIRONMENT: Development
-  ASPNETCORE_URLS: http://*:7001
+  ASPNETCORE_URLS: http://*:7003
   CLUSTER_ID: Orleans-Local
   SERVICE_ID: Snaelro
-  JWT_ISSUER_TOKEN: mUL-M6N5]4;S9XHp
+  BUILD_VERSION: 0.0.1
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-identity-config
+data:
+  ASPNETCORE_ENVIRONMENT: Development
+  ASPNETCORE_URLS: http://*:7004
   BUILD_VERSION: 0.0.1
 
 ##Create secrets
-##kubectl create secret generic postgres-connection --from-literal=value="Server=192.168.99.100;Port=30702;User Id=dbuser;Password=dbpassword;Database=snaelro"
+##kubectl create secret generic postgres-connection --from-literal=value="Server=192.168.99.100;Port=30700;User Id=dbuser;Password=dbpassword;Database=snaelro"
 ##kubectl create secret generic jwt-issuer-key --from-literal=value="mUL-M6N5]4;S9XHp"

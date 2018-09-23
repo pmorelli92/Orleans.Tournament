@@ -5,6 +5,8 @@ using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Snaelro.Utils.Mvc.Configuration;
+using Snaelro.Utils.Mvc.Extensions;
+using Snaelro.Utils.Mvc.Middlewares;
 
 namespace Snaelro.Silo.Dashboard
 {
@@ -20,11 +22,15 @@ namespace Snaelro.Silo.Dashboard
 
         public void ConfigureServices(IServiceCollection services)
         {
-            CreateClient().Connect().GetAwaiter().GetResult();
-            services.AddServicesForSelfHostedDashboard(_clusterClient, opt =>
+            services
+                .AddSingleton(CreateClient())
+                .AddSingleton(AppStopper.New)
+                .AddSingleton(_fromEnvironment);
+
+            services.AddServicesForSelfHostedDashboard(null, opt =>
             {
                 opt.HideTrace = true;
-                opt.Port = 7004;
+                opt.Port = 7002;
                 opt.CounterUpdateIntervalMs = 5000;
             });
         }
@@ -51,6 +57,8 @@ namespace Snaelro.Silo.Dashboard
 
         public void Configure(IApplicationBuilder appBuilder)
         {
+            appBuilder.UseLeave();
+            appBuilder.UseVersionCheck();
             appBuilder.UseOrleansDashboard();
         }
     }
