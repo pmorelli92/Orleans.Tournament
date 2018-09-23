@@ -29,7 +29,7 @@
 
 ### Configuration (Local)
 
-####API.Identity
+#### API.Identity
 
 ```
 <env name="BUILD_VERSION" value="0.0.1" />
@@ -39,7 +39,7 @@
 <env name="POSTGRES_CONNECTION" value="Server=192.168.99.100;Port=30700;User Id=dbuser;Password=dbpassword;Database=snaelro" />
 ```
 
-####API
+#### API
 
 ```
 <env name="BUILD_VERSION" value="0.0.1" />
@@ -51,7 +51,7 @@
 <env name="JWT_ISSUER_KEY" value="mUL-M6N5]4;S9XHp" />
 ```
 
-####Silo
+#### Silo
 
 ```
 <env name="GATEWAY_PORT" value="30000" />
@@ -64,7 +64,7 @@
 <env name="CLUSTER_ID" value="Orleans-Local" />
 ```
 
-###Silo Deployment
+#### Silo Deployment
 
 ```
 <env name="ASPNETCORE_ENVIRONMENT" value="Development" />
@@ -74,11 +74,3 @@
 <env name="CLUSTER_ID" value="Orleans-Local" />
 <env name="BUILD_VERSION" value="0.0.1" />
 ```
-
-
-- Create multiple silos that connect each other.
-- Create the client that will be consumed through an API.
-- Grains will manage football teams, users, and matches.
-- Streams will be created for creating (maybe) projections?
-- Silo and API are going to be dockerized.
-- Silo and API will run on Kubernetes.
