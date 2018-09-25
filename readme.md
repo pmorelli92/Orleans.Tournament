@@ -21,10 +21,10 @@
 - [x] Add players to teams.
 - [x] Get a team response model by Id.
 - [ ] Get all teams response models.
-- [ ] Create a cup for different teams.
-- [ ] Set match result for a cup.
-- [ ] Get cup response model by id.
-- [ ] Get all cup response models.
+- [ ] Create a tournament for different teams.
+- [ ] Set match result for a tournament.
+- [ ] Get tournament response model by id.
+- [ ] Get all tournament response models.
 - [ ] Domain tests.
 
 ### Configuration (Local)

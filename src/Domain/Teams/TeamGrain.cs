@@ -19,11 +19,11 @@ namespace Snaelro.Domain.Teams
         {
         }
 
-        public Task CreateAsync(CreateTeam cmd)
-            => PersistPublish(TeamCreated.From(cmd));
+        public async Task CreateAsync(CreateTeam cmd)
+            => await PersistPublish(TeamCreated.From(cmd));
 
-        public Task AddPlayerAsync(AddPlayer cmd)
-            => TeamExists(State).Match(
+        public async Task AddPlayerAsync(AddPlayer cmd)
+            => await TeamExists(State).Match(
                 s => PersistPublish(PlayerAdded.From(cmd)),
                 f => Task.CompletedTask);
 
