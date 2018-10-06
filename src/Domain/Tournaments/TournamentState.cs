@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Snaelro.Domain.Tournaments.Events;
+using Snaelro.Domain.Tournaments.ValueObject;
 
 namespace Snaelro.Domain.Tournaments
 {
@@ -14,6 +15,8 @@ namespace Snaelro.Domain.Tournaments
         public string Name { get; private set; }
 
         public IImmutableList<Guid> Teams { get; private set; }
+
+        public Fixture Fixture { get; private set; }
 
         public TournamentState()
         {
@@ -30,6 +33,21 @@ namespace Snaelro.Domain.Tournaments
         public void Apply(TeamAdded @event)
         {
             Teams = Teams.Add(@event.TeamId);
+        }
+
+        public void Apply(TournamentStarted @event)
+        {
+            Fixture = Fixture.Create(Teams);
+        }
+
+        public void Apply(MatchResultSet @event)
+        {
+            Fixture.SetMatchResult(@event.MatchResult);
+        }
+
+        public void Apply(NextPhaseStarted @event)
+        {
+            Fixture.StartNextPhase();
         }
     }
 }

@@ -29,5 +29,8 @@ namespace Snaelro.Domain.Teams
 
         public Task<Validation<TeamErrorCodes, TeamState>> GetTeamAsync()
             => Task.FromResult(TeamExists(State).Map(s => State));
+
+        public Task<bool> TeamExistAsync()
+            => Task.FromResult(State.Created);
     }
 }

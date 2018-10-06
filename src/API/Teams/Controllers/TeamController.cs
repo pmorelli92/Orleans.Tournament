@@ -29,7 +29,7 @@ namespace Snaelro.API.Teams.Controllers
         [Authorize(Roles = "write")]
         [HttpPost("api/team/create", Name = "Create team")]
         [ProducesResponseType(typeof(ResourceResponse), (int) HttpStatusCode.OK)]
-        public IActionResult CreateTeam([FromBody] CreateModel model)
+        public IActionResult CreateTeam([FromBody] CreateTeamModel model)
         {
             var teamId = Guid.NewGuid();
             var traceId = Guid.NewGuid();
@@ -43,7 +43,7 @@ namespace Snaelro.API.Teams.Controllers
         [Authorize(Roles = "write")]
         [HttpPut("api/team/{teamId:Guid}/players", Name = "Add player to team")]
         [ProducesResponseType(typeof(TraceResponse), (int) HttpStatusCode.OK)]
-        public IActionResult AddPlayers([FromRoute] Guid teamId, [FromBody] PlayerModel model)
+        public IActionResult AddPlayers([FromRoute] Guid teamId, [FromBody] AddPlayerModel model)
         {
             var traceId = Guid.NewGuid();
             var team = _clusterClient.GetGrain<ITeamGrain>(teamId);

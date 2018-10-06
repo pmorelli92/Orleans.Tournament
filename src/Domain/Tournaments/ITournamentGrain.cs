@@ -12,11 +12,11 @@ namespace Snaelro.Domain.Tournaments
 
         Task AddTeamAsync(AddTeam cmd);
 
-        Task StartAsync();
+        Task StartAsync(StartTournament cmd);
 
         Task SetMatchResultAsync(SetMatchResult cmd);
 
-        Task NextPhaseAsync();
+        Task NextPhaseAsync(StartNextPhase cmd);
     }
 
     // Queries
