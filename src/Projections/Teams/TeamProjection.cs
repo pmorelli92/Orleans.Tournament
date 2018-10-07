@@ -26,7 +26,7 @@ namespace Snaelro.Projections.Teams
             string name,
             IImmutableList<string> players)
         {
-            Id = Id;
+            Id = id;
             Name = name;
             Players = players;
         }

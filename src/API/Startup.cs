@@ -5,6 +5,9 @@ using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Snaelro.API.Middlewares;
+using Snaelro.Projections;
+using Snaelro.Projections.Teams;
+using Snaelro.Projections.Tournaments;
 using Snaelro.Utils.Mvc.Configuration;
 using Snaelro.Utils.Mvc.Extensions;
 using Snaelro.Utils.Mvc.Middlewares;
@@ -26,7 +29,12 @@ namespace Snaelro.API
                 .AddSingleton(CreateClient())
                 .AddSingleton(AppStopper.New)
                 .AddSingleton(_fromEnvironment)
-                .AddJwtSimpleServer(setup => setup.IssuerSigningKey = _fromEnvironment.JwtIssuerKey)
+                .AddSingleton(new PostgresOptions(_fromEnvironment.PostgresConnection))
+                .AddJwtSimpleServer(setup => setup.IssuerSigningKey = _fromEnvironment.JwtIssuerKey);
+
+            services
+                .AddSingleton<ITeamQueryHandler, TeamQueryHandler>()
+                .AddSingleton<ITournamentQueryHandler, TournamentQueryHandler>()
                 .AddMvc();
         }
 

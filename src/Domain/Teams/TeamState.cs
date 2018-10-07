@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using LanguageExt;
+using Newtonsoft.Json;
 using Snaelro.Domain.Teams.Events;
 
 namespace Snaelro.Domain.Teams

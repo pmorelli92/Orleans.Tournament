@@ -10,6 +10,7 @@ using Snaelro.API.Teams.Input;
 using Snaelro.API.Teams.Output;
 using Snaelro.Domain.Teams;
 using Snaelro.Domain.Teams.Commands;
+using Snaelro.Projections.Teams;
 using Snaelro.Utils.Mvc.Responses;
 
 namespace Snaelro.API.Teams.Controllers
@@ -17,10 +18,14 @@ namespace Snaelro.API.Teams.Controllers
     public class TeamController : ControllerBase
     {
         private readonly IClusterClient _clusterClient;
+        private readonly ITeamQueryHandler _teamQueryHandler;
 
-        public TeamController(IClusterClient clusterClient)
+        public TeamController(
+            IClusterClient clusterClient,
+            ITeamQueryHandler teamQueryHandler)
         {
             _clusterClient = clusterClient;
+            _teamQueryHandler = teamQueryHandler;
         }
 
         private Guid GetUserId
@@ -62,12 +67,21 @@ namespace Snaelro.API.Teams.Controllers
         [ProducesResponseType(typeof(TeamResponse), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetTeam([FromRoute] Guid teamId)
         {
-            var team = _clusterClient.GetGrain<ITeamGrain>(teamId);
-            var teamResult = await team.GetTeamAsync();
+            var projection = await _teamQueryHandler.GetTeamAsync(teamId);
 
-            return teamResult.Match<IActionResult>(
-                s => Ok(TeamResponse.From(s)),
-                f => NotFound());
+            return projection is null
+                ? NotFound()
+                : (IActionResult)Ok(TeamResponse.From(projection));
+        }
+
+        [Authorize(Roles = "read")]
+        [HttpGet("api/teams", Name = "Get teams")]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(TeamResponse[]), (int) HttpStatusCode.OK)]
+        public async Task<IActionResult> GetTeams()
+        {
+            var projection = await _teamQueryHandler.GetTeamsAsync();
+            return Ok(TeamResponse.From(projection));
         }
     }
 }

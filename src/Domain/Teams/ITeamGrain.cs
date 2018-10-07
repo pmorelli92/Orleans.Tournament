@@ -17,7 +17,5 @@ namespace Snaelro.Domain.Teams
     public partial interface ITeamGrain
     {
         Task<bool> TeamExistAsync();
-        
-        Task<Validation<TeamErrorCodes, TeamState>> GetTeamAsync();
     }
 }

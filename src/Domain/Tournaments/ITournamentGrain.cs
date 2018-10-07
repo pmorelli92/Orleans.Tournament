@@ -22,6 +22,5 @@ namespace Snaelro.Domain.Tournaments
     // Queries
     public partial interface ITournamentGrain
     {
-        Task<Validation<TournamentErrorCodes, TournamentState>> GetTournamentAsync();
     }
 }

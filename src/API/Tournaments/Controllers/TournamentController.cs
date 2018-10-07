@@ -10,6 +10,7 @@ using Snaelro.API.Tournaments.Input;
 using Snaelro.Domain.Tournaments;
 using Snaelro.Domain.Tournaments.Commands;
 using Snaelro.Domain.Tournaments.ValueObject;
+using Snaelro.Projections.Tournaments;
 using Snaelro.Utils.Mvc.Responses;
 
 namespace Snaelro.API.Tournaments.Controllers
@@ -17,10 +18,14 @@ namespace Snaelro.API.Tournaments.Controllers
     public class TournamentController : ControllerBase
     {
         private readonly IClusterClient _clusterClient;
+        private readonly ITournamentQueryHandler _tournamentQueryHandler;
 
-        public TournamentController(IClusterClient clusterClient)
+        public TournamentController(
+            IClusterClient clusterClient,
+            ITournamentQueryHandler tournamentQueryHandler)
         {
             _clusterClient = clusterClient;
+            _tournamentQueryHandler = tournamentQueryHandler;
         }
 
         private Guid GetUserId
@@ -29,7 +34,7 @@ namespace Snaelro.API.Tournaments.Controllers
         [Authorize(Roles = "write")]
         [HttpPost("api/tournament/create", Name = "Create tournament")]
         [ProducesResponseType(typeof(ResourceResponse), (int) HttpStatusCode.OK)]
-        public IActionResult CreateTournamnent([FromBody] CreateTournamentModel model)
+        public IActionResult CreateTournament([FromBody] CreateTournamentModel model)
         {
             var tournamentId = Guid.NewGuid();
             var traceId = Guid.NewGuid();
@@ -93,15 +98,24 @@ namespace Snaelro.API.Tournaments.Controllers
         [Authorize(Roles = "read")]
         [HttpGet("api/tournament/{tournamentId:Guid}", Name = "Get tournament")]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(TournamentState), (int) HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(TeamResponse), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetTournament([FromRoute] Guid tournamentId)
         {
-            var team = _clusterClient.GetGrain<ITournamentGrain>(tournamentId);
-            var tournamentResult = await team.GetTournamentAsync();
+            var projection = await _tournamentQueryHandler.GetTournamentAsync(tournamentId);
 
-            return tournamentResult.Match<IActionResult>(
-                s => Ok(s),
-                f => NotFound());
+            return projection is null
+                ? NotFound()
+                : (IActionResult)Ok(projection);//.From(projection));
+        }
+
+        [Authorize(Roles = "read")]
+        [HttpGet("api/tournaments", Name = "Get tournaments")]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        //[ProducesResponseType(typeof(TeamResponse), (int) HttpStatusCode.OK)]
+        public async Task<IActionResult> GetTournaments()
+        {
+            var projection = await _tournamentQueryHandler.GetTournamentsAsync();
+            return Ok(projection);//TeamResponse.From(projection));
         }
     }
 }

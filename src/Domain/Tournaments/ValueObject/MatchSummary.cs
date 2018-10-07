@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 
 namespace Snaelro.Domain.Tournaments.ValueObject
 {
@@ -14,6 +15,7 @@ namespace Snaelro.Domain.Tournaments.ValueObject
 
         public bool Played { get; }
 
+        [JsonConstructor]
         public MatchSummary(Guid localTeamId, Guid awayTeamId)
         {
             LocalTeamId = localTeamId;

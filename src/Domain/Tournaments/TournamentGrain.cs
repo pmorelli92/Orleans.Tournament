@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
 using LanguageExt;
 using Microsoft.Extensions.Logging;
@@ -8,6 +10,7 @@ using Snaelro.Domain.Snaelro.Domain;
 using Snaelro.Domain.Teams;
 using Snaelro.Domain.Tournaments.Commands;
 using Snaelro.Domain.Tournaments.Events;
+using Snaelro.Domain.Tournaments.ValueObject;
 using static Snaelro.Domain.Tournaments.TournamentRules;
 
 namespace Snaelro.Domain.Tournaments
@@ -16,9 +19,27 @@ namespace Snaelro.Domain.Tournaments
     {
         public TournamentGrain(ILogger<TournamentGrain> logger)
             : base(
-                new StreamOptions(Constants.TeamStream, Constants.StreamNamespace),
-                new PrefixLogger(logger, "[Team][Grain]"))
+                new StreamOptions(Constants.TournamentStream, Constants.StreamNamespace),
+                new PrefixLogger(logger, "[Tournament][Grain]"))
         {
+        }
+
+        protected override void TransitionState(TournamentState state, object @event)
+        {
+            switch (@event)
+            {
+                case TournamentCreated tc: state.Apply1(tc);
+                    break;
+                case TeamAdded tc: state.Apply1(tc);
+                    break;
+                case TournamentStarted tc: state.Apply1(tc);
+                    break;
+                case MatchResultSet tc: state.Apply1(tc);
+                    break;
+                case NextPhaseStarted tc: state.Apply1(tc);
+                    break;
+
+            }
         }
 
         public async Task CreateAsync(CreateTournament cmd)
@@ -45,7 +66,7 @@ namespace Snaelro.Domain.Tournaments
             return (TournamentExists(State) |
                     TournamentIsNotStarted(State) |
                     EightTeamsToStartTournament(State)).Match(
-                s => PersistPublish(TournamentStarted.From(cmd)),
+                s => PersistPublish(TournamentStarted.From(cmd, State.Teams.Shuffle().ToImmutableList())),
                 f => Task.CompletedTask);
         }
 

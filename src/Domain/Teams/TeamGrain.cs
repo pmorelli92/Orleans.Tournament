@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using LanguageExt;
 using Microsoft.Extensions.Logging;
 using Snaelro.Domain.Abstractions;
 using Snaelro.Domain.Abstractions.Grains;
@@ -16,8 +15,7 @@ namespace Snaelro.Domain.Teams
             : base(
                 new StreamOptions(Constants.TeamStream, Constants.StreamNamespace),
                 new PrefixLogger(logger, "[Team][Grain]"))
-        {
-        }
+        { }
 
         public async Task CreateAsync(CreateTeam cmd)
             => await PersistPublish(TeamCreated.From(cmd));
@@ -26,9 +24,6 @@ namespace Snaelro.Domain.Teams
             => await TeamExists(State).Match(
                 s => PersistPublish(PlayerAdded.From(cmd)),
                 f => Task.CompletedTask);
-
-        public Task<Validation<TeamErrorCodes, TeamState>> GetTeamAsync()
-            => Task.FromResult(TeamExists(State).Map(s => State));
 
         public Task<bool> TeamExistAsync()
             => Task.FromResult(State.Created);

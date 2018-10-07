@@ -34,7 +34,7 @@ namespace Snaelro.Domain.Tournaments.ValueObject
                 .Select(e => e.LocalGoals > e.AwayGoals ? e.LocalTeamId : e.AwayTeamId)
                 .ToList();
 
-            var bracket = GenerateBracket(teamList);
+            var bracket = GenerateBracket(teamList.ToImmutableList());
             Brackets.Add(bracket.phase, bracket.matches);
 
             if (bracket.phase == BracketPhase.Final) FinalPhase = true;
@@ -42,8 +42,7 @@ namespace Snaelro.Domain.Tournaments.ValueObject
 
         public static Fixture Create(IImmutableList<Guid> teams)
         {
-            var teamList = teams.Shuffle().ToList();
-            var bracket = GenerateBracket(teamList);
+            var bracket = GenerateBracket(teams);
 
             return new Fixture(new Dictionary<BracketPhase, List<MatchSummary>>
             {
@@ -51,7 +50,7 @@ namespace Snaelro.Domain.Tournaments.ValueObject
             });
         }
 
-        public static (BracketPhase phase, List<MatchSummary> matches) GenerateBracket(IList<Guid> teamList)
+        public static (BracketPhase phase, List<MatchSummary> matches) GenerateBracket(IImmutableList<Guid> teamList)
         {
             var teamMatchList = new List<MatchSummary>();
 

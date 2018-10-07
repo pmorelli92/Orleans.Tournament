@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
-using Snaelro.Domain.Teams;
+using System.Linq;
+using Snaelro.Projections.Teams;
 
 namespace Snaelro.API.Teams.Output
 {
@@ -19,7 +21,10 @@ namespace Snaelro.API.Teams.Output
             Players = players;
         }
 
-        public static TeamResponse From(TeamState state)
-            => new TeamResponse(state.Id, state.Name, state.Players);
+        public static TeamResponse From(TeamProjection projection)
+            => new TeamResponse(projection.Id, projection.Name, projection.Players);
+
+        public static IReadOnlyList<TeamResponse> From(IReadOnlyList<TeamProjection> projection)
+            => projection.Select(From).ToList();
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 using Snaelro.Domain.Abstractions;
 using Snaelro.Domain.Tournaments.Commands;
 
@@ -14,6 +15,7 @@ namespace Snaelro.Domain.Tournaments.Events
 
         public Guid InvokerUserId { get; }
 
+        [JsonConstructor]
         public TournamentCreated(string name, Guid tournamentId, Guid traceId, Guid invokerUserId)
         {
             Name = name;

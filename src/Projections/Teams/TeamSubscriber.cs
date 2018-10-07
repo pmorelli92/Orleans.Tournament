@@ -47,11 +47,8 @@ namespace Snaelro.Projections.Teams
 
         private async Task Handle(PlayerAdded evt)
         {
-            var projection =
-                (await _projectionManager.GetProjectionAsync(this.GetPrimaryKey()))
-                .AddPlayer(evt.Name);
-
-            await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
+            var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
+            await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection.AddPlayer(evt.Name));
         }
     }
 }

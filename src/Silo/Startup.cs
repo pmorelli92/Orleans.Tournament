@@ -7,6 +7,7 @@ using Orleans.Configuration;
 using Orleans.Hosting;
 using Snaelro.Domain.Snaelro.Domain;
 using Snaelro.Projections;
+using Snaelro.Projections.Teams;
 using Snaelro.Utils.Mvc.Configuration;
 using Snaelro.Utils.Mvc.Extensions;
 using Snaelro.Utils.Mvc.Middlewares;
@@ -32,7 +33,9 @@ namespace Snaelro.Silo
 
         public void OrleansDependencyInjection(IServiceCollection services)
         {
-            services.AddSingleton(new PostgresOptions(_fromEnvironment.PostgresConnection));
+            services
+                .AddSingleton(new PostgresOptions(_fromEnvironment.PostgresConnection))
+                .AddSingleton<ITeamQueryHandler, TeamQueryHandler>();
         }
 
         private ISiloHost CreateSilo()
@@ -52,7 +55,7 @@ namespace Snaelro.Silo
                 {
                     opt.Invariant = _fromEnvironment.PostgresInvariant;
                     opt.ConnectionString = _fromEnvironment.PostgresConnection;
-                    // opt.UseJsonFormat = true;
+                    opt.UseJsonFormat = true; // Just for debug
                 })
                 .AddLogStorageBasedLogConsistencyProviderAsDefault()
                 .ConfigureEndpoints(_fromEnvironment.SiloPort, _fromEnvironment.GatewayPort)
@@ -60,6 +63,7 @@ namespace Snaelro.Silo
                 .AddMemoryGrainStorage(_fromEnvironment.PubSubStore)
                 .AddSimpleMessageStreamProvider("ws")
                 .AddSimpleMessageStreamProvider(Constants.TeamStream)
+                .AddSimpleMessageStreamProvider(Constants.TournamentStream)
                 .ConfigureLogging(logging => logging.AddConsole())
                 .ConfigureServices(OrleansDependencyInjection)
                 .UseDashboard(options =>

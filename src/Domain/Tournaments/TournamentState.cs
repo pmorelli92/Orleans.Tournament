@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.ComponentModel;
+using Newtonsoft.Json;
 using Snaelro.Domain.Tournaments.Events;
 using Snaelro.Domain.Tournaments.ValueObject;
 
@@ -23,29 +25,29 @@ namespace Snaelro.Domain.Tournaments
             Teams = new List<Guid>().ToImmutableList();
         }
 
-        public void Apply(TournamentCreated @event)
+        public void Apply1(TournamentCreated @event)
         {
             Created = true;
             Id = @event.TournamentId;
             Name = @event.Name;
         }
 
-        public void Apply(TeamAdded @event)
+        public void Apply1(TeamAdded @event)
         {
             Teams = Teams.Add(@event.TeamId);
         }
 
-        public void Apply(TournamentStarted @event)
+        public void Apply1(TournamentStarted @event)
         {
-            Fixture = Fixture.Create(Teams);
+            Fixture = Fixture.Create(@event.Teams);
         }
 
-        public void Apply(MatchResultSet @event)
+        public void Apply1(MatchResultSet @event)
         {
             Fixture.SetMatchResult(@event.MatchResult);
         }
 
-        public void Apply(NextPhaseStarted @event)
+        public void Apply1(NextPhaseStarted @event)
         {
             Fixture.StartNextPhase();
         }
