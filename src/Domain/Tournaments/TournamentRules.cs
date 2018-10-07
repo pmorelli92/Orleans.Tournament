@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
 using LanguageExt;
 using Orleans;
@@ -66,7 +67,7 @@ namespace Snaelro.Domain.Tournaments
             return TournamentErrorCodes.TournamentAlreadyOnFinals;
         }
 
-        public static Validation<TournamentErrorCodes, Unit> TournamentMatchExists(TournamentState state, MatchResult matchResult)
+        public static Validation<TournamentErrorCodes, Unit> TournamentMatchExistsAndIsNotPlayed(TournamentState state, MatchResult matchResult)
         {
             // Last bracket's matches list
             var bracketMatches = state.Fixture.Brackets.Last().Value;
@@ -76,7 +77,7 @@ namespace Snaelro.Domain.Tournaments
 
             if (match is null) return TournamentErrorCodes.MatchDoesNotExist;
 
-            if (match.Played) return TournamentErrorCodes.MatchAlreadyPlayed;
+            if (match.MatchSummary != null) return TournamentErrorCodes.MatchAlreadyPlayed;
 
             return Unit.Default;
         }
@@ -93,8 +94,8 @@ namespace Snaelro.Domain.Tournaments
             // Last bracket's matches list
             var bracketMatches = state.Fixture.Brackets.Last().Value;
 
-            // Find the match
-            if (bracketMatches.All(e => e.Played)) return Unit.Default;
+            // All match should be played
+            if (bracketMatches.All(e => e.MatchSummary != null)) return Unit.Default;
 
             return TournamentErrorCodes.NotAllMatchesPlayed;
         }

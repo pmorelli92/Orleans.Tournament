@@ -2,36 +2,44 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Snaelro.Domain.Tournaments.ValueObject
 {
     public class Fixture
     {
-        public Dictionary<BracketPhase, List<MatchSummary>> Brackets { get; }
+        public Dictionary<BracketPhase, List<MatchInfo>> Brackets { get; }
 
         public bool FinalPhase { get; private set; }
 
-        public Fixture(Dictionary<BracketPhase, List<MatchSummary>> brackets)
+        public Fixture(Dictionary<BracketPhase, List<MatchInfo>> brackets)
         {
             Brackets = brackets;
         }
 
+        [JsonConstructor]
+        public Fixture(Dictionary<BracketPhase, List<MatchInfo>> brackets, bool finalPhase)
+            : this(brackets)
+        {
+            FinalPhase = finalPhase;
+        }
+
         public void SetMatchResult(MatchResult matchResult)
         {
-            var currentBracket = Brackets.Last().Value;
+            var currentBracket = Brackets.OrderBy(e => (int)e.Key).First().Value;
             var index = currentBracket.FindIndex(e => e.ResultRelatesToMatch(matchResult));
             currentBracket[index] = currentBracket[index].SetResult(matchResult.LocalGoals, matchResult.AwayGoals);
         }
 
         public void StartNextPhase()
         {
-            if (Brackets.Last().Key == BracketPhase.Final)
+            var currentBracket = Brackets.OrderBy(e => (int)e.Key).First();
+
+            if (currentBracket.Key == BracketPhase.Final)
                 throw new NotSupportedException("The tournament is already on the finals");
 
-            var currentBracket = Brackets.Last().Value;
-
-            var teamList = currentBracket
-                .Select(e => e.LocalGoals > e.AwayGoals ? e.LocalTeamId : e.AwayTeamId)
+            var teamList = currentBracket.Value
+                .Select(e => e.MatchSummary.LocalGoals > e.MatchSummary.AwayGoals ? e.LocalTeamId : e.AwayTeamId)
                 .ToList();
 
             var bracket = GenerateBracket(teamList.ToImmutableList());
@@ -44,19 +52,19 @@ namespace Snaelro.Domain.Tournaments.ValueObject
         {
             var bracket = GenerateBracket(teams);
 
-            return new Fixture(new Dictionary<BracketPhase, List<MatchSummary>>
+            return new Fixture(new Dictionary<BracketPhase, List<MatchInfo>>
             {
                 { bracket.phase, bracket.matches }
             });
         }
 
-        public static (BracketPhase phase, List<MatchSummary> matches) GenerateBracket(IImmutableList<Guid> teamList)
+        public static (BracketPhase phase, List<MatchInfo> matches) GenerateBracket(IImmutableList<Guid> teamList)
         {
-            var teamMatchList = new List<MatchSummary>();
+            var teamMatchList = new List<MatchInfo>();
 
             for (var i = 0; i < teamList.Count; i = i + 2)
             {
-                teamMatchList.Add(new MatchSummary(
+                teamMatchList.Add(new MatchInfo(
                     localTeamId: teamList.ElementAtOrDefault(i),
                     awayTeamId: teamList.ElementAtOrDefault(i + 1)));
             }

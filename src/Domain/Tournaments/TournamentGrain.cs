@@ -24,24 +24,6 @@ namespace Snaelro.Domain.Tournaments
         {
         }
 
-        protected override void TransitionState(TournamentState state, object @event)
-        {
-            switch (@event)
-            {
-                case TournamentCreated tc: state.Apply1(tc);
-                    break;
-                case TeamAdded tc: state.Apply1(tc);
-                    break;
-                case TournamentStarted tc: state.Apply1(tc);
-                    break;
-                case MatchResultSet tc: state.Apply1(tc);
-                    break;
-                case NextPhaseStarted tc: state.Apply1(tc);
-                    break;
-
-            }
-        }
-
         public async Task CreateAsync(CreateTournament cmd)
             => await PersistPublish(TournamentCreated.From(cmd));
 
@@ -75,7 +57,7 @@ namespace Snaelro.Domain.Tournaments
             return (TournamentExists(State) |
                     TournamentIsStarted(State) |
                     MatchIsNotDraw(cmd.MatchResult) |
-                    TournamentMatchExists(State, cmd.MatchResult)).Match(
+                    TournamentMatchExistsAndIsNotPlayed(State, cmd.MatchResult)).Match(
                 s => PersistPublish(MatchResultSet.From(cmd)),
                 f => Task.CompletedTask);
         }

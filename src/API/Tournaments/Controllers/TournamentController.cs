@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orleans;
 using Snaelro.API.Tournaments.Input;
+using Snaelro.API.Tournaments.Output;
 using Snaelro.Domain.Tournaments;
 using Snaelro.Domain.Tournaments.Commands;
 using Snaelro.Domain.Tournaments.ValueObject;
@@ -98,24 +99,24 @@ namespace Snaelro.API.Tournaments.Controllers
         [Authorize(Roles = "read")]
         [HttpGet("api/tournament/{tournamentId:Guid}", Name = "Get tournament")]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        //[ProducesResponseType(typeof(TeamResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TournamentResponse), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetTournament([FromRoute] Guid tournamentId)
         {
             var projection = await _tournamentQueryHandler.GetTournamentAsync(tournamentId);
 
             return projection is null
                 ? NotFound()
-                : (IActionResult)Ok(projection);//.From(projection));
+                : (IActionResult)Ok(TournamentResponse.From(projection));
         }
 
         [Authorize(Roles = "read")]
         [HttpGet("api/tournaments", Name = "Get tournaments")]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        //[ProducesResponseType(typeof(TeamResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TournamentResponse), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetTournaments()
         {
             var projection = await _tournamentQueryHandler.GetTournamentsAsync();
-            return Ok(projection);//TeamResponse.From(projection));
+            return Ok(TournamentResponse.From(projection));
         }
     }
 }

@@ -25,29 +25,29 @@ namespace Snaelro.Domain.Tournaments
             Teams = new List<Guid>().ToImmutableList();
         }
 
-        public void Apply1(TournamentCreated @event)
+        public void Apply(TournamentCreated @event)
         {
             Created = true;
             Id = @event.TournamentId;
             Name = @event.Name;
         }
 
-        public void Apply1(TeamAdded @event)
+        public void Apply(TeamAdded @event)
         {
             Teams = Teams.Add(@event.TeamId);
         }
 
-        public void Apply1(TournamentStarted @event)
+        public void Apply(TournamentStarted @event)
         {
             Fixture = Fixture.Create(@event.Teams);
         }
 
-        public void Apply1(MatchResultSet @event)
+        public void Apply(MatchResultSet @event)
         {
             Fixture.SetMatchResult(@event.MatchResult);
         }
 
-        public void Apply1(NextPhaseStarted @event)
+        public void Apply(NextPhaseStarted @event)
         {
             Fixture.StartNextPhase();
         }

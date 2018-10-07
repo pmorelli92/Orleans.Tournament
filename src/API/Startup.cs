@@ -11,6 +11,10 @@ using Snaelro.Projections.Tournaments;
 using Snaelro.Utils.Mvc.Configuration;
 using Snaelro.Utils.Mvc.Extensions;
 using Snaelro.Utils.Mvc.Middlewares;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Snaelro.API
 {
@@ -34,8 +38,15 @@ namespace Snaelro.API
 
             services
                 .AddSingleton<ITeamQueryHandler, TeamQueryHandler>()
-                .AddSingleton<ITournamentQueryHandler, TournamentQueryHandler>()
-                .AddMvc();
+                .AddSingleton<ITournamentQueryHandler, TournamentQueryHandler>();
+
+            services
+                .AddMvc()
+                .AddJsonOptions(opt =>
+                {
+                    opt.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    opt.SerializerSettings.Converters.Add(new StringEnumConverter { CamelCaseText = true });
+                });
         }
 
         private IClusterClient CreateClient()

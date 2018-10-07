@@ -20,11 +20,11 @@
 - [x] Create teams.
 - [x] Add players to teams.
 - [x] Get a team response model by Id.
-- [ ] Get all teams response models.
-- [ ] Create a tournament for different teams.
-- [ ] Set match result for a tournament.
-- [ ] Get tournament response model by id.
-- [ ] Get all tournament response models.
+- [x] Get all teams response models.
+- [x] Create a tournament for different teams.
+- [x] Set match result for a tournament.
+- [x] Get tournament response model by id.
+- [x] Get all tournament response models.
 - [ ] Domain tests.
 
 ### Configuration (Local)

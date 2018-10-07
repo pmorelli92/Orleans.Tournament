@@ -3,44 +3,44 @@ using Newtonsoft.Json;
 
 namespace Snaelro.Domain.Tournaments.ValueObject
 {
-    public class MatchSummary
+    public class MatchInfo
     {
         public Guid LocalTeamId { get; }
 
-        public int? LocalGoals { get; }
-
         public Guid AwayTeamId { get; }
 
-        public int? AwayGoals { get; }
-
-        public bool Played { get; }
+        public MatchSummary MatchSummary { get; }
 
         [JsonConstructor]
-        public MatchSummary(Guid localTeamId, Guid awayTeamId)
+        public MatchInfo(Guid localTeamId, Guid awayTeamId, MatchSummary matchSummary)
         {
             LocalTeamId = localTeamId;
             AwayTeamId = awayTeamId;
-            Played = false;
+            MatchSummary = matchSummary;
         }
 
-        public MatchSummary(Guid localTeamId, int localGoals, Guid awayTeamId, int awayGoals)
+        public MatchInfo(Guid localTeamId, Guid awayTeamId)
+            : this(localTeamId, awayTeamId, null)
         {
-            LocalTeamId = localTeamId;
-            LocalGoals = localGoals;
-            AwayTeamId = awayTeamId;
-            AwayGoals = awayGoals;
-            Played = true;
         }
 
-        public MatchSummary SetResult(int localGoals, int awayGoals)
-        {
-            if (Played)
-                throw new InvalidOperationException("The match is already played");
-
-            return new MatchSummary(LocalTeamId, localGoals, AwayTeamId, awayGoals);
-        }
+        public MatchInfo SetResult(int localGoals, int awayGoals)
+            => new MatchInfo(LocalTeamId, AwayTeamId, new MatchSummary(localGoals, awayGoals));
 
         public bool ResultRelatesToMatch(MatchResult result)
             => LocalTeamId == result.LocalTeamId && AwayTeamId == result.AwayTeamId;
+    }
+
+    public class MatchSummary
+    {
+        public int LocalGoals { get; }
+
+        public int AwayGoals { get; }
+
+        public MatchSummary(int localGoals, int awayGoals)
+        {
+            LocalGoals = localGoals;
+            AwayGoals = awayGoals;
+        }
     }
 }
