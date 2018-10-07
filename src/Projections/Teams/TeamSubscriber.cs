@@ -32,6 +32,9 @@ namespace Snaelro.Projections.Teams
                 case PlayerAdded obj:
                     await Handle(obj);
                     break;
+                case TournamentJoined obj:
+                    await Handle(obj);
+                    break;
                 default:
                     PrefixLogger.LogError(
                         "unhandled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
@@ -49,6 +52,12 @@ namespace Snaelro.Projections.Teams
         {
             var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
             await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection.AddPlayer(evt.Name));
+        }
+
+        private async Task Handle(TournamentJoined evt)
+        {
+            var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
+            await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection.JoinTournament(evt.TournamentId));
         }
     }
 }

@@ -25,7 +25,8 @@
 - [x] Set match result for a tournament.
 - [x] Get tournament response model by id.
 - [x] Get all tournament response models.
-- [ ] Saga for adding tournaments to the teams participating.
+- [x] Saga for adding tournaments to the teams participating.
+- [ ] Make better projections.
 - [ ] Domain tests.
 
 ### Configuration (Local)

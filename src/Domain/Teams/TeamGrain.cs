@@ -37,6 +37,10 @@ namespace Snaelro.Domain.Teams
                 async f => await EmitErrorsAsync(f, cmd.TraceId, cmd.InvokerUserId));
         }
 
+        // Saga command
+        public async Task JoinTournamentAsync(JoinTournament cmd)
+            => await PersistPublishAsync(TournamentJoined.From(cmd));
+
         public Task<bool> TeamExistAsync()
             => Task.FromResult(State.Created);
     }

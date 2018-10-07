@@ -17,9 +17,12 @@ namespace Snaelro.Domain.Teams
 
         public IImmutableList<string> Players { get; private set; }
 
+        public IImmutableList<Guid> Tournaments { get; private set; }
+
         public TeamState()
         {
             Players = new List<string>().ToImmutableList();
+            Tournaments = new List<Guid>().ToImmutableList();
         }
 
         public void Apply(TeamCreated @event)
@@ -32,6 +35,11 @@ namespace Snaelro.Domain.Teams
         public void Apply(PlayerAdded @event)
         {
             Players = Players.Add(@event.Name);
+        }
+
+        public void Apply(TournamentJoined @event)
+        {
+            Tournaments = Tournaments.Add(@event.TournamentId);
         }
     }
 }

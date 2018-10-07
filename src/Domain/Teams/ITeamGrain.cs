@@ -11,6 +11,8 @@ namespace Snaelro.Domain.Teams
         Task CreateAsync(CreateTeam cmd);
 
         Task AddPlayerAsync(AddPlayer cmd);
+
+        Task JoinTournamentAsync(JoinTournament cmd);
     }
 
     // Queries

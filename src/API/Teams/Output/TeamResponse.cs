@@ -14,15 +14,22 @@ namespace Snaelro.API.Teams.Output
 
         public IImmutableList<string> Players { get; }
 
-        public TeamResponse(Guid id, string name, IImmutableList<string> players)
+        public IImmutableList<Guid> Tournaments { get; }
+
+        public TeamResponse(
+            Guid id,
+            string name,
+            IImmutableList<string> players,
+            IImmutableList<Guid> tournaments)
         {
             Id = id;
             Name = name;
             Players = players;
+            Tournaments = tournaments;
         }
 
         public static TeamResponse From(TeamProjection projection)
-            => new TeamResponse(projection.Id, projection.Name, projection.Players);
+            => new TeamResponse(projection.Id, projection.Name, projection.Players, projection.Tournaments);
 
         public static IReadOnlyList<TeamResponse> From(IReadOnlyList<TeamProjection> projection)
             => projection.Select(From).ToList();
