@@ -11,7 +11,7 @@
 - [x] Authentication and Authorization.
 - [x] Docker images running on Alpine.
 - [x] Kubernetes configuration for running the solution.
-- [ ] Emit business error events.
+- [x] Emit business error events.
 - [ ] Add event store for users to consume as fallback solution.
 - [ ] Persisted reference tokens for Authentication.
 
@@ -25,6 +25,7 @@
 - [x] Set match result for a tournament.
 - [x] Get tournament response model by id.
 - [x] Get all tournament response models.
+- [ ] Saga for adding tournaments to the teams participating.
 - [ ] Domain tests.
 
 ### Configuration (Local)

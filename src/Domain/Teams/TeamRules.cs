@@ -4,17 +4,20 @@ namespace Snaelro.Domain.Teams
 {
     public static class TeamRules
     {
-        public static Validation<TeamErrorCodes, Unit> TeamExists(TeamState state)
+        public static Validation<BusinessErrors, Unit> TeamExists(TeamState state)
         {
             if (state.Created)
                 return Unit.Default;
 
-            return TeamErrorCodes.TeamDoesNotExist;
+            return BusinessErrors.TeamDoesNotExist;
         }
-    }
 
-    public enum TeamErrorCodes
-    {
-        TeamDoesNotExist = 1
+        public static Validation<BusinessErrors, Unit> TeamDoesNotExists(TeamState state)
+        {
+            if (state.Created)
+                return BusinessErrors.TeamAlreadyExist;
+
+            return Unit.Default;
+        }
     }
 }

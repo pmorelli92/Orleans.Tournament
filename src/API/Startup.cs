@@ -12,6 +12,7 @@ using Snaelro.Utils.Mvc.Configuration;
 using Snaelro.Utils.Mvc.Extensions;
 using Snaelro.Utils.Mvc.Middlewares;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;

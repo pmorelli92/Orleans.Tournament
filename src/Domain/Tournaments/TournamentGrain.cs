@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,8 +26,15 @@ namespace Snaelro.Domain.Tournaments
         {
         }
 
+        private Task EmitErrorsAsync(IEnumerable<BusinessErrors> f, Guid traceId, Guid invokerUserId)
+            => f.Iter(async e => await PublishErrorAsync((int) e, e.ToString(), traceId, invokerUserId)).AsTask();
+
         public async Task CreateAsync(CreateTournament cmd)
-            => await PersistPublish(TournamentCreated.From(cmd));
+        {
+            await TournamentDoesNotExists(State).Match(
+                async s => await PersistPublishAsync(TournamentCreated.From(cmd)),
+                async f => await EmitErrorsAsync(f, cmd.TraceId, cmd.InvokerUserId));
+        }
 
         public async Task AddTeamAsync(AddTeam cmd)
         {
@@ -39,40 +48,41 @@ namespace Snaelro.Domain.Tournaments
                    TeamExistsForward(teamExist) |
                    TeamIsNotAdded(State, cmd.TeamId) |
                    LessThanEightTeams(State)).Match(
-                s => PersistPublish(TeamAdded.From(cmd)),
-                f => Task.CompletedTask);
+                async s => await PersistPublishAsync(TeamAdded.From(cmd)),
+                async f => await EmitErrorsAsync(f, cmd.TraceId, cmd.InvokerUserId));
         }
 
-        public Task StartAsync(StartTournament cmd)
+        public async Task StartAsync(StartTournament cmd)
         {
-            return (TournamentExists(State) |
-                    TournamentIsNotStarted(State) |
-                    EightTeamsToStartTournament(State)).Match(
-                s => PersistPublish(TournamentStarted.From(cmd, State.Teams.Shuffle().ToImmutableList())),
-                f => Task.CompletedTask);
+            await (TournamentExists(State) |
+                   TournamentIsNotStarted(State) |
+                   EightTeamsToStartTournament(State)).Match(
+                async s =>
+                {
+                    var shuffledTeams = State.Teams.Shuffle().ToImmutableList();
+                    await PersistPublishAsync(TournamentStarted.From(cmd, shuffledTeams));
+                },
+                async f => await EmitErrorsAsync(f, cmd.TraceId, cmd.InvokerUserId));
         }
 
-        public Task SetMatchResultAsync(SetMatchResult cmd)
+        public async Task SetMatchResultAsync(SetMatchResult cmd)
         {
-            return (TournamentExists(State) |
-                    TournamentIsStarted(State) |
-                    MatchIsNotDraw(cmd.MatchResult) |
-                    TournamentMatchExistsAndIsNotPlayed(State, cmd.MatchResult)).Match(
-                s => PersistPublish(MatchResultSet.From(cmd)),
-                f => Task.CompletedTask);
+            await (TournamentExists(State) |
+                   TournamentIsStarted(State) |
+                   MatchIsNotDraw(cmd.MatchResult) |
+                   TournamentMatchExistsAndIsNotPlayed(State, cmd.MatchResult)).Match(
+                async s => await PersistPublishAsync(MatchResultSet.From(cmd)),
+                async f => await EmitErrorsAsync(f, cmd.TraceId, cmd.InvokerUserId));
         }
 
-        public Task NextPhaseAsync(StartNextPhase cmd)
+        public async Task NextPhaseAsync(StartNextPhase cmd)
         {
-            return (TournamentExists(State) |
-                    TournamentIsStarted(State) |
-                    TournamentPhaseCompleted(State) |
-                    TournamentIsNotOnFinals(State)).Match(
-                s => PersistPublish(NextPhaseStarted.From(cmd)),
-                f => Task.CompletedTask);
+            await (TournamentExists(State) |
+                   TournamentIsStarted(State) |
+                   TournamentPhaseCompleted(State) |
+                   TournamentIsNotOnFinals(State)).Match(
+                async s => await PersistPublishAsync(NextPhaseStarted.From(cmd)),
+                async f => await EmitErrorsAsync(f, cmd.TraceId, cmd.InvokerUserId));
         }
-
-        public Task<Validation<TournamentErrorCodes, TournamentState>> GetTournamentAsync()
-            => Task.FromResult(TournamentExists(State).Map(s => State));
     }
 }

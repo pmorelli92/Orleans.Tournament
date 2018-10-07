@@ -1,8 +1,10 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.EventSourcing;
 using Orleans.Streams;
+using Snaelro.Domain.Abstractions.Events;
 
 namespace Snaelro.Domain.Abstractions.Grains
 {
@@ -28,7 +30,7 @@ namespace Snaelro.Domain.Abstractions.Grains
             await base.OnActivateAsync();
         }
 
-        protected async Task PersistPublish(object evt)
+        protected async Task PersistPublishAsync(object evt)
         {
             RaiseEvent(evt);
 
@@ -36,6 +38,14 @@ namespace Snaelro.Domain.Abstractions.Grains
                 "handled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
 
             await _stream.OnNextAsync(evt);
+        }
+
+        protected async Task PublishErrorAsync(int code, string name, Guid traceId, Guid invokerUserId)
+        {
+            PrefixLogger.LogInformation(
+                "handled error [{code}]-[{name}] for resource id: [{grainId}]", code, name, this.GetPrimaryKey());
+
+            await _stream.OnNextAsync(new ErrorHasOccurred(code, name, traceId, invokerUserId));
         }
     }
 }
