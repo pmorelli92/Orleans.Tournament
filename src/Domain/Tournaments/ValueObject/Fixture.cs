@@ -2,63 +2,71 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace Snaelro.Domain.Tournaments.ValueObject
 {
     public class Fixture
     {
-        public Dictionary<BracketPhase, List<MatchInfo>> Brackets { get; }
+        // Editing by ref need fields not property
+        private Phase _finals;
+        private Phase _semiFinals;
+        private Phase _quarterFinals;
 
-        public bool FinalPhase { get; private set; }
+        public Phase Finals => _finals;
+        public Phase SemiFinals => _semiFinals;
+        public Phase QuarterFinals => _quarterFinals;
 
-        public Fixture(Dictionary<BracketPhase, List<MatchInfo>> brackets)
+        public Fixture(Phase quarterFinals, Phase semiFinals, Phase finals)
         {
-            Brackets = brackets;
-        }
-
-        [JsonConstructor]
-        public Fixture(Dictionary<BracketPhase, List<MatchInfo>> brackets, bool finalPhase)
-            : this(brackets)
-        {
-            FinalPhase = finalPhase;
+            _quarterFinals = quarterFinals;
+            _semiFinals = semiFinals;
+            _finals = finals;
         }
 
         public void SetMatchResult(MatchResult matchResult)
         {
-            var currentBracket = Brackets.OrderBy(e => (int)e.Key).First().Value;
-            var index = currentBracket.FindIndex(e => e.ResultRelatesToMatch(matchResult));
-            currentBracket[index] = currentBracket[index].SetResult(matchResult.LocalGoals, matchResult.AwayGoals);
+            var currentPhase = GetCurrentPhase();
+            var matches = currentPhase.Matches;
+            var index = matches.FindIndex(e => e.ResultRelatesToMatch(matchResult));
+            matches[index] = matches[index].SetResult(matchResult.LocalGoals, matchResult.AwayGoals);
+
+            if (matches.All(e => e.MatchSummary != null))
+                currentPhase.Played = true;
+
         }
 
         public void StartNextPhase()
         {
-            var currentBracket = Brackets.OrderBy(e => (int)e.Key).First();
-
-            if (currentBracket.Key == BracketPhase.Final)
-                throw new NotSupportedException("The tournament is already on the finals");
-
-            var teamList = currentBracket.Value
+            var teamList = GetCurrentPhase().Matches
                 .Select(e => e.MatchSummary.LocalGoals > e.MatchSummary.AwayGoals ? e.LocalTeamId : e.AwayTeamId)
                 .ToList();
 
-            var bracket = GenerateBracket(teamList.ToImmutableList());
-            Brackets.Add(bracket.phase, bracket.matches);
+            GetNextPhase() = GeneratePhase(teamList);
+        }
 
-            if (bracket.phase == BracketPhase.Final) FinalPhase = true;
+        public ref Phase GetCurrentPhase()
+        {
+            if (Finals.Matches.Any()) return ref _finals;
+            if (SemiFinals.Matches.Any()) return ref _semiFinals;
+            if (QuarterFinals.Matches.Any()) return ref _quarterFinals;
+
+            throw new InvalidOperationException("This should not be happening");
+        }
+
+        public ref Phase GetNextPhase()
+        {
+            if (Finals.Matches.Any()) throw new NotSupportedException("The tournament is already on the finals");
+            if (SemiFinals.Matches.Any()) return ref _finals;
+            return ref _semiFinals;
         }
 
         public static Fixture Create(IImmutableList<Guid> teams)
         {
-            var bracket = GenerateBracket(teams);
-
-            return new Fixture(new Dictionary<BracketPhase, List<MatchInfo>>
-            {
-                { bracket.phase, bracket.matches }
-            });
+            var phase = GeneratePhase(teams);
+            return new Fixture(phase, semiFinals: Phase.PlaceHolder, finals: Phase.PlaceHolder);
         }
 
-        public static (BracketPhase phase, List<MatchInfo> matches) GenerateBracket(IImmutableList<Guid> teamList)
+        private static Phase GeneratePhase(IReadOnlyCollection<Guid> teamList)
         {
             var teamMatchList = new List<MatchInfo>();
 
@@ -69,27 +77,29 @@ namespace Snaelro.Domain.Tournaments.ValueObject
                     awayTeamId: teamList.ElementAtOrDefault(i + 1)));
             }
 
-            var phase = GetPhase(teamMatchList.Count);
-            return (phase, teamMatchList);
-        }
-
-        public static BracketPhase GetPhase(int numberOfMatches)
-        {
-            switch (numberOfMatches)
-            {
-                case 4: return BracketPhase.QuarterFinal;
-                case 2: return BracketPhase.SemiFinal;
-                case 1: return BracketPhase.Final;
-                default: return default;
-            }
+            return new Phase(teamMatchList);
         }
     }
 
-    public enum BracketPhase
+    public class Phase
     {
-        Final = 1,
-        SemiFinal = 3,
-        QuarterFinal = 4
+        public List<MatchInfo> Matches { get; }
+
+        public bool Played { get; internal set; }
+
+        public Phase(List<MatchInfo> matches, bool played)
+        {
+            Matches = matches;
+            Played = played;
+        }
+
+        internal Phase(List<MatchInfo> matches)
+            : this(matches, played: false)
+        {
+        }
+
+        internal static Phase PlaceHolder
+            => new Phase(new List<MatchInfo>());
     }
 
     public static class EnumerableExtensions

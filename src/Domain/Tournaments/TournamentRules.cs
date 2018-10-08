@@ -69,7 +69,7 @@ namespace Snaelro.Domain.Tournaments
 
         public static Validation<BusinessErrors, Unit> TournamentIsNotOnFinals(TournamentState state)
         {
-            if (state.Fixture.FinalPhase == false) return Unit.Default;
+            if (state.Fixture.Finals.Played == false) return Unit.Default;
 
             return BusinessErrors.TournamentAlreadyOnFinals;
         }
@@ -78,11 +78,8 @@ namespace Snaelro.Domain.Tournaments
         {
             if (state.Fixture is null) return BusinessErrors.MatchDoesNotExist;
 
-            // Last bracket's matches list
-            var bracketMatches = state.Fixture.Brackets.Last().Value;
-
-            // Find the match
-            var match = bracketMatches.SingleOrDefault(e => e.ResultRelatesToMatch(matchResult));
+            var phaseMatches = state.Fixture.GetCurrentPhase().Matches;
+            var match = phaseMatches.SingleOrDefault(e => e.ResultRelatesToMatch(matchResult));
 
             if (match is null) return BusinessErrors.MatchDoesNotExist;
 
@@ -100,11 +97,7 @@ namespace Snaelro.Domain.Tournaments
 
         public static Validation<BusinessErrors, Unit> TournamentPhaseCompleted(TournamentState state)
         {
-            // Last bracket's matches list
-            var bracketMatches = state.Fixture.Brackets.Last().Value;
-
-            // All match should be played
-            if (bracketMatches.All(e => e.MatchSummary != null)) return Unit.Default;
+            if (state.Fixture.GetCurrentPhase().Played) return Unit.Default;
 
             return BusinessErrors.NotAllMatchesPlayed;
         }
