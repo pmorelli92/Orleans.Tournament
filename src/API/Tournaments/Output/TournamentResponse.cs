@@ -16,6 +16,8 @@ namespace Snaelro.API.Tournaments.Output
 
         public IImmutableList<Team> Teams { get; }
 
+        // I could decouple from the projection here if it is needed,
+        // so if Domain changes, the client is not impacted.
         public Fixture Fixture { get; }
 
         public TournamentResponse(Guid id, string name, IImmutableList<Team> teams, Fixture fixture)
