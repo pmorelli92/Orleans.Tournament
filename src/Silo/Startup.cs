@@ -8,6 +8,7 @@ using Orleans.Hosting;
 using Snaelro.Domain.Snaelro.Domain;
 using Snaelro.Projections;
 using Snaelro.Projections.Teams;
+using Snaelro.Projections.Tournaments;
 using Snaelro.Utils.Mvc.Configuration;
 using Snaelro.Utils.Mvc.Extensions;
 using Snaelro.Utils.Mvc.Middlewares;
@@ -35,7 +36,8 @@ namespace Snaelro.Silo
         {
             services
                 .AddSingleton(new PostgresOptions(_fromEnvironment.PostgresConnection))
-                .AddSingleton<ITeamQueryHandler, TeamQueryHandler>();
+                .AddSingleton<ITeamQueryHandler, TeamQueryHandler>()
+                .AddSingleton<ITournamentQueryHandler, TournamentQueryHandler>();
         }
 
         private ISiloHost CreateSilo()

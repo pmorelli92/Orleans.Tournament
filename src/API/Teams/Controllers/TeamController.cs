@@ -71,7 +71,7 @@ namespace Snaelro.API.Teams.Controllers
 
             return projection is null
                 ? NotFound()
-                : (IActionResult)Ok(TeamResponse.From(projection));
+                : (IActionResult) Ok(TeamResponse.From(projection));
         }
 
         [Authorize(Roles = "read")]

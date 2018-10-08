@@ -106,7 +106,7 @@ namespace Snaelro.API.Tournaments.Controllers
 
             return projection is null
                 ? NotFound()
-                : (IActionResult)Ok(TournamentResponse.From(projection));
+                : (IActionResult) Ok(TournamentResponse.From(projection));
         }
 
         [Authorize(Roles = "read")]

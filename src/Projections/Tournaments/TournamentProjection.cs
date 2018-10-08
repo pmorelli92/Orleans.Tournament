@@ -13,13 +13,13 @@ namespace Snaelro.Projections.Tournaments
 
         public string Name { get; }
 
-        public IImmutableList<TeamProjection> Teams { get; }
+        public IImmutableList<Team> Teams { get; }
 
         public Fixture Fixture { get; }
 
         internal TournamentProjection()
         {
-            Teams = new List<TeamProjection>().ToImmutableList();
+            Teams = new List<Team>().ToImmutableList();
         }
 
         internal static TournamentProjection New => new TournamentProjection();
@@ -28,13 +28,26 @@ namespace Snaelro.Projections.Tournaments
         internal TournamentProjection(
             Guid id,
             string name,
-            IImmutableList<TeamProjection> teams,
+            IImmutableList<Team> teams,
             Fixture fixture)
         {
             Id = id;
             Name = name;
             Teams = teams;
             Fixture = fixture;
+        }
+
+        public class Team
+        {
+            public Guid Id { get; }
+
+            public string Name { get; }
+
+            public Team(Guid id, string name)
+            {
+                Id = id;
+                Name = name;
+            }
         }
     }
 
@@ -44,7 +57,7 @@ namespace Snaelro.Projections.Tournaments
         internal static TournamentProjection SetName(this TournamentProjection @this, Guid id, string name)
             => new TournamentProjection(id, name, @this.Teams, @this.Fixture);
 
-        internal static TournamentProjection AddTeam(this TournamentProjection @this, TeamProjection team)
+        internal static TournamentProjection AddTeam(this TournamentProjection @this, TournamentProjection.Team team)
             => new TournamentProjection(@this.Id, @this.Name, @this.Teams.Add(team), @this.Fixture);
 
         internal static TournamentProjection AddFixture(this TournamentProjection @this, Fixture fixture)

@@ -64,8 +64,10 @@ namespace Snaelro.Projections.Tournaments
         private async Task Handle(TeamAdded evt)
         {
             var team = await _teamQueryHandler.GetTeamAsync(evt.TeamId);
+            var teamObj = new TournamentProjection.Team(team.Id, team.Name);
+
             var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
-            await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection.AddTeam(team));
+            await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection.AddTeam(teamObj));
         }
 
         // The idea is to serve the data in a friendly way to the user, in this case

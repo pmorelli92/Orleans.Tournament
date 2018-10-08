@@ -14,11 +14,11 @@ namespace Snaelro.API.Tournaments.Output
 
         public string Name { get; }
 
-        public IImmutableList<TeamProjection> Teams { get; }
+        public IImmutableList<Team> Teams { get; }
 
         public Fixture Fixture { get; }
 
-        public TournamentResponse(Guid id, string name, IImmutableList<TeamProjection> teams, Fixture fixture)
+        public TournamentResponse(Guid id, string name, IImmutableList<Team> teams, Fixture fixture)
         {
             Id = id;
             Name = name;
@@ -26,8 +26,21 @@ namespace Snaelro.API.Tournaments.Output
             Fixture = fixture;
         }
 
+        public class Team
+        {
+            public Guid Id { get; }
+
+            public string Name { get; }
+
+            public Team(Guid id, string name)
+            {
+                Id = id;
+                Name = name;
+            }
+        }
+
         public static TournamentResponse From(TournamentProjection projection)
-            => new TournamentResponse(projection.Id, projection.Name, projection.Teams, projection.Fixture);
+            => new TournamentResponse(projection.Id, projection.Name, projection.Teams.Select(e => new Team(e.Id, e.Name)).ToImmutableList(), projection.Fixture);
 
         public static IReadOnlyList<TournamentResponse> From(IReadOnlyList<TournamentProjection> projection)
             => projection.Select(From).ToList();

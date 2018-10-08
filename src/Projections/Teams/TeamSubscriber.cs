@@ -6,19 +6,25 @@ using Snaelro.Domain.Abstractions;
 using Snaelro.Domain.Abstractions.Grains;
 using Snaelro.Domain.Snaelro.Domain;
 using Snaelro.Domain.Teams.Events;
+using Snaelro.Projections.Tournaments;
 
 namespace Snaelro.Projections.Teams
 {
     [ImplicitStreamSubscription(Constants.StreamNamespace)]
     public class TeamSubscriber : SubscriberGrain
     {
+        private readonly ITournamentQueryHandler _tournamentQueryHandler;
         private readonly ProjectionManager<TeamProjection> _projectionManager;
 
-        public TeamSubscriber(PostgresOptions postgresOptions, ILogger<TeamSubscriber> logger)
+        public TeamSubscriber(
+            PostgresOptions postgresOptions,
+            ITournamentQueryHandler tournamentQueryHandler,
+            ILogger<TeamSubscriber> logger)
             : base(
                 new StreamOptions(Constants.TeamStream, Constants.StreamNamespace),
                 new PrefixLogger(logger, "[Team][Projection]"))
         {
+            _tournamentQueryHandler = tournamentQueryHandler;
             _projectionManager = new ProjectionManager<TeamProjection>("read", "team_projection", postgresOptions);
         }
 
@@ -56,8 +62,11 @@ namespace Snaelro.Projections.Teams
 
         private async Task Handle(TournamentJoined evt)
         {
+            var tournament = await _tournamentQueryHandler.GetTournamentAsync(evt.TournamentId);
+            var tournamentObj = new TeamProjection.Tournament(tournament.Id, tournament.Name);
+
             var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
-            await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection.JoinTournament(evt.TournamentId));
+            await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection.JoinTournament(tournamentObj));
         }
     }
 }

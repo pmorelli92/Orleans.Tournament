@@ -26,7 +26,6 @@
 - [x] Get tournament response model by id.
 - [x] Get all tournament response models.
 - [x] Saga for adding tournaments to the teams participating.
-- [ ] Make better projections.
 - [ ] Domain tests.
 
 ### Configuration (Local)
@@ -66,7 +65,7 @@
 <env name="CLUSTER_ID" value="Orleans-Local" />
 ```
 
-#### Silo Deployment
+#### Silo Dashboard
 
 ```
 <env name="ASPNETCORE_ENVIRONMENT" value="Development" />
