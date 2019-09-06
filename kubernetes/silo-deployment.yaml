@@ -22,8 +22,8 @@ spec:
         role: host
     spec:
       containers:
-      - name: snaelro-silo
-        image: snaelro-silo:local
+      - name: ot-silo
+        image: ot-silo:local
         ports:
         - name: http
           containerPort: 7001
@@ -68,8 +68,8 @@ spec:
         role: dashboard
     spec:
       containers:
-      - name: snaelro-silo-dashboard
-        image: snaelro-silo-dashboard:local
+      - name: ot-silo-dashboard
+        image: ot-silo-dashboard:local
         ports:
         - name: http
           containerPort: 7002

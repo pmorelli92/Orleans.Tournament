@@ -22,8 +22,8 @@ spec:
         role: database
     spec:
       containers:
-      - name: snaelro-postgres
-        image: snaelro-postgres:local
+      - name: ot-postgres
+        image: ot-postgres:local
         ports:
         - name: postgresql
           containerPort: 5432

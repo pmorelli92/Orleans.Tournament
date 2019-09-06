@@ -22,8 +22,8 @@ spec:
         role: client
     spec:
       containers:
-      - name: snaelro-api
-        image: snaelro-api:local
+      - name: ot-api
+        image: ot-api:local
         ports:
         - name: http
           containerPort: 7003
@@ -73,8 +73,8 @@ spec:
         role: identity
     spec:
       containers:
-      - name: snaelro-api-identity
-        image: snaelro-api-identity:local
+      - name: ot-api-identity
+        image: ot-api-identity:local
         ports:
         - name: http
           containerPort: 7004

@@ -43,7 +43,7 @@
 <env name="ASPNETCORE_ENVIRONMENT" value="Development" />
 <env name="ASPNETCORE_URLS" value="http://localhost:7004" />
 <env name="JWT_ISSUER_KEY" value="mUL-M6N5]4;S9XHp" />
-<env name="POSTGRES_CONNECTION" value="Server=192.168.99.100;Port=30700;User Id=dbuser;Password=dbpassword;Database=snaelro" />
+<env name="POSTGRES_CONNECTION" value="Server=192.168.99.100;Port=30700;User Id=dbuser;Password=dbpassword;Database=orleans-tournament" />
 ```
 
 #### API
@@ -52,9 +52,9 @@
 <env name="BUILD_VERSION" value="0.0.1" />
 <env name="ASPNETCORE_ENVIRONMENT" value="Development" />
 <env name="ASPNETCORE_URLS" value="http://localhost:7003" />
-<env name="SERVICE_ID" value="Snaelro" />
-<env name="POSTGRES_CONNECTION" value="Server=192.168.99.100;Port=30700;User Id=dbuser;Password=dbpassword;Database=snaelro" />
-<env name="CLUSTER_ID" value="Orleans-Local" />
+<env name="SERVICE_ID" value="Orleans-Tournament" />
+<env name="POSTGRES_CONNECTION" value="Server=192.168.99.100;Port=30700;User Id=dbuser;Password=dbpassword;Database=orleans-tournament" />
+<env name="CLUSTER_ID" value="Local" />
 <env name="JWT_ISSUER_KEY" value="mUL-M6N5]4;S9XHp" />
 ```
 
@@ -65,10 +65,10 @@
 <env name="BUILD_VERSION" value="0.0.1" />
 <env name="ASPNETCORE_ENVIRONMENT" value="Development" />
 <env name="ASPNETCORE_URLS" value="http://localhost:7001" />
-<env name="SERVICE_ID" value="Snaelro" />
+<env name="SERVICE_ID" value="Orleans-Tournament" />
 <env name="SILO_PORT" value="11111" />
-<env name="POSTGRES_CONNECTION" value="Server=192.168.99.100;Port=30700;User Id=dbuser;Password=dbpassword;Database=snaelro" />
-<env name="CLUSTER_ID" value="Orleans-Local" />
+<env name="POSTGRES_CONNECTION" value="Server=192.168.99.100;Port=30700;User Id=dbuser;Password=dbpassword;Database=orleans-tournament" />
+<env name="CLUSTER_ID" value="Local" />
 ```
 
 #### Silo Dashboard
@@ -76,8 +76,8 @@
 ```
 <env name="ASPNETCORE_ENVIRONMENT" value="Development" />
 <env name="ASPNETCORE_URLS" value="http://localhost:7002" />
-<env name="SERVICE_ID" value="Snaelro" />
-<env name="POSTGRES_CONNECTION" value="Server=192.168.99.100;Port=30700;User Id=dbuser;Password=dbpassword;Database=snaelro" />
-<env name="CLUSTER_ID" value="Orleans-Local" />
+<env name="SERVICE_ID" value="Orleans-Tournament" />
+<env name="POSTGRES_CONNECTION" value="Server=192.168.99.100;Port=30700;User Id=dbuser;Password=dbpassword;Database=orleans-tournament" />
+<env name="CLUSTER_ID" value="Local" />
 <env name="BUILD_VERSION" value="0.0.1" />
 ```
