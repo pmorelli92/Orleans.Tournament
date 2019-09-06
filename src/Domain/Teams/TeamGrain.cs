@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LanguageExt;
 using Microsoft.Extensions.Logging;
-using Snaelro.Domain.Abstractions;
-using Snaelro.Domain.Abstractions.Grains;
-using Snaelro.Domain.Snaelro.Domain;
-using Snaelro.Domain.Teams.Commands;
-using Snaelro.Domain.Teams.Events;
-using static Snaelro.Domain.Teams.TeamRules;
+using Orleans.Tournament.Domain.Abstractions;
+using Orleans.Tournament.Domain.Abstractions.Grains;
+using Orleans.Tournament.Domain;
+using Orleans.Tournament.Domain.Teams.Commands;
+using Orleans.Tournament.Domain.Teams.Events;
+using static Orleans.Tournament.Domain.Teams.TeamRules;
 
-namespace Snaelro.Domain.Teams
+namespace Orleans.Tournament.Domain.Teams
 {
     public class TeamGrain : EventSourcedGrain<TeamState>, ITeamGrain
     {

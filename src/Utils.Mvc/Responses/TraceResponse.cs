@@ -1,6 +1,6 @@
 using System;
 
-namespace Snaelro.Utils.Mvc.Responses
+namespace Orleans.Tournament.Utils.Mvc.Responses
 {
     public class TraceResponse
     {

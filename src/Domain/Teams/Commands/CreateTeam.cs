@@ -1,7 +1,7 @@
 using System;
-using Snaelro.Domain.Abstractions;
+using Orleans.Tournament.Domain.Abstractions;
 
-namespace Snaelro.Domain.Teams.Commands
+namespace Orleans.Tournament.Domain.Teams.Commands
 {
     public class CreateTeam : ITraceable
     {

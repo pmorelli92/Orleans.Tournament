@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Streams;
 
-namespace Snaelro.Domain.Abstractions.Grains
+namespace Orleans.Tournament.Domain.Abstractions.Grains
 {
     public interface ISubscriber : IGrainWithGuidKey
     {

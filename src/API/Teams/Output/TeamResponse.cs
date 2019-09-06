@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using LanguageExt.UnitsOfMeasure;
-using Snaelro.Projections.Teams;
+using Orleans.Tournament.Projections.Teams;
 
-namespace Snaelro.API.Teams.Output
+namespace Orleans.Tournament.API.Teams.Output
 {
     public class TeamResponse
     {

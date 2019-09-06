@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <AssemblyName>Snaelro.Domain.Abstractions</AssemblyName>
-        <RootNamespace>Snaelro.Domain.Abstractions</RootNamespace>
+        <AssemblyName>Orleans.Tournament.Domain.Abstractions</AssemblyName>
+        <RootNamespace>Orleans.Tournament.Domain.Abstractions</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 

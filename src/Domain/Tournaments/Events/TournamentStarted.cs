@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using Snaelro.Domain.Abstractions;
-using Snaelro.Domain.Tournaments.Commands;
+using Orleans.Tournament.Domain.Abstractions;
+using Orleans.Tournament.Domain.Tournaments.Commands;
 
-namespace Snaelro.Domain.Tournaments.Events
+namespace Orleans.Tournament.Domain.Tournaments.Events
 {
     public class TournamentStarted : ITraceable
     {

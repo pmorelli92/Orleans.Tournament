@@ -3,8 +3,8 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp2.1</TargetFramework>
-        <AssemblyName>Snaelro.Tests.WebSockets.Client</AssemblyName>
-        <RootNamespace>Snaelro.Tests.WebSockets.Client</RootNamespace>
+        <AssemblyName>Orleans.Tournament.Tests.WebSockets.Client</AssemblyName>
+        <RootNamespace>Orleans.Tournament.Tests.WebSockets.Client</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 

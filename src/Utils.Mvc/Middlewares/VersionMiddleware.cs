@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Snaelro.Utils.Mvc.Configuration;
+using Orleans.Tournament.Utils.Mvc.Configuration;
 
-namespace Snaelro.Utils.Mvc.Middlewares
+namespace Orleans.Tournament.Utils.Mvc.Middlewares
 {
     public class VersionMiddleware
     {

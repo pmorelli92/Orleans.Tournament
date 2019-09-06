@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Snaelro.Domain.Tournaments.ValueObject
+namespace Orleans.Tournament.Domain.Tournaments.ValueObject
 {
     public class MatchInfo
     {

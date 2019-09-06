@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
-using Snaelro.Utils.Mvc.Extensions;
+using Orleans.Tournament.Utils.Mvc.Extensions;
 
-namespace Snaelro.Utils.Mvc.Configuration
+namespace Orleans.Tournament.Utils.Mvc.Configuration
 {
     public class FromEnvironment
     {

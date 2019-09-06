@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Snaelro.Domain.Tournaments.ValueObject;
-using Snaelro.Projections.Teams;
-using Snaelro.Projections.Tournaments;
+using Orleans.Tournament.Domain.Tournaments.ValueObject;
+using Orleans.Tournament.Projections.Teams;
+using Orleans.Tournament.Projections.Tournaments;
 
-namespace Snaelro.API.Tournaments.Output
+namespace Orleans.Tournament.API.Tournaments.Output
 {
     public class TournamentResponse
     {

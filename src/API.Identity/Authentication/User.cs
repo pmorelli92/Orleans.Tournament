@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Immutable;
 
-namespace Snaelro.API.Identity.Authentication
+namespace Orleans.Tournament.API.Identity.Authentication
 {
     public class User
     {

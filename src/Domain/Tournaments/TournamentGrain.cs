@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using LanguageExt;
 using Microsoft.Extensions.Logging;
 using Orleans;
-using Snaelro.Domain.Abstractions;
-using Snaelro.Domain.Abstractions.Grains;
-using Snaelro.Domain.Snaelro.Domain;
-using Snaelro.Domain.Teams;
-using Snaelro.Domain.Tournaments.Commands;
-using Snaelro.Domain.Tournaments.Events;
-using Snaelro.Domain.Tournaments.ValueObject;
-using static Snaelro.Domain.Tournaments.TournamentRules;
+using Orleans.Tournament.Domain.Abstractions;
+using Orleans.Tournament.Domain.Abstractions.Grains;
+using Orleans.Tournament.Domain;
+using Orleans.Tournament.Domain.Teams;
+using Orleans.Tournament.Domain.Tournaments.Commands;
+using Orleans.Tournament.Domain.Tournaments.Events;
+using Orleans.Tournament.Domain.Tournaments.ValueObject;
+using static Orleans.Tournament.Domain.Tournaments.TournamentRules;
 
-namespace Snaelro.Domain.Tournaments
+namespace Orleans.Tournament.Domain.Tournaments
 {
     public class TournamentGrain : EventSourcedGrain<TournamentState>, ITournamentGrain
     {

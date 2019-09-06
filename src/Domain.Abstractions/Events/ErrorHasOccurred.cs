@@ -1,6 +1,6 @@
 using System;
 
-namespace Snaelro.Domain.Abstractions.Events
+namespace Orleans.Tournament.Domain.Abstractions.Events
 {
     public class ErrorHasOccurred : ITraceable
     {

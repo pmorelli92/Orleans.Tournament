@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using LanguageExt;
 using Orleans;
-using Snaelro.Domain.Tournaments.Commands;
+using Orleans.Tournament.Domain.Tournaments.Commands;
 
-namespace Snaelro.Domain.Tournaments
+namespace Orleans.Tournament.Domain.Tournaments
 {
     // Commands
     public partial interface ITournamentGrain : IGrainWithGuidKey

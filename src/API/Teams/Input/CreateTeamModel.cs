@@ -1,4 +1,4 @@
-namespace Snaelro.API.Teams.Input
+namespace Orleans.Tournament.API.Teams.Input
 {
     public class CreateTeamModel
     {

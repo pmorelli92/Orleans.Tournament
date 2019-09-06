@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <AssemblyName>Snaelro.Utils.Mvc</AssemblyName>
-        <RootNamespace>Snaelro.Utils.Mvc</RootNamespace>
+        <AssemblyName>Orleans.Tournament.Utils.Mvc</AssemblyName>
+        <RootNamespace>Orleans.Tournament.Utils.Mvc</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 

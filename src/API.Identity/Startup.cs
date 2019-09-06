@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Snaelro.API.Identity.Authentication;
-using Snaelro.Utils.Mvc.Configuration;
-using Snaelro.Utils.Mvc.Extensions;
+using Orleans.Tournament.API.Identity.Authentication;
+using Orleans.Tournament.Utils.Mvc.Configuration;
+using Orleans.Tournament.Utils.Mvc.Extensions;
 
-namespace Snaelro.API.Identity
+namespace Orleans.Tournament.API.Identity
 {
     public class Startup
     {

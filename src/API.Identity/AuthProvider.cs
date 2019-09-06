@@ -5,9 +5,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using JWTSimpleServer;
 using JWTSimpleServer.Abstractions;
-using Snaelro.API.Identity.Authentication;
+using Orleans.Tournament.API.Identity.Authentication;
 
-namespace Snaelro.API.Identity
+namespace Orleans.Tournament.API.Identity
 {
     public class AuthProvider : IAuthenticationProvider
     {

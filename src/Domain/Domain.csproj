@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <AssemblyName>Snaelro.Domain</AssemblyName>
-        <RootNamespace>Snaelro.Domain</RootNamespace>
+        <AssemblyName>Orleans.Tournament.Domain</AssemblyName>
+        <RootNamespace>Orleans.Tournament.Domain</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 

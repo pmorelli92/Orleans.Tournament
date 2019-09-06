@@ -4,10 +4,10 @@ using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
 using LanguageExt;
 using Orleans;
-using Snaelro.Domain.Teams;
-using Snaelro.Domain.Tournaments.ValueObject;
+using Orleans.Tournament.Domain.Teams;
+using Orleans.Tournament.Domain.Tournaments.ValueObject;
 
-namespace Snaelro.Domain.Tournaments
+namespace Orleans.Tournament.Domain.Tournaments
 {
     public static class TournamentRules
     {

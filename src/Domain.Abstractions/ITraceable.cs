@@ -1,6 +1,6 @@
 using System;
 
-namespace Snaelro.Domain.Abstractions
+namespace Orleans.Tournament.Domain.Abstractions
 {
     public interface ITraceable
     {

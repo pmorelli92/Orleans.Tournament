@@ -4,9 +4,9 @@ using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.EventSourcing;
 using Orleans.Streams;
-using Snaelro.Domain.Abstractions.Events;
+using Orleans.Tournament.Domain.Abstractions.Events;
 
-namespace Snaelro.Domain.Abstractions.Grains
+namespace Orleans.Tournament.Domain.Abstractions.Grains
 {
     public abstract class EventSourcedGrain<TState> : JournaledGrain<TState>
         where TState : class, new()

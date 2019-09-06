@@ -1,8 +1,8 @@
 using System;
-using Snaelro.Domain.Abstractions;
-using Snaelro.Domain.Tournaments.ValueObject;
+using Orleans.Tournament.Domain.Abstractions;
+using Orleans.Tournament.Domain.Tournaments.ValueObject;
 
-namespace Snaelro.Domain.Tournaments.Commands
+namespace Orleans.Tournament.Domain.Tournaments.Commands
 {
     public class SetMatchResult : ITraceable
     {

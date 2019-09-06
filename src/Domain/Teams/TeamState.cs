@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using LanguageExt;
 using Newtonsoft.Json;
-using Snaelro.Domain.Teams.Events;
+using Orleans.Tournament.Domain.Teams.Events;
 
-namespace Snaelro.Domain.Teams
+namespace Orleans.Tournament.Domain.Teams
 {
     public class TeamState
     {

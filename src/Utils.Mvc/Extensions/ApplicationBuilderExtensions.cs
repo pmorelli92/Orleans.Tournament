@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Builder;
-using Snaelro.Utils.Mvc.Middlewares;
+using Orleans.Tournament.Utils.Mvc.Middlewares;
 
-namespace Snaelro.Utils.Mvc.Extensions
+namespace Orleans.Tournament.Utils.Mvc.Extensions
 {
     public static class ApplicationBuilderExtensions
     {

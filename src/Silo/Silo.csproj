@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.1</TargetFramework>
-        <AssemblyName>Snaelro.Silo</AssemblyName>
-        <RootNamespace>Snaelro.Silo</RootNamespace>
+        <AssemblyName>Orleans.Tournament.Silo</AssemblyName>
+        <RootNamespace>Orleans.Tournament.Silo</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 

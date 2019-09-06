@@ -1,4 +1,4 @@
-namespace Snaelro.Domain
+namespace Orleans.Tournament.Domain
 {
     public enum BusinessErrors
     {

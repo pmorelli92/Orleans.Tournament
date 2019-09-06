@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
-using Snaelro.Utils.Mvc.Configuration;
-using Snaelro.Utils.Mvc.Extensions;
-using Snaelro.Utils.Mvc.Middlewares;
+using Orleans.Tournament.Utils.Mvc.Configuration;
+using Orleans.Tournament.Utils.Mvc.Extensions;
+using Orleans.Tournament.Utils.Mvc.Middlewares;
 
-namespace Snaelro.Silo.Dashboard
+namespace Orleans.Tournament.Silo.Dashboard
 {
     public class Startup
     {

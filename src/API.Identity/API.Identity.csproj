@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.1</TargetFramework>
-        <AssemblyName>Snaelro.API.Identity</AssemblyName>
-        <RootNamespace>Snaelro.API.Identity</RootNamespace>
+        <AssemblyName>Orleans.Tournament.API.Identity</AssemblyName>
+        <RootNamespace>Orleans.Tournament.API.Identity</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 

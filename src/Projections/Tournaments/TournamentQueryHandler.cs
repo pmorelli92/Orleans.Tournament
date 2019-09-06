@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Snaelro.Projections.Tournaments
+namespace Orleans.Tournament.Projections.Tournaments
 {
     public interface ITournamentQueryHandler
     {

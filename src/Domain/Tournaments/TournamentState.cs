@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel;
 using Newtonsoft.Json;
-using Snaelro.Domain.Tournaments.Events;
-using Snaelro.Domain.Tournaments.ValueObject;
+using Orleans.Tournament.Domain.Tournaments.Events;
+using Orleans.Tournament.Domain.Tournaments.ValueObject;
 
-namespace Snaelro.Domain.Tournaments
+namespace Orleans.Tournament.Domain.Tournaments
 {
     public class TournamentState
     {

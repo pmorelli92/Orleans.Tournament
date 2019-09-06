@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Newtonsoft.Json;
-using Snaelro.Domain.Tournaments.ValueObject;
-using Snaelro.Projections.Teams;
+using Orleans.Tournament.Domain.Tournaments.ValueObject;
+using Orleans.Tournament.Projections.Teams;
 
-namespace Snaelro.Projections.Tournaments
+namespace Orleans.Tournament.Projections.Tournaments
 {
     public class TournamentProjection
     {

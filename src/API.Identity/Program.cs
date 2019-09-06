@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Snaelro.API.Identity
+namespace Orleans.Tournament.API.Identity
 {
     public class Program
     {

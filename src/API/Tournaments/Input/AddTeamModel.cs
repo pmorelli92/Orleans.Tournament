@@ -1,6 +1,6 @@
 using System;
 
-namespace Snaelro.API.Tournaments.Input
+namespace Orleans.Tournament.API.Tournaments.Input
 {
     public class AddTeamModel
     {

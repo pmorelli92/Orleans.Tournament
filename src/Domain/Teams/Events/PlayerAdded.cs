@@ -1,8 +1,8 @@
 using System;
-using Snaelro.Domain.Abstractions;
-using Snaelro.Domain.Teams.Commands;
+using Orleans.Tournament.Domain.Abstractions;
+using Orleans.Tournament.Domain.Teams.Commands;
 
-namespace Snaelro.Domain.Teams.Events
+namespace Orleans.Tournament.Domain.Teams.Events
 {
     public class PlayerAdded : ITraceable
     {

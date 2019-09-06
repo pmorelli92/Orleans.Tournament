@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using Newtonsoft.Json;
 
-namespace Snaelro.Projections.Teams
+namespace Orleans.Tournament.Projections.Teams
 {
     public class TeamProjection
     {

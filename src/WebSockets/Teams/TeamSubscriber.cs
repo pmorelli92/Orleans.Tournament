@@ -2,11 +2,11 @@
 using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Streams;
-using Snaelro.Domain.Abstractions;
-using Snaelro.Domain.Abstractions.Grains;
-using Snaelro.Domain.Snaelro.Domain;
+using Orleans.Tournament.Domain;
+using Orleans.Tournament.Domain.Abstractions;
+using Orleans.Tournament.Domain.Abstractions.Grains;
 
-namespace Snaelro.WebSockets.Teams
+namespace Orleans.Tournament.WebSockets.Teams
 {
     [ImplicitStreamSubscription(Constants.StreamNamespace)]
     public class TeamSubscriber : SubscriberGrain

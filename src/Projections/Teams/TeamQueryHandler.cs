@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Snaelro.Projections.Teams
+namespace Orleans.Tournament.Projections.Teams
 {
     public interface ITeamQueryHandler
     {

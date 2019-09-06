@@ -1,4 +1,4 @@
-namespace Snaelro.Projections
+namespace Orleans.Tournament.Projections
 {
     public class PostgresOptions
     {

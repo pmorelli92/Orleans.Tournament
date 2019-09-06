@@ -1,4 +1,10 @@
-## Snaelro
+## Orleans Tournament
+
+### Work in progress
+
+- [ ] Migrate domain layer to F#
+- [ ] Update .NET Core to 3.0 and Orleans to 3.0
+- [ ] Use new features of Orleans and simplify code
 
 ### Architectural Scope
 

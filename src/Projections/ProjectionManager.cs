@@ -5,7 +5,7 @@ using Dapper;
 using Newtonsoft.Json;
 using Npgsql;
 
-namespace Snaelro.Projections
+namespace Orleans.Tournament.Projections
 {
     public class ProjectionManager<T>
     {

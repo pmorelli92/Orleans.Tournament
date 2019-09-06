@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Snaelro.Tests.WebSockets.Client
+namespace Orleans.Tournament.Tests.WebSockets.Client
 {
     public class Program
     {

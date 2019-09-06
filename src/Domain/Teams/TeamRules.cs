@@ -1,6 +1,6 @@
 using LanguageExt;
 
-namespace Snaelro.Domain.Teams
+namespace Orleans.Tournament.Domain.Teams
 {
     public static class TeamRules
     {

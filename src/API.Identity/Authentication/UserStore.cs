@@ -8,7 +8,7 @@ using Dapper;
 using LanguageExt;
 using Npgsql;
 
-namespace Snaelro.API.Identity.Authentication
+namespace Orleans.Tournament.API.Identity.Authentication
 {
     public interface IUserStore
     {

@@ -1,4 +1,4 @@
-namespace Snaelro.WebSockets
+namespace Orleans.Tournament.WebSockets
 {
     public class WebSocketMessage
     {

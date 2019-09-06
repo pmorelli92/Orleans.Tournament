@@ -13,9 +13,9 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Orleans;
 using Orleans.Streams;
-using Snaelro.Domain.Snaelro.Domain;
+using Orleans.Tournament.Domain;
 
-namespace Snaelro.API.Middlewares
+namespace Orleans.Tournament.API.Middlewares
 {
     public class WebSocketPubSubMiddleware
     {

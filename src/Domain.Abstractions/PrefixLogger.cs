@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Internal;
 
-namespace Snaelro.Domain.Abstractions
+namespace Orleans.Tournament.Domain.Abstractions
 {
     public class PrefixLogger : ILogger
     {

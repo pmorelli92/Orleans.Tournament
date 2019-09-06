@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Snaelro.Utils.Mvc.Responses;
+using Orleans.Tournament.Utils.Mvc.Responses;
 
-namespace Snaelro.API.Identity.Authentication
+namespace Orleans.Tournament.API.Identity.Authentication
 {
     public class UserController : ControllerBase
     {

@@ -1,10 +1,10 @@
 using System;
-using Snaelro.Domain.Abstractions;
-using Snaelro.Domain.Teams.Commands;
-using Snaelro.Domain.Teams.Events;
-using Snaelro.Domain.Tournaments.Commands;
+using Orleans.Tournament.Domain.Abstractions;
+using Orleans.Tournament.Domain.Teams.Commands;
+using Orleans.Tournament.Domain.Teams.Events;
+using Orleans.Tournament.Domain.Tournaments.Commands;
 
-namespace Snaelro.Domain.Tournaments.Events
+namespace Orleans.Tournament.Domain.Tournaments.Events
 {
     public class TeamAdded : ITraceable
     {

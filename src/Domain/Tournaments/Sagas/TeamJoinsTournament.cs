@@ -2,14 +2,14 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Streams;
-using Snaelro.Domain.Abstractions;
-using Snaelro.Domain.Abstractions.Grains;
-using Snaelro.Domain.Snaelro.Domain;
-using Snaelro.Domain.Teams;
-using Snaelro.Domain.Teams.Commands;
-using Snaelro.Domain.Tournaments.Events;
+using Orleans.Tournament.Domain.Abstractions;
+using Orleans.Tournament.Domain.Abstractions.Grains;
+using Orleans.Tournament.Domain;
+using Orleans.Tournament.Domain.Teams;
+using Orleans.Tournament.Domain.Teams.Commands;
+using Orleans.Tournament.Domain.Tournaments.Events;
 
-namespace Snaelro.Domain.Tournaments.Sagas
+namespace Orleans.Tournament.Domain.Tournaments.Sagas
 {
     [ImplicitStreamSubscription(Constants.StreamNamespace)]
     public class TeamJoinsTournament : SubscriberGrain

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 
-namespace Snaelro.Utils.Mvc.Extensions
+namespace Orleans.Tournament.Utils.Mvc.Extensions
 {
     internal static class ConfigurationExtensions
     {

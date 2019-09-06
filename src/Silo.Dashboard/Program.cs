@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Orleans;
-using Snaelro.Utils.Mvc.Middlewares;
+using Orleans.Tournament.Utils.Mvc.Middlewares;
 
-namespace Snaelro.Silo.Dashboard
+namespace Orleans.Tournament.Silo.Dashboard
 {
     public class Program
     {

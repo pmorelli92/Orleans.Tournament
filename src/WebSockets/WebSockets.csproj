@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <AssemblyName>Snaelro.WebSockets</AssemblyName>
-        <RootNamespace>Snaelro.WebSockets</RootNamespace>
+        <AssemblyName>Orleans.Tournament.WebSockets</AssemblyName>
+        <RootNamespace>Orleans.Tournament.WebSockets</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orleans;
-using Snaelro.API.Teams.Input;
-using Snaelro.API.Teams.Output;
-using Snaelro.Domain.Teams;
-using Snaelro.Domain.Teams.Commands;
-using Snaelro.Projections.Teams;
-using Snaelro.Utils.Mvc.Responses;
+using Orleans.Tournament.API.Teams.Input;
+using Orleans.Tournament.API.Teams.Output;
+using Orleans.Tournament.Domain.Teams;
+using Orleans.Tournament.Domain.Teams.Commands;
+using Orleans.Tournament.Projections.Teams;
+using Orleans.Tournament.Utils.Mvc.Responses;
 
-namespace Snaelro.API.Teams.Controllers
+namespace Orleans.Tournament.API.Teams.Controllers
 {
     public class TeamController : ControllerBase
     {

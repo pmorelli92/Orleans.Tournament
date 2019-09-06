@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.1</TargetFramework>
-        <AssemblyName>Snaelro.Silo.Dashboard</AssemblyName>
-        <RootNamespace>Snaelro.Silo.Dashboard</RootNamespace>
+        <AssemblyName>Orleans.Tournament.Silo.Dashboard</AssemblyName>
+        <RootNamespace>Orleans.Tournament.Silo.Dashboard</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
@@ -20,7 +20,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Utils.Mvc\Utils.Mvc.csproj" />
     </ItemGroup>
-    
+
     <ItemGroup>
         <None Remove="OrleansAdoNetContent\**" />
     </ItemGroup>

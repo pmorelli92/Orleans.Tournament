@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orleans;
-using Snaelro.API.Tournaments.Input;
-using Snaelro.API.Tournaments.Output;
-using Snaelro.Domain.Tournaments;
-using Snaelro.Domain.Tournaments.Commands;
-using Snaelro.Domain.Tournaments.ValueObject;
-using Snaelro.Projections.Tournaments;
-using Snaelro.Utils.Mvc.Responses;
+using Orleans.Tournament.API.Tournaments.Input;
+using Orleans.Tournament.API.Tournaments.Output;
+using Orleans.Tournament.Domain.Tournaments;
+using Orleans.Tournament.Domain.Tournaments.Commands;
+using Orleans.Tournament.Domain.Tournaments.ValueObject;
+using Orleans.Tournament.Projections.Tournaments;
+using Orleans.Tournament.Utils.Mvc.Responses;
 
-namespace Snaelro.API.Tournaments.Controllers
+namespace Orleans.Tournament.API.Tournaments.Controllers
 {
     public class TournamentController : ControllerBase
     {

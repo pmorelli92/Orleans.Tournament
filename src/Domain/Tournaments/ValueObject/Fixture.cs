@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace Snaelro.Domain.Tournaments.ValueObject
+namespace Orleans.Tournament.Domain.Tournaments.ValueObject
 {
     public class Fixture
     {
