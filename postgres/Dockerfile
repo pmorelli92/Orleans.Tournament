@@ -9,5 +9,5 @@ ENV POSTGRES_PASSWORD="dbpassword"
 ENV POSTGRES_USER="dbuser"
 ENV POSTGRES_DB="orleans-tournament"
 
-## Local build, use from postgres folder of the repository
-# eval $(minikube docker-env) && docker build -t ot-postgres:local -f Dockerfile .
+## Local build, use from root folder of the repository
+# eval $(minikube docker-env) && docker build -t ot-postgres:local -f postgres/Dockerfile postgres/

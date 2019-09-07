@@ -9,6 +9,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_misc", "_misc", "{DA678CE1-A6E5-4F52-9486-10C1EEE2888D}"
 ProjectSection(SolutionItems) = preProject
 	readme.md = readme.md
+	Makefile = Makefile
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain.csproj", "{81EF92ED-DAE5-48BA-AE7B-57E6D2F92F99}"
