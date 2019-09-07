@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Orleans.Tournament.Utils.Mvc.Configuration;
@@ -22,8 +21,11 @@ namespace Orleans.Tournament.Silo.Dashboard
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var clusterClient = CreateClient();
+
             services
-                .AddSingleton(CreateClient())
+                .AddSingleton(clusterClient)
+                .AddSingleton((IGrainFactory)clusterClient)
                 .AddSingleton(AppStopper.New)
                 .AddSingleton(_fromEnvironment);
 
