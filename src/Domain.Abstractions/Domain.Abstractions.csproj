@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Orleans.EventSourcing" Version="2.1.0-rc2" />
-        <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="2.1.0-rc2" />
+        <PackageReference Include="Microsoft.Orleans.EventSourcing" Version="2.4.2" />
+        <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="2.4.2" />
     </ItemGroup>
 
 </Project>

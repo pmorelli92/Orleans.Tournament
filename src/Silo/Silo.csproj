@@ -1,20 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
         <AssemblyName>Orleans.Tournament.Silo</AssemblyName>
         <RootNamespace>Orleans.Tournament.Silo</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Npgsql" Version="4.0.3" />
+        <PackageReference Include="Npgsql" Version="4.0.9" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Microsoft.Orleans.Server" Version="2.1.0-rc2" />
-        <PackageReference Include="Microsoft.Orleans.EventSourcing" Version="2.1.0-rc2" />
-        <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="2.0.0" />
-        <PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="2.1.0-rc2" />
-        <PackageReference Include="OrleansDashboard" Version="2.0.9" />
+        <PackageReference Include="Microsoft.Orleans.Server" Version="2.4.2" />
+        <PackageReference Include="Microsoft.Orleans.EventSourcing" Version="2.4.2" />
+        <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="2.4.2" />
+        <PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="2.4.2" />
+        <PackageReference Include="Microsoft.Orleans.OrleansTelemetryConsumers.Linux" Version="2.4.2" />
+        <PackageReference Include="OrleansDashboard" Version="2.4.5" />
     </ItemGroup>
 
     <ItemGroup>

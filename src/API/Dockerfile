@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.1-alpine3.9 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine3.9 AS build
 
 COPY src/API/API.csproj src/API/API.csproj
 COPY src/Domain/Domain.csproj src/Domain/Domain.csproj
@@ -18,7 +18,7 @@ COPY src/WebSockets/ src/WebSockets/
 
 RUN dotnet publish src/API -o out -c Release
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-alpine3.9
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-alpine3.9
 COPY --from=build /src/API/out /app
 WORKDIR /app
 ENTRYPOINT ["dotnet", "Orleans.Tournament.API.dll"]

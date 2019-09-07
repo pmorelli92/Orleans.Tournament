@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
+using Orleans.Statistics;
 using Orleans.Tournament.Domain;
 using Orleans.Tournament.Projections;
 using Orleans.Tournament.Projections.Teams;
@@ -68,6 +69,7 @@ namespace Orleans.Tournament.Silo
                 .AddSimpleMessageStreamProvider(Constants.TournamentStream)
                 .ConfigureLogging(logging => logging.AddConsole())
                 .ConfigureServices(OrleansDependencyInjection)
+                .UseLinuxEnvironmentStatistics()
                 .UseDashboard(options =>
                 {
                     options.HostSelf = false;

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.1-alpine3.9 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine3.9 AS build
 
 COPY src/Silo/Silo.csproj src/Silo/Silo.csproj
 COPY src/Domain/Domain.csproj src/Domain/Domain.csproj
@@ -18,7 +18,7 @@ COPY src/WebSockets/ src/WebSockets/
 
 RUN dotnet publish src/Silo -o out -c Release
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-alpine3.9
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-alpine3.9
 COPY --from=build /src/Silo/out /app
 WORKDIR /app
 ENTRYPOINT ["dotnet", "Orleans.Tournament.Silo.dll"]
