@@ -18,11 +18,8 @@ COPY src/WebSockets/ src/WebSockets/
 
 RUN dotnet publish src/API -o out -c Release
 
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.1-alpine3.9
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-alpine3.9
 COPY --from=build /src/API/out /app
 WORKDIR /app
 ENTRYPOINT ["dotnet", "Orleans.Tournament.API.dll"]
 EXPOSE 7003
-
-## Local build, use from root folder of the repository
-# eval $(minikube docker-env) && docker build -t ot-api:local -f src/API/Dockerfile .

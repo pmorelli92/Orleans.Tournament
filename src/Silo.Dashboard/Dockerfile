@@ -10,11 +10,8 @@ COPY src/Utils.Mvc/ src/Utils.Mvc/
 
 RUN dotnet publish src/Silo.Dashboard -o out -c Release
 
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.1-alpine3.9
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-alpine3.9
 COPY --from=build /src/Silo.Dashboard/out /app
 WORKDIR /app
 ENTRYPOINT ["dotnet", "Orleans.Tournament.Silo.Dashboard.dll"]
 EXPOSE 7002
-
-## Local build, use from root folder of the repository
-# eval $(minikube docker-env) && docker build -t ot-silo-dashboard:local -f src/Silo.Dashboard/Dockerfile .

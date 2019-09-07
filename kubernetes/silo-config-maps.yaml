@@ -21,6 +21,3 @@ data:
   CLUSTER_ID: Local
   SERVICE_ID: Orleans-Tournament
   BUILD_VERSION: 0.0.1
-
-##Create secrets
-##kubectl create secret generic postgres-connection --from-literal=value="Server=192.168.99.100;Port=30700;User Id=dbuser;Password=dbpassword;Database=orleans-tournament"

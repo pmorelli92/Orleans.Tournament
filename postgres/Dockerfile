@@ -8,6 +8,3 @@ COPY /05_auth_schema.sql /docker-entrypoint-initdb.d/05.sql
 ENV POSTGRES_PASSWORD="dbpassword"
 ENV POSTGRES_USER="dbuser"
 ENV POSTGRES_DB="orleans-tournament"
-
-## Local build, use from root folder of the repository
-# eval $(minikube docker-env) && docker build -t ot-postgres:local -f postgres/Dockerfile postgres/
