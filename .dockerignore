@@ -1,7 +1,7 @@
-[Bb]in/
-[Oo]bj/
-out/
-TestResults/
+**/bin
+**/obj
+**/out
+**/TestResults
 .git
 .gitignore
 .idea/
@@ -10,7 +10,7 @@ TestResults/
 postgres/
 .md
 tests/
-OrleansAdoNetContent/
+**/OrleansAdoNetContent/
 kubernetes/
 LICENSE
-wwwroot/
+**/wwwroot/
