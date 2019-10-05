@@ -1,10 +1,8 @@
 namespace Orleans.Tournament.Domain.Teams
-open Constants
 open Microsoft.Extensions.Logging
+open Orleans.Tournament.Domain.Helpers
 open Orleans.Tournament.Domain.Abstractions
 open Orleans.Tournament.Domain.Abstractions.Grains
-open Orleans.Tournament.Domain.Teams.Commands
-open Orleans.Tournament.Domain.Teams.Events
 open System.Threading.Tasks
 open Orleans
 
@@ -19,7 +17,7 @@ type ITeamGrain =
 
 type TeamGrain(logger : ILogger<TeamGrain>) =
     inherit EventSourcedGrain<TeamState>(
-        new StreamOptions(Constants.TeamStream, Constants.StreamNamespace),
+        new StreamOptions(TeamStream, StreamNamespace),
         new PrefixLogger(logger, "[Team][Grain]"))
 
     interface ITeamGrain with

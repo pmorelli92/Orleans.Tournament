@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using LanguageExt.UnitsOfMeasure;
 using Orleans.Tournament.Projections.Teams;
 
 namespace Orleans.Tournament.API.Teams.Output

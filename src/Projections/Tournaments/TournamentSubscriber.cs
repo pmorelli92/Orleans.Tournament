@@ -1,13 +1,11 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Orleans;
 using Orleans.Streams;
 using Orleans.Tournament.Domain.Abstractions;
 using Orleans.Tournament.Domain.Abstractions.Grains;
-using Orleans.Tournament.Domain;
-using Orleans.Tournament.Domain.Tournaments.Events;
-using Orleans.Tournament.Domain.Tournaments.ValueObject;
+using Orleans.Tournament.Domain.Tournaments;
 using Orleans.Tournament.Projections.Teams;
+using Constants = Orleans.Tournament.Domain.Helpers;
 
 namespace Orleans.Tournament.Projections.Tournaments
 {
@@ -43,9 +41,6 @@ namespace Orleans.Tournament.Projections.Tournaments
                     await Handle(obj);
                     break;
                 case MatchResultSet obj:
-                    await Handle(obj);
-                    break;
-                case NextPhaseStarted obj:
                     await Handle(obj);
                     break;
                 default:
@@ -84,14 +79,7 @@ namespace Orleans.Tournament.Projections.Tournaments
         private async Task Handle(MatchResultSet evt)
         {
             var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
-            projection.Fixture.SetMatchResult(evt.MatchResult);
-            await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
-        }
-
-        private async Task Handle(NextPhaseStarted evt)
-        {
-            var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
-            projection.Fixture.StartNextPhase();
+            projection.Fixture.SetMatchResult(evt.MatchInfo);
             await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
         }
     }

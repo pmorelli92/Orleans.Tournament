@@ -1,18 +1,19 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Orleans.CodeGeneration;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Orleans.Statistics;
-using Orleans.Tournament.Domain;
 using Orleans.Tournament.Projections;
 using Orleans.Tournament.Projections.Teams;
 using Orleans.Tournament.Projections.Tournaments;
 using Orleans.Tournament.Utils.Mvc.Configuration;
 using Orleans.Tournament.Utils.Mvc.Extensions;
 using Orleans.Tournament.Utils.Mvc.Middlewares;
+using Constants = Orleans.Tournament.Domain.Helpers;
+[assembly: KnownAssembly(typeof(Orleans.Tournament.Domain.Helpers))]
 
 namespace Orleans.Tournament.Silo
 {
@@ -58,7 +59,7 @@ namespace Orleans.Tournament.Silo
                 {
                     opt.Invariant = _fromEnvironment.PostgresInvariant;
                     opt.ConnectionString = _fromEnvironment.PostgresConnection;
-                    //opt.UseJsonFormat = true; // Just for debug
+                    opt.UseJsonFormat = true; // Just for debug
                 })
                 .AddLogStorageBasedLogConsistencyProviderAsDefault()
                 .ConfigureEndpoints(_fromEnvironment.SiloPort, _fromEnvironment.GatewayPort)

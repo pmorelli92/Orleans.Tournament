@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Orleans.Tournament.API.Middlewares;
@@ -13,6 +12,8 @@ using Orleans.Tournament.Utils.Mvc.Extensions;
 using Orleans.Tournament.Utils.Mvc.Middlewares;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Orleans.CodeGeneration;
+[assembly: KnownAssembly(typeof(Orleans.Tournament.Domain.Helpers))]
 
 namespace Orleans.Tournament.API
 {

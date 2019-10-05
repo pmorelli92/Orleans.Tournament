@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Orleans;
 using Orleans.EventSourcing;
 using Orleans.Streams;
 using Orleans.Tournament.Domain.Abstractions.Events;

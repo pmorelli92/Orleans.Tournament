@@ -1,8 +1,6 @@
-
-namespace Orleans.Tournament.Domain.Teams.Events
+namespace Orleans.Tournament.Domain.Teams
 open System
 open Orleans.Tournament.Domain.Abstractions
-open Orleans.Tournament.Domain.Teams.Commands
 
 type PlayerAdded =
     { Name:string
@@ -13,11 +11,11 @@ type PlayerAdded =
         member x.TraceId = x.TraceId
         member x.InvokerUserId = x.InvokerUserId
 
-    static member From (addPlayer : AddPlayer) =
-    { Name = addPlayer.Name;
-      TeamId = addPlayer.TeamId;
-      TraceId = addPlayer.TraceId;
-      InvokerUserId = addPlayer.TraceId }
+    static member From (cmd : AddPlayer) =
+        { Name = cmd.Name;
+          TeamId = cmd.TeamId;
+          TraceId = cmd.TraceId;
+          InvokerUserId = cmd.TraceId }
 
 type TeamCreated =
     { Name:string
@@ -28,11 +26,11 @@ type TeamCreated =
         member x.TraceId = x.TraceId
         member x.InvokerUserId = x.InvokerUserId
 
-    static member From (createTeam : CreateTeam) =
-        { Name = createTeam.Name;
-          TeamId = createTeam.TeamId;
-          TraceId = createTeam.TraceId;
-          InvokerUserId = createTeam.TraceId }
+    static member From (cmd : CreateTeam) =
+        { Name = cmd.Name;
+          TeamId = cmd.TeamId;
+          TraceId = cmd.TraceId;
+          InvokerUserId = cmd.TraceId }
 
 type TournamentJoined =
     { TeamId:Guid
@@ -43,8 +41,8 @@ type TournamentJoined =
         member x.TraceId = x.TraceId
         member x.InvokerUserId = x.InvokerUserId
 
-    static member From (joinTournament : JoinTournament) =
-    { TeamId = joinTournament.TeamId;
-      TournamentId = joinTournament.TournamentId;
-      TraceId = joinTournament.TraceId;
-      InvokerUserId = joinTournament.TraceId }
+    static member From (cmd : JoinTournament) =
+        { TeamId = cmd.TeamId;
+          TournamentId = cmd.TournamentId;
+          TraceId = cmd.TraceId;
+          InvokerUserId = cmd.TraceId }

@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Orleans.Tournament.Domain.Tournaments.ValueObject;
-using Orleans.Tournament.Projections.Teams;
+using Orleans.Tournament.Domain.Tournaments;
 using Orleans.Tournament.Projections.Tournaments;
 
 namespace Orleans.Tournament.API.Tournaments.Output

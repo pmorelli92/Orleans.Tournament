@@ -1,7 +1,10 @@
-module Constants
+module Orleans.Tournament.Domain.Helpers
 
+[<Literal>]
 let StreamNamespace = "Application";
+[<Literal>]
 let TeamStream = "Team-Stream";
+[<Literal>]
 let TournamentStream = "Tournament-Stream";
 
 type BusinessErrors =
@@ -19,3 +22,9 @@ type BusinessErrors =
     | NotAllMatchesPlayed = 12
     | TournamentAlreadyOnFinals = 13
     | TournamentAlreadyStarted = 14
+
+let (<&>) (f1 : Result<unit, BusinessErrors>) (f2 : Result<unit, BusinessErrors>) =
+  match f1, f2 with
+  | Error e1, _ -> Error e1
+  | _, Error e2 -> Error e2
+  | Ok _, Ok _ -> Ok ()

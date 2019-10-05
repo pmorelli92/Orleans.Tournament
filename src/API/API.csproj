@@ -14,10 +14,11 @@
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.Orleans.Client" Version="2.4.2" />
         <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="2.4.2" />
+        <PackageReference Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="2.4.2" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Domain\Domain.csproj" />
+        <ProjectReference Include="..\DomainF\DomainF.fsproj" />
         <ProjectReference Include="..\Projections\Projections.csproj" />
         <ProjectReference Include="..\WebSockets\WebSockets.csproj" />
         <ProjectReference Include="..\Utils.Mvc\Utils.Mvc.csproj" />

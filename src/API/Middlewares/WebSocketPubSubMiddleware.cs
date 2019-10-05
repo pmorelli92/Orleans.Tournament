@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using Orleans;
 using Orleans.Streams;
 using Orleans.Tournament.Domain;
+using Constants = Orleans.Tournament.Domain.Helpers;
 
 namespace Orleans.Tournament.API.Middlewares
 {

@@ -1,4 +1,4 @@
-namespace Orleans.Tournament.Domain.Teams.Commands
+namespace Orleans.Tournament.Domain.Teams
 open System
 open Orleans.Tournament.Domain.Abstractions
 
@@ -16,7 +16,7 @@ type CreateTeam =
       TeamId:Guid
       TraceId:Guid
       InvokerUserId:Guid }
-        interface ITraceable with
+    interface ITraceable with
         member x.TraceId = x.TraceId
         member x.InvokerUserId = x.InvokerUserId
 
@@ -25,6 +25,6 @@ type JoinTournament =
       TournamentId:Guid
       TraceId:Guid
       InvokerUserId:Guid }
-        interface ITraceable with
+    interface ITraceable with
         member x.TraceId = x.TraceId
         member x.InvokerUserId = x.InvokerUserId

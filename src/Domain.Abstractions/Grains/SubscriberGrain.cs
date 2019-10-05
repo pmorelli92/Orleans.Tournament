@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Orleans;
 using Orleans.Streams;
 
 namespace Orleans.Tournament.Domain.Abstractions.Grains
@@ -31,7 +30,7 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
             await base.OnActivateAsync();
         }
 
-        public async Task OnNextAsync(object evt, StreamSequenceToken token = null)
+        public async Task OnNextAsync(object evt, StreamSequenceToken token)
         {
             await HandleAsync(evt, token);
 
@@ -39,6 +38,6 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
                 "handled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
         }
 
-        public abstract Task HandleAsync(object evt, StreamSequenceToken token = null);
+        public abstract Task HandleAsync(object evt, StreamSequenceToken token);
     }
 }
