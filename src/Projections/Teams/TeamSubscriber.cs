@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Orleans.Streams;
 using Orleans.Tournament.Domain.Abstractions;
+using Orleans.Tournament.Domain.Abstractions.Events;
 using Orleans.Tournament.Domain.Abstractions.Grains;
 using Orleans.Tournament.Domain.Teams;
 using Orleans.Tournament.Projections.Tournaments;
@@ -27,45 +28,50 @@ namespace Orleans.Tournament.Projections.Teams
             _projectionManager = new ProjectionManager<TeamProjection>("read", "team_projection", postgresOptions);
         }
 
-        public override async Task HandleAsync(object evt, StreamSequenceToken token = null)
+        public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token = null)
         {
             switch (evt)
             {
                 case TeamCreated obj:
-                    await Handle(obj);
-                    break;
+                    return await Handle(obj);
                 case PlayerAdded obj:
-                    await Handle(obj);
-                    break;
+                    return await Handle(obj);
                 case TournamentJoined obj:
-                    await Handle(obj);
-                    break;
+                    return await Handle(obj);
+                case ErrorHasOccurred _:
+                    return true;
                 default:
                     PrefixLogger.LogError(
                         "unhandled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
-                    break;
+                    return false;
             }
         }
 
-        private async Task Handle(TeamCreated evt)
+        private async Task<bool> Handle(TeamCreated evt)
         {
             var projection = TeamProjection.New.SetName(evt.TeamId, evt.Name);
             await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
+
+            return true;
         }
 
-        private async Task Handle(PlayerAdded evt)
+        private async Task<bool> Handle(PlayerAdded evt)
         {
             var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
             await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection.AddPlayer(evt.Name));
+
+            return true;
         }
 
-        private async Task Handle(TournamentJoined evt)
+        private async Task<bool> Handle(TournamentJoined evt)
         {
             var tournament = await _tournamentQueryHandler.GetTournamentAsync(evt.TournamentId);
             var tournamentObj = new TeamProjection.Tournament(tournament.Id, tournament.Name);
 
             var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
             await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection.JoinTournament(tournamentObj));
+
+            return true;
         }
     }
 }

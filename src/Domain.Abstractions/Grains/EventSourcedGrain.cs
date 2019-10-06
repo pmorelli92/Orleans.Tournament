@@ -11,6 +11,7 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
         where TState : class, new()
     {
         private IAsyncStream<object> _stream;
+
         private readonly StreamOptions _streamOpt;
         protected readonly PrefixLogger PrefixLogger;
 

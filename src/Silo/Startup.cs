@@ -59,7 +59,7 @@ namespace Orleans.Tournament.Silo
                 {
                     opt.Invariant = _fromEnvironment.PostgresInvariant;
                     opt.ConnectionString = _fromEnvironment.PostgresConnection;
-                    opt.UseJsonFormat = true; // Just for debug
+                    //opt.UseJsonFormat = true; // TODO: After restart this does not apply the events
                 })
                 .AddLogStorageBasedLogConsistencyProviderAsDefault()
                 .ConfigureEndpoints(_fromEnvironment.SiloPort, _fromEnvironment.GatewayPort)

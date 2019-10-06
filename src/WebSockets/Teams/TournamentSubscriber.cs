@@ -17,7 +17,7 @@ namespace Orleans.Tournament.WebSockets.Teams
         {
         }
 
-        public override async Task HandleAsync(object evt, StreamSequenceToken token = null)
+        public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token = null)
         {
             if (evt is ITraceable obj)
             {
@@ -25,9 +25,8 @@ namespace Orleans.Tournament.WebSockets.Teams
                 var stream = streamToPublish.GetStream<object>(obj.InvokerUserId, Constants.StreamNamespace);
                 await stream.OnNextAsync(new WebSocketMessage(evt.GetType().Name, evt));
             }
-            else
-                PrefixLogger.LogError(
-                    "unhandled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
+
+            return true;
         }
     }
 }

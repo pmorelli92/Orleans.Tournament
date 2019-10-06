@@ -63,9 +63,12 @@ let MatchExistsAndIsNotPlayed (state : TournamentState) matchInfo =
         | None -> Error BusinessErrors.MatchDoesNotExist
     | None -> Error BusinessErrors.TournamentIsNotStarted
 
-let MatchIsNotDraw (matchSummary : MatchSummary) =
-    if matchSummary.LocalGoals = matchSummary.AwayGoals then true
-    else false
+let MatchIsNotDraw (matchSummary : MatchSummary option) =
+    match matchSummary with
+    | Some ms ->
+        if ms.LocalGoals <> ms.AwayGoals then Ok ()
+        else Error BusinessErrors.DrawResultIsNotAllowed
+    | None -> Error BusinessErrors.DrawResultIsNotAllowed
 
 
 

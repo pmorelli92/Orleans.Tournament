@@ -10,6 +10,8 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
 
     public abstract class SubscriberGrain : Grain, ISubscriber
     {
+        private StreamSubscriptionHandle<object> _subscription;
+
         private readonly StreamOptions _streamOpt;
         protected readonly PrefixLogger PrefixLogger;
 
@@ -26,19 +28,25 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
             var guid = this.GetPrimaryKey();
             var streamProvider = GetStreamProvider(_streamOpt.Name);
             var stream = streamProvider.GetStream<object>(guid, _streamOpt.Namespace);
-            await stream.SubscribeAsync(OnNextAsync);
+            _subscription = await stream.SubscribeAsync(OnNextAsync);
             await base.OnActivateAsync();
+        }
+
+        public override Task OnDeactivateAsync()
+        {
+            _subscription.UnsubscribeAsync();
+            return base.OnDeactivateAsync();
         }
 
         public async Task OnNextAsync(object evt, StreamSequenceToken token)
         {
-            await HandleAsync(evt, token);
+            var handled = await HandleAsync(evt, token);
 
-            // TODO: Do we always want to log the events if the subscriber is not acting on it (for example Tournament Saga)
-            PrefixLogger.LogInformation(
+            if (handled)
+                PrefixLogger.LogInformation(
                 "handled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
         }
 
-        public abstract Task HandleAsync(object evt, StreamSequenceToken token);
+        public abstract Task<bool> HandleAsync(object evt, StreamSequenceToken token);
     }
 }

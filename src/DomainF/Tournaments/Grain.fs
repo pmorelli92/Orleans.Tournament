@@ -35,18 +35,29 @@ type TournamentGrain(logger : ILogger<TournamentGrain>) =
             let task = Task.Run(fun _ -> teamGrain.TeamExistAsync().Result)
 
             match
-                Rules.TournamentExists(x.State) <&>
-                Rules.TeamExistsForward(task.Result) <&>
+                Rules.TournamentExists x.State <&>
+                Rules.TeamExistsForward task.Result <&>
                 Rules.TeamIsNotAdded x.State cmd.TeamId <&>
                 Rules.LessThanEightTeams x.State with
               | Ok _ -> x.PersistPublishAsync (TeamAdded.From cmd)
               | Error error -> x.EmitErrorAsync error cmd
 
         member x.StartAsync cmd =
-            Task.CompletedTask
+            match
+                Rules.TournamentExists x.State <&>
+                Rules.TournamentIsNotStarted x.State <&>
+                Rules.EightTeamsToStartTournament x.State with
+              | Ok _ -> x.PersistPublishAsync (TournamentStarted.From cmd x.State.Teams )
+              | Error error -> x.EmitErrorAsync error cmd
 
         member x.SetMatchResultAsync cmd =
-            Task.CompletedTask;
+            match
+                Rules.TournamentExists x.State <&>
+                Rules.TournamentIsStarted x.State <&>
+                Rules.MatchIsNotDraw cmd.MatchInfo.MatchSummary <&>
+                Rules.MatchExistsAndIsNotPlayed x.State cmd.MatchInfo with
+              | Ok _ -> x.PersistPublishAsync (MatchResultSet.From cmd)
+              | Error error -> x.EmitErrorAsync error cmd
 
     member x.EmitErrorAsync (error : BusinessErrors) (cmd : ITraceable) =
         base.PublishErrorAsync((int error), error.ToString(), cmd.TraceId, cmd.InvokerUserId)

@@ -23,7 +23,7 @@ type Phase =
         match x.Played with
         | true -> x
         | false ->
-            let newMatchList = matchInfo :: (x.Matches |> List.skipWhile (fun e -> e.IsMatchInfo matchInfo))
+            let newMatchList = matchInfo :: (x.Matches |> List.where (fun e -> not (e.IsMatchInfo matchInfo)))
             { Matches = newMatchList;
               Played = newMatchList |> List.forall (fun e ->
                   match e.MatchSummary with
@@ -36,7 +36,7 @@ type Fixture =
       Finals : Phase Option }
     static member private GeneratePhase (teams : list<Guid>) =
         let matches = seq {
-                for i in 0 .. 2 .. teams.Length do
+                for i in 0 .. 2 .. teams.Length - 2  do
                 yield { LocalTeamId = teams.[i] ; AwayTeamId = teams.[i+1]; MatchSummary = None } }
         { Matches = matches |> Seq.toList; Played = false }
 
