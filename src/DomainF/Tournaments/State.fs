@@ -19,7 +19,8 @@ type TournamentState =
         x.Id <- evt.TournamentId;
         x.Name <- evt.Name;
     member x.Apply (evt : TeamAdded) =
-        x.Teams = evt.TeamId :: x.Teams
+        x.Teams = x.Teams @ [evt.TeamId]
+//        x.Teams = evt.TeamId :: x.Teams
     member x.Apply (evt : TournamentStarted) =
         x.Fixture <- Some (Fixture.Create evt.Teams);
     member x.Apply (evt : MatchResultSet) =

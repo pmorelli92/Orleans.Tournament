@@ -37,6 +37,9 @@ type TeamGrain(logger : ILogger<TeamGrain>) =
 
         member x.TeamExistAsync() =
             Task.FromResult(x.State.Created)
+            // The way below also works an it is more fsharp idiomatic
+            // let wrap value = async { return value } |> Async.StartAsTask
+            // wrap x.State.Created
 
     member x.EmitErrorAsync (error : BusinessErrors) (cmd : ITraceable) =
         base.PublishErrorAsync((int error), error.ToString(), cmd.TraceId, cmd.InvokerUserId)

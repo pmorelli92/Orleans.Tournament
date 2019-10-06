@@ -30,12 +30,13 @@ type TournamentGrain(logger : ILogger<TournamentGrain>) =
             // There is no problem on validating on the controller using the
             // read side tables, but this validation should be done on the domain
             // as this is the entry point of truth
-            let teamGrain = x.GrainFactory.GetGrain<ITeamGrain>(cmd.TeamId);
-            let teamExist = teamGrain.TeamExistAsync() |> Async.AwaitTask |> Async.RunSynchronously
+            let teamGrain = x.GrainFactory.GetGrain<ITeamGrain>(cmd.TeamId)
+            // TODO: Any other form of handling this, in an Fsharp way, deadlocks
+            let task = Task.Run(fun _ -> teamGrain.TeamExistAsync().Result)
 
             match
                 Rules.TournamentExists(x.State) <&>
-                Rules.TeamExistsForward(teamExist) <&>
+                Rules.TeamExistsForward(task.Result) <&>
                 Rules.TeamIsNotAdded x.State cmd.TeamId <&>
                 Rules.LessThanEightTeams x.State with
               | Ok _ -> x.PersistPublishAsync (TeamAdded.From cmd)
