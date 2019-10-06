@@ -15,7 +15,7 @@ type PlayerAdded =
         { Name = cmd.Name;
           TeamId = cmd.TeamId;
           TraceId = cmd.TraceId;
-          InvokerUserId = cmd.TraceId }
+          InvokerUserId = cmd.InvokerUserId }
 
 type TeamCreated =
     { Name:string
@@ -30,7 +30,7 @@ type TeamCreated =
         { Name = cmd.Name;
           TeamId = cmd.TeamId;
           TraceId = cmd.TraceId;
-          InvokerUserId = cmd.TraceId }
+          InvokerUserId = cmd.InvokerUserId }
 
 type TournamentJoined =
     { TeamId:Guid
@@ -45,4 +45,4 @@ type TournamentJoined =
         { TeamId = cmd.TeamId;
           TournamentId = cmd.TournamentId;
           TraceId = cmd.TraceId;
-          InvokerUserId = cmd.TraceId }
+          InvokerUserId = cmd.InvokerUserId }

@@ -34,6 +34,7 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
         {
             await HandleAsync(evt, token);
 
+            // TODO: Do we always want to log the events if the subscriber is not acting on it (for example Tournament Saga)
             PrefixLogger.LogInformation(
                 "handled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
         }
