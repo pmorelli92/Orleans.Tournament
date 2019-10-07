@@ -2,7 +2,6 @@
 
 ### Work in progress
 
-- [ ] Migrate domain layer to F#
 - [ ] Update .NET Core to 3.0 and Orleans to 3.0
 - [ ] Use new features of Orleans and simplify code
 
@@ -18,6 +17,7 @@
 - [x] Docker images running on Alpine.
 - [x] Kubernetes configuration for running the solution.
 - [x] Emit business error events.
+- [x] Migrate domain layer to F#
 - [ ] Add event store for users to consume as fallback solution.
 - [ ] Persisted reference tokens for Authentication.
 
