@@ -13,6 +13,7 @@ using Orleans.Tournament.Utils.Mvc.Middlewares;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Orleans.CodeGeneration;
+using Constants = Orleans.Tournament.Domain.Helpers;
 [assembly: KnownAssembly(typeof(Orleans.Tournament.Domain.Helpers))]
 
 namespace Orleans.Tournament.API
@@ -61,7 +62,7 @@ namespace Orleans.Tournament.API
                     opt.Invariant = _fromEnvironment.PostgresInvariant;
                     opt.ConnectionString = _fromEnvironment.PostgresConnection;
                 })
-                .AddSimpleMessageStreamProvider("ws")
+                .AddSimpleMessageStreamProvider(Constants.MemoryProvider)
                 .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
                 .Build();
         }

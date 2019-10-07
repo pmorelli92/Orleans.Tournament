@@ -65,10 +65,8 @@ namespace Orleans.Tournament.Silo
                 .ConfigureEndpoints(_fromEnvironment.SiloPort, _fromEnvironment.GatewayPort)
                 .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
                 .AddMemoryGrainStorage(_fromEnvironment.PubSubStore)
-                .AddSimpleMessageStreamProvider("ws")
-                .AddSimpleMessageStreamProvider(Constants.TeamStream)
-                .AddSimpleMessageStreamProvider(Constants.TournamentStream)
-                .ConfigureLogging(logging => logging.AddConsole())
+                .AddSimpleMessageStreamProvider(Constants.MemoryProvider)
+                .ConfigureLogging(logging => logging.AddConsole())//.AddFilter(e => e >= LogLevel.Warning))
                 .ConfigureServices(OrleansDependencyInjection)
                 //.UseLinuxEnvironmentStatistics()
                 .UseDashboard(options =>

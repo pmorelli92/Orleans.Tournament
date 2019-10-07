@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Orleans.Streams;
@@ -26,10 +27,20 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
         public override async Task OnActivateAsync()
         {
             var guid = this.GetPrimaryKey();
-            var streamProvider = GetStreamProvider(_streamOpt.Name);
+            var streamProvider = GetStreamProvider(_streamOpt.Provider);
             var stream = streamProvider.GetStream<object>(guid, _streamOpt.Namespace);
-            _subscription = await stream.SubscribeAsync(OnNextAsync);
-            await base.OnActivateAsync();
+
+            var subscriptionHandles = await stream.GetAllSubscriptionHandles();
+            var subs = subscriptionHandles.FirstOrDefault(e => e.HandleId == guid);
+            if (subs != null)
+            {
+                _subscription = subs;
+                await subs.ResumeAsync(OnNextAsync);
+            }
+            else
+            {
+                _subscription = await stream.SubscribeAsync(OnNextAsync);
+            }
         }
 
         public override Task OnDeactivateAsync()

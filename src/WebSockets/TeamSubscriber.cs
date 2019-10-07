@@ -4,16 +4,15 @@ using Orleans.Streams;
 using Orleans.Tournament.Domain.Abstractions;
 using Orleans.Tournament.Domain.Abstractions.Grains;
 using Constants = Orleans.Tournament.Domain.Helpers;
-
-namespace Orleans.Tournament.WebSockets.Teams
+namespace Orleans.Tournament.WebSockets
 {
-    [ImplicitStreamSubscription(Constants.StreamNamespace)]
-    public class TournamentSubscriber : SubscriberGrain
+    [ImplicitStreamSubscription(Constants.TeamNamespace)]
+    public class TeamSubscriber : SubscriberGrain
     {
-        public TournamentSubscriber(ILogger<TeamSubscriber> logger)
+        public TeamSubscriber(ILogger<TeamSubscriber> logger)
             : base(
-                new StreamOptions(Constants.TournamentStream, Constants.StreamNamespace),
-                new PrefixLogger(logger, "[Tournament][WebSocket]"))
+                new StreamOptions(Constants.MemoryProvider, Constants.TeamNamespace),
+                new PrefixLogger(logger, "[Team][WebSocket]"))
         {
         }
 
@@ -21,8 +20,8 @@ namespace Orleans.Tournament.WebSockets.Teams
         {
             if (evt is ITraceable obj)
             {
-                var streamToPublish = GetStreamProvider("ws");
-                var stream = streamToPublish.GetStream<object>(obj.InvokerUserId, Constants.StreamNamespace);
+                var streamToPublish = GetStreamProvider(Constants.MemoryProvider);
+                var stream = streamToPublish.GetStream<object>(obj.InvokerUserId, Constants.WebSocketNamespace);
                 await stream.OnNextAsync(new WebSocketMessage(evt.GetType().Name, evt));
             }
 

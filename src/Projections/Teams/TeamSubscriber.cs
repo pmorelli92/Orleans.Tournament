@@ -10,7 +10,7 @@ using Constants = Orleans.Tournament.Domain.Helpers;
 
 namespace Orleans.Tournament.Projections.Teams
 {
-    [ImplicitStreamSubscription(Constants.StreamNamespace)]
+    [ImplicitStreamSubscription(Constants.TeamNamespace)]
     public class TeamSubscriber : SubscriberGrain
     {
         private readonly ITournamentQueryHandler _tournamentQueryHandler;
@@ -21,7 +21,7 @@ namespace Orleans.Tournament.Projections.Teams
             ITournamentQueryHandler tournamentQueryHandler,
             ILogger<TeamSubscriber> logger)
             : base(
-                new StreamOptions(Constants.TeamStream, Constants.StreamNamespace),
+                new StreamOptions(Constants.MemoryProvider, Constants.TeamNamespace),
                 new PrefixLogger(logger, "[Team][Projection]"))
         {
             _tournamentQueryHandler = tournamentQueryHandler;

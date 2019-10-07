@@ -25,7 +25,7 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
 
         public override async Task OnActivateAsync()
         {
-            var streamProvider = GetStreamProvider(_streamOpt.Name);
+            var streamProvider = GetStreamProvider(_streamOpt.Provider);
             _stream = streamProvider.GetStream<object>(this.GetPrimaryKey(), _streamOpt.Namespace);
             await base.OnActivateAsync();
         }

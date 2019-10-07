@@ -1,11 +1,13 @@
 module Orleans.Tournament.Domain.Helpers
 
 [<Literal>]
-let StreamNamespace = "Application";
+let MemoryProvider = "MemoryProvider";
 [<Literal>]
-let TeamStream = "Team-Stream";
+let WebSocketNamespace = "WebSocketNamespace";
 [<Literal>]
-let TournamentStream = "Tournament-Stream";
+let TeamNamespace = "TeamNamespace";
+[<Literal>]
+let TournamentNamespace = "TournamentNamespace";
 
 type BusinessErrors =
       TeamDoesNotExist = 1

@@ -11,9 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Orleans;
 using Orleans.Streams;
-using Orleans.Tournament.Domain;
 using Constants = Orleans.Tournament.Domain.Helpers;
 
 namespace Orleans.Tournament.API.Middlewares
@@ -59,8 +57,8 @@ namespace Orleans.Tournament.API.Middlewares
                 _logger.LogInformation("[Websocket] opened connection for UserId: {userId}", userId);
 
                 subscription = await
-                    _clusterClient.GetStreamProvider(name: "ws")
-                    .GetStream<object>(userId, Constants.StreamNamespace)
+                    _clusterClient.GetStreamProvider(name: Constants.MemoryProvider)
+                    .GetStream<object>(userId, Constants.WebSocketNamespace)
                     .SubscribeAsync(async (evt, st) =>
                     {
                         var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(evt));

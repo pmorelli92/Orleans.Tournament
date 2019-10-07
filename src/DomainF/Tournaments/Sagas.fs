@@ -8,10 +8,10 @@ open Orleans.Tournament.Domain.Teams
 open System.Threading.Tasks;
 open Orleans;
 
-[<ImplicitStreamSubscription(StreamNamespace)>]
+[<ImplicitStreamSubscription(TournamentNamespace)>]
 type TeamJoinsTournament(logger : ILogger<TeamJoinsTournament>) =
     inherit SubscriberGrain(
-        new StreamOptions(TournamentStream, StreamNamespace),
+        new StreamOptions(MemoryProvider, TournamentNamespace),
         new PrefixLogger(logger, "[Tournament][Saga][Team Joins Tournament]"))
     override x.HandleAsync(evt : obj, token : StreamSequenceToken) =
         match evt with

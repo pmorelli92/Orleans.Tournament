@@ -17,7 +17,7 @@ type ITournamentGrain =
 
 type TournamentGrain(logger : ILogger<TournamentGrain>) =
     inherit EventSourcedGrain<TournamentState>(
-        new StreamOptions(TournamentStream, StreamNamespace),
+        new StreamOptions(MemoryProvider, TournamentNamespace),
         new PrefixLogger(logger, "[Tournament][Grain]"))
 
     interface ITournamentGrain with
