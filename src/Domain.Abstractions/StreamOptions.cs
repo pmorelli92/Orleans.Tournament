@@ -2,13 +2,13 @@ namespace Orleans.Tournament.Domain.Abstractions
 {
     public class StreamOptions
     {
-        public string Name { get; }
+        public string Provider { get; }
 
         public string Namespace { get; }
 
-        public StreamOptions(string name, string @namespace)
+        public StreamOptions(string provider, string @namespace)
         {
-            Name = name;
+            Provider = provider;
             Namespace = @namespace;
         }
     }

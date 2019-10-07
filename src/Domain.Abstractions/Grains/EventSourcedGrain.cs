@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Orleans;
 using Orleans.EventSourcing;
 using Orleans.Streams;
 using Orleans.Tournament.Domain.Abstractions.Events;
@@ -12,6 +11,7 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
         where TState : class, new()
     {
         private IAsyncStream<object> _stream;
+
         private readonly StreamOptions _streamOpt;
         protected readonly PrefixLogger PrefixLogger;
 
@@ -25,7 +25,7 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
 
         public override async Task OnActivateAsync()
         {
-            var streamProvider = GetStreamProvider(_streamOpt.Name);
+            var streamProvider = GetStreamProvider(_streamOpt.Provider);
             _stream = streamProvider.GetStream<object>(this.GetPrimaryKey(), _streamOpt.Namespace);
             await base.OnActivateAsync();
         }

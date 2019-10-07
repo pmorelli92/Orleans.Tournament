@@ -5,11 +5,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Orleans;
 using Orleans.Tournament.API.Teams.Input;
 using Orleans.Tournament.API.Teams.Output;
 using Orleans.Tournament.Domain.Teams;
-using Orleans.Tournament.Domain.Teams.Commands;
 using Orleans.Tournament.Projections.Teams;
 using Orleans.Tournament.Utils.Mvc.Responses;
 

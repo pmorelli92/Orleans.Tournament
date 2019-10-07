@@ -5,7 +5,6 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Orleans;
 using Orleans.Tournament.Utils.Mvc.Middlewares;
 
 namespace Orleans.Tournament.Silo.Dashboard

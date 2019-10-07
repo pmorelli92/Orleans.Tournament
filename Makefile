@@ -2,12 +2,14 @@ NO_COLOR=\x1b[0m
 WARN_COLOR=\x1b[33;01m
 WARN_SECRETS=$(WARN_COLOR)[IN A REAL WORLD SOLUTION SECRETS MUST NOT BE INCLUDED IN THE REPOSITORY]$(NO_COLOR)
 
-docker-all:
+docker/postgres:
+	@ eval $(minikube docker-env) && docker build -t ot-postgres:local -f postgres/Dockerfile postgres/
+
+docker-all: docker/postgres
 	@ eval $(minikube docker-env) && docker build -t ot-api:local -f src/API/Dockerfile .
 	@ eval $(minikube docker-env) && docker build -t ot-api-identity:local -f src/API.Identity/Dockerfile .
 	@ eval $(minikube docker-env) && docker build -t ot-silo:local -f src/Silo/Dockerfile .
 	@ eval $(minikube docker-env) && docker build -t ot-silo-dashboard:local -f src/Silo.Dashboard/Dockerfile .
-	@ eval $(minikube docker-env) && docker build -t ot-postgres:local -f postgres/Dockerfile postgres/
 
 secrets:
 	@ echo "$(WARN_SECRETS)"
@@ -23,4 +25,3 @@ k8s: secrets
 	  kubectl delete deployment silo-deployment;  \
 	  kubectl delete deployment silo-dashboard-deployment; \
 	  kubectl apply -f kubernetes
-

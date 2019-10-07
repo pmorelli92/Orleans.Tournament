@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <AssemblyName>Orleans.Tournament.Domain</AssemblyName>
+        <RootNamespace>Orleans.Tournament.Domain</RootNamespace>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Orleans.EventSourcing" Version="2.4.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Domain.Abstractions\Domain.Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="BusinessErrors.fs" />
+        <Compile Include="Teams\Commands.fs" />
+        <Compile Include="Teams\Events.fs" />
+        <Compile Include="Teams\State.fs" />
+        <Compile Include="Teams\Rules.fs" />
+        <Compile Include="Teams\Grain.fs" />
+        <Compile Include="Tournaments\ValueObject.fs" />
+        <Compile Include="Tournaments\Commands.fs" />
+        <Compile Include="Tournaments\Events.fs" />
+        <Compile Include="Tournaments\State.fs" />
+        <Compile Include="Tournaments\Rules.fs" />
+        <Compile Include="Tournaments\Sagas.fs" />
+        <Compile Include="Tournaments\Grain.fs" />
+    </ItemGroup>
+
+</Project>

@@ -5,12 +5,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Orleans;
 using Orleans.Tournament.API.Tournaments.Input;
 using Orleans.Tournament.API.Tournaments.Output;
 using Orleans.Tournament.Domain.Tournaments;
-using Orleans.Tournament.Domain.Tournaments.Commands;
-using Orleans.Tournament.Domain.Tournaments.ValueObject;
 using Orleans.Tournament.Projections.Tournaments;
 using Orleans.Tournament.Utils.Mvc.Responses;
 
@@ -78,23 +75,12 @@ namespace Orleans.Tournament.API.Tournaments.Controllers
             var traceId = Guid.NewGuid();
             var tournament = _clusterClient.GetGrain<ITournamentGrain>(tournamentId);
 
-            var matchResult = new MatchResult(model.LocalTeamId, model.LocalGoals, model.AwayTeamId, model.AwayGoals);
+            var matchInfo = new MatchInfo(model.LocalTeamId, model.AwayTeamId, new MatchSummary(model.LocalGoals, model.AwayGoals));
 
-            tournament.SetMatchResultAsync(new SetMatchResult(tournamentId, matchResult, traceId, GetUserId));
+            tournament.SetMatchResultAsync(new SetMatchResult(tournamentId, matchInfo, traceId, GetUserId));
             return Ok(new TraceResponse(traceId));
         }
 
-        [Authorize(Roles = "write")]
-        [HttpPut("api/tournament/{tournamentId:Guid}/nextPhase", Name = "Start next phase")]
-        [ProducesResponseType(typeof(TraceResponse), (int) HttpStatusCode.OK)]
-        public IActionResult StartNextPhase([FromRoute] Guid tournamentId)
-        {
-            var traceId = Guid.NewGuid();
-            var tournament = _clusterClient.GetGrain<ITournamentGrain>(tournamentId);
-
-            tournament.NextPhaseAsync(new StartNextPhase(tournamentId, traceId, GetUserId));
-            return Ok(new TraceResponse(traceId));
-        }
 
         [Authorize(Roles = "read")]
         [HttpGet("api/tournament/{tournamentId:Guid}", Name = "Get tournament")]
