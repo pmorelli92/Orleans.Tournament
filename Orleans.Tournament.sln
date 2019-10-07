@@ -54,7 +54,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSockets.Client", "tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silo.Dashboard", "src\Silo.Dashboard\Silo.Dashboard.csproj", "{BA428209-2DA2-401D-8475-BE4CFDF3C3C4}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DomainF", "src\DomainF\DomainF.fsproj", "{105505C1-B752-4888-8ED9-181E947B44CC}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Domain", "src\Domain\Domain.fsproj", "{105505C1-B752-4888-8ED9-181E947B44CC}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Domain.Tests", "tests\Domain.Tests\Domain.Tests.fsproj", "{835C1DB6-2538-481E-9329-03ED56F00A4A}"
 EndProject
