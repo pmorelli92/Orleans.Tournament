@@ -12,7 +12,7 @@ open Orleans;
 type TeamJoinsTournament(logger : ILogger<TeamJoinsTournament>) =
     inherit SubscriberGrain(
         new StreamOptions(MemoryProvider, TournamentNamespace),
-        new PrefixLogger(logger, "[Tournament][Saga][Team Joins Tournament]"))
+        logger)
     override x.HandleAsync(evt : obj, token : StreamSequenceToken) =
         match evt with
         | :? TeamAdded as ta ->

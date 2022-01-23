@@ -10,10 +10,11 @@ using Orleans.Tournament.Projections.Tournaments;
 using Orleans.Tournament.Utils.Mvc.Configuration;
 using Orleans.Tournament.Utils.Mvc.Extensions;
 using Orleans.Tournament.Utils.Mvc.Middlewares;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Orleans.CodeGeneration;
 using Constants = Orleans.Tournament.Domain.Helpers;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 [assembly: KnownAssembly(typeof(Orleans.Tournament.Domain.Helpers))]
 
 namespace Orleans.Tournament.API
@@ -41,11 +42,11 @@ namespace Orleans.Tournament.API
                 .AddSingleton<ITournamentQueryHandler, TournamentQueryHandler>();
 
             services
-                .AddMvc()
+                .AddMvc(options => options.EnableEndpointRouting = false)
                 .AddJsonOptions(opt =>
                 {
-                    opt.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                    opt.SerializerSettings.Converters.Add(new StringEnumConverter { CamelCaseText = true });
+                    opt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
                 });
         }
 

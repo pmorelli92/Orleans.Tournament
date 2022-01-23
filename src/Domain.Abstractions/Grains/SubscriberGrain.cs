@@ -14,14 +14,14 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
         private StreamSubscriptionHandle<object> _subscription;
 
         private readonly StreamOptions _streamOpt;
-        protected readonly PrefixLogger PrefixLogger;
+        protected readonly ILogger _logger;
 
         protected SubscriberGrain(
             StreamOptions streamOpt,
-            PrefixLogger prefixLogger)
+            ILogger logger)
         {
             _streamOpt = streamOpt;
-            PrefixLogger = prefixLogger;
+            _logger = logger;
         }
 
         public override async Task OnActivateAsync()
@@ -54,7 +54,7 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
             var handled = await HandleAsync(evt, token);
 
             if (handled)
-                PrefixLogger.LogInformation(
+                _logger.LogInformation(
                 "handled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
         }
 

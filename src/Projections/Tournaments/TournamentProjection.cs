@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Orleans.Tournament.Domain.Tournaments;
 
 namespace Orleans.Tournament.Projections.Tournaments
@@ -16,7 +16,7 @@ namespace Orleans.Tournament.Projections.Tournaments
 
         public Fixture Fixture { get; }
 
-        internal TournamentProjection()
+        public TournamentProjection()
         {
             Teams = new List<Team>().ToImmutableList();
         }
@@ -24,7 +24,7 @@ namespace Orleans.Tournament.Projections.Tournaments
         internal static TournamentProjection New => new TournamentProjection();
 
         [JsonConstructor]
-        internal TournamentProjection(
+        public TournamentProjection(
             Guid id,
             string name,
             IImmutableList<Team> teams,

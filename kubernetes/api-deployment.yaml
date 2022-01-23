@@ -24,9 +24,10 @@ spec:
       containers:
       - name: ot-api
         image: ot-api:local
+        imagePullPolicy: IfNotPresent
         ports:
         - name: http
-          containerPort: 7003
+          containerPort: 80
         envFrom:
         - configMapRef:
             name: api-config
@@ -45,7 +46,7 @@ spec:
           preStop:
             httpGet:
               path: "leave"
-              port: 7003
+              port: 80
       restartPolicy: Always
       terminationGracePeriodSeconds: 60
 ---
@@ -75,9 +76,10 @@ spec:
       containers:
       - name: ot-api-identity
         image: ot-api-identity:local
+        imagePullPolicy: IfNotPresent
         ports:
         - name: http
-          containerPort: 7004
+          containerPort: 80
         envFrom:
         - configMapRef:
             name: api-identity-config
@@ -96,6 +98,6 @@ spec:
           preStop:
             httpGet:
               path: "leave"
-              port: 7004
+              port: 80
       restartPolicy: Always
       terminationGracePeriodSeconds: 60

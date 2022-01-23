@@ -13,14 +13,14 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
         private IAsyncStream<object> _stream;
 
         private readonly StreamOptions _streamOpt;
-        protected readonly PrefixLogger PrefixLogger;
+        private readonly ILogger _logger;
 
         protected EventSourcedGrain(
             StreamOptions streamOpt,
-            PrefixLogger prefixLogger)
+            ILogger logger)
         {
             _streamOpt = streamOpt;
-            PrefixLogger = prefixLogger;
+            _logger = logger;
         }
 
         public override async Task OnActivateAsync()
@@ -34,7 +34,7 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
         {
             RaiseEvent(evt);
 
-            PrefixLogger.LogInformation(
+            _logger.LogInformation(
                 "handled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
 
             await _stream.OnNextAsync(evt);
@@ -42,7 +42,7 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains
 
         protected async Task PublishErrorAsync(int code, string name, Guid traceId, Guid invokerUserId)
         {
-            PrefixLogger.LogInformation(
+            _logger.LogInformation(
                 "handled error [{code}]-[{name}] for resource id: [{grainId}]", code, name, this.GetPrimaryKey());
 
             await _stream.OnNextAsync(new ErrorHasOccurred(code, name, traceId, invokerUserId));

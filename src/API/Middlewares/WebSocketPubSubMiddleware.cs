@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Orleans.Streams;
 using Constants = Orleans.Tournament.Domain.Helpers;
 
@@ -61,7 +60,7 @@ namespace Orleans.Tournament.API.Middlewares
                     .GetStream<object>(userId, Constants.WebSocketNamespace)
                     .SubscribeAsync(async (evt, st) =>
                     {
-                        var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(evt));
+                        var bytes = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(evt));
                         var msgBuffer = new ArraySegment<byte>(bytes, 0, bytes.Length);
                         await webSocket.SendAsync(msgBuffer, WebSocketMessageType.Text, true, CancellationToken.None);
                     });

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
-using Newtonsoft.Json;
 using Npgsql;
 
 namespace Orleans.Tournament.Projections
@@ -34,7 +33,7 @@ namespace Orleans.Tournament.Projections
 
                 return payload is null
                     ? default
-                    : JsonConvert.DeserializeObject<T>(payload);
+                    : System.Text.Json.JsonSerializer.Deserialize<T>(payload);
             }
         }
 
@@ -44,14 +43,14 @@ namespace Orleans.Tournament.Projections
             {
                 var payloads = await connection.QueryAsync<string>(_getAllQuery);
                 var array = $"[{string.Join(",", payloads)}]";
-                return JsonConvert.DeserializeObject<IReadOnlyList<T>>(array);
+                return System.Text.Json.JsonSerializer.Deserialize<IReadOnlyList<T>>(array);
             }
         }
 
         public async Task UpdateProjection(Guid id, T projection)
         {
             using (var connection = new NpgsqlConnection(_postgresOptions.ConnectionString))
-                await connection.ExecuteAsync(_updateCommand, param: new { id, payload = JsonConvert.SerializeObject(projection) });
+                await connection.ExecuteAsync(_updateCommand, param: new { id, payload = System.Text.Json.JsonSerializer.Serialize(projection) });
         }
     }
 }

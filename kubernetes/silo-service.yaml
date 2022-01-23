@@ -10,8 +10,16 @@ spec:
   ports:
   - name: http
     port: 80
-    targetPort: 7001 #internal port
+    targetPort: 80 #internal port
     nodePort: 30701 #external port
+  - name: silo
+    port: 30710
+    targetPort: 30710 #internal port
+    nodePort: 30710 #external port
+  - name: gateway
+    port: 30711
+    targetPort: 30711 #internal port
+    nodePort: 30711 #external port
   type: NodePort
 ---
 kind: Service
@@ -26,6 +34,6 @@ spec:
   ports:
   - name: http
     port: 80
-    targetPort: 7002 #internal port
+    targetPort: 80 #internal port
     nodePort: 30702 #external port
   type: NodePort

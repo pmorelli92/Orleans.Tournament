@@ -22,7 +22,7 @@ namespace Orleans.Tournament.Projections.Teams
             ILogger<TeamSubscriber> logger)
             : base(
                 new StreamOptions(Constants.MemoryProvider, Constants.TeamNamespace),
-                new PrefixLogger(logger, "[Team][Projection]"))
+                logger)
         {
             _tournamentQueryHandler = tournamentQueryHandler;
             _projectionManager = new ProjectionManager<TeamProjection>("read", "team_projection", postgresOptions);
@@ -41,8 +41,8 @@ namespace Orleans.Tournament.Projections.Teams
                 case ErrorHasOccurred _:
                     return true;
                 default:
-                    PrefixLogger.LogError(
-                        "unhandled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
+                    //PrefixLogger.LogError(
+                    //    "unhandled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
                     return false;
             }
         }

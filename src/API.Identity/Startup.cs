@@ -25,7 +25,7 @@ namespace Orleans.Tournament.API.Identity
                 .AddSingleton<IUserStore>(e => new UserStore(e.GetService<FromEnvironment>().PostgresConnection))
                 .AddJwtSimpleServer(setup => setup.IssuerSigningKey = _fromEnvironment.JwtIssuerKey)
                 .AddJwtInMemoryRefreshTokenStore()
-                .AddMvc();
+                .AddMvc(options => options.EnableEndpointRouting = false);
         }
 
         public void Configure(IApplicationBuilder appBuilder)

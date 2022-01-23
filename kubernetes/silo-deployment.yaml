@@ -24,9 +24,10 @@ spec:
       containers:
       - name: ot-silo
         image: ot-silo:local
+        imagePullPolicy: IfNotPresent
         ports:
         - name: http
-          containerPort: 7001
+          containerPort: 80
         envFrom:
         - configMapRef:
             name: silo-config
@@ -40,7 +41,7 @@ spec:
           preStop:
             httpGet:
               path: "leave"
-              port: 7001
+              port: 80
       restartPolicy: Always
       terminationGracePeriodSeconds: 60
 ---
@@ -70,9 +71,10 @@ spec:
       containers:
       - name: ot-silo-dashboard
         image: ot-silo-dashboard:local
+        imagePullPolicy: IfNotPresent
         ports:
         - name: http
-          containerPort: 7002
+          containerPort: 80
         envFrom:
         - configMapRef:
             name: silo-dashboard-config
@@ -86,6 +88,6 @@ spec:
           preStop:
             httpGet:
               path: "leave"
-              port: 7002
+              port: 80
       restartPolicy: Always
       terminationGracePeriodSeconds: 60

@@ -3,8 +3,6 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Orleans.Tournament.Tests.WebSockets.Client
 {
@@ -25,7 +23,7 @@ namespace Orleans.Tournament.Tests.WebSockets.Client
                 return;
 
             if (env.ToUpperInvariant() == "M")
-                _uri = new Uri($"ws://192.168.99.100:30703/ws");
+                _uri = new Uri($"ws://localhost:30703/ws");
             else if (env.ToUpperInvariant() == "L")
                 _uri = new Uri($"ws://localhost:7003/ws");
             else
@@ -78,10 +76,7 @@ namespace Orleans.Tournament.Tests.WebSockets.Client
                             }
 
                             var message = Encoding.UTF8.GetString(buffer, 0, count);
-
-                            var formatted = JToken.Parse(message).ToString(Formatting.Indented);
-
-                            Console.WriteLine(formatted);
+                            Console.WriteLine(message);
                             Console.WriteLine("\n-------\n");
                         }
                     }

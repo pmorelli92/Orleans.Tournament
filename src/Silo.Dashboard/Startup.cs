@@ -32,7 +32,7 @@ namespace Orleans.Tournament.Silo.Dashboard
             services.AddServicesForSelfHostedDashboard(null, opt =>
             {
                 opt.HideTrace = true;
-                opt.Port = 7002;
+                opt.Port = 80;
                 opt.CounterUpdateIntervalMs = 5000;
             });
         }

@@ -68,7 +68,7 @@ namespace Orleans.Tournament.Silo
                 .AddSimpleMessageStreamProvider(Constants.MemoryProvider)
                 .ConfigureLogging(logging => logging.AddConsole())//.AddFilter(e => e >= LogLevel.Warning))
                 .ConfigureServices(OrleansDependencyInjection)
-                //.UseLinuxEnvironmentStatistics()
+                .UseLinuxEnvironmentStatistics()
                 .UseDashboard(options =>
                 {
                     options.HostSelf = false;

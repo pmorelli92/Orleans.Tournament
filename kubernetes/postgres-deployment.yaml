@@ -24,6 +24,7 @@ spec:
       containers:
       - name: ot-postgres
         image: ot-postgres:local
+        imagePullPolicy: IfNotPresent
         ports:
         - name: postgresql
           containerPort: 5432

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Orleans.Tournament.Projections.Teams
 {
@@ -15,7 +15,7 @@ namespace Orleans.Tournament.Projections.Teams
 
         public IImmutableList<Tournament> Tournaments { get; }
 
-        internal TeamProjection()
+        public TeamProjection()
         {
             Players = new List<string>().ToImmutableList();
             Tournaments = new List<Tournament>().ToImmutableList();
@@ -24,7 +24,7 @@ namespace Orleans.Tournament.Projections.Teams
         internal static TeamProjection New => new TeamProjection();
 
         [JsonConstructor]
-        internal TeamProjection(
+        public TeamProjection(
             Guid id,
             string name,
             IImmutableList<string> players,

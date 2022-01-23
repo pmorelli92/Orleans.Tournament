@@ -12,7 +12,7 @@ namespace Orleans.Tournament.WebSockets
         public TeamSubscriber(ILogger<TeamSubscriber> logger)
             : base(
                 new StreamOptions(Constants.MemoryProvider, Constants.TeamNamespace),
-                new PrefixLogger(logger, "[Team][WebSocket]"))
+                logger)
         {
         }
 

@@ -18,7 +18,7 @@ type ITeamGrain =
 type TeamGrain(logger : ILogger<TeamGrain>) =
     inherit EventSourcedGrain<TeamState>(
         new StreamOptions(MemoryProvider, TeamNamespace),
-        new PrefixLogger(logger, "[Team][Grain]"))
+        logger)
 
     interface ITeamGrain with
         member x.CreateAsync cmd =

@@ -4,7 +4,7 @@ metadata:
   name: api-config
 data:
   ASPNETCORE_ENVIRONMENT: Development
-  ASPNETCORE_URLS: http://*:7003
+  ASPNETCORE_URLS: http://*:80
   CLUSTER_ID: Local
   SERVICE_ID: Orleans-Tournament
   BUILD_VERSION: 0.0.1
@@ -15,5 +15,5 @@ metadata:
   name: api-identity-config
 data:
   ASPNETCORE_ENVIRONMENT: Development
-  ASPNETCORE_URLS: http://*:7004
+  ASPNETCORE_URLS: http://*:80
   BUILD_VERSION: 0.0.1
