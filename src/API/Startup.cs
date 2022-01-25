@@ -15,7 +15,7 @@ using Constants = Orleans.Tournament.Domain.Helpers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-[assembly: KnownAssembly(typeof(Orleans.Tournament.Domain.Helpers))]
+[assembly: KnownAssembly(typeof(Constants))]
 
 namespace Orleans.Tournament.API
 {
@@ -30,6 +30,9 @@ namespace Orleans.Tournament.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Adds HTTP Logging and customises any other ILogger instances
+            services.AddLogging(e => e.CustomJsonLogger());
+
             services
                 .AddSingleton(CreateClient())
                 .AddSingleton(AppStopper.New)
@@ -63,6 +66,7 @@ namespace Orleans.Tournament.API
                     opt.Invariant = _fromEnvironment.PostgresInvariant;
                     opt.ConnectionString = _fromEnvironment.PostgresConnection;
                 })
+                .ConfigureLogging(e => e.CustomJsonLogger())
                 .AddSimpleMessageStreamProvider(Constants.MemoryProvider)
                 .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
                 .Build();

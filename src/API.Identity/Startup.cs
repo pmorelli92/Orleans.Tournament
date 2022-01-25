@@ -19,6 +19,9 @@ namespace Orleans.Tournament.API.Identity
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Adds HTTP Logging and customises any other ILogger instances
+            services.AddLogging(e => e.CustomJsonLogger());
+
             services
                 .AddSingleton(_fromEnvironment)
                 .AddSingleton<IAuthenticationProvider, AuthProvider>()

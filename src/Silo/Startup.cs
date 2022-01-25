@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Orleans.Statistics;
@@ -13,7 +12,7 @@ using Orleans.Tournament.Utils.Mvc.Configuration;
 using Orleans.Tournament.Utils.Mvc.Extensions;
 using Orleans.Tournament.Utils.Mvc.Middlewares;
 using Constants = Orleans.Tournament.Domain.Helpers;
-[assembly: KnownAssembly(typeof(Orleans.Tournament.Domain.Helpers))]
+[assembly: KnownAssembly(typeof(Constants))]
 
 namespace Orleans.Tournament.Silo
 {
@@ -28,6 +27,9 @@ namespace Orleans.Tournament.Silo
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Adds HTTP Logging and customises any other ILogger instances
+            services.AddLogging(e => e.CustomJsonLogger());
+
             services
                 .AddSingleton(CreateSilo())
                 .AddSingleton(AppStopper.New)
@@ -66,7 +68,7 @@ namespace Orleans.Tournament.Silo
                 .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
                 .AddMemoryGrainStorage(_fromEnvironment.PubSubStore)
                 .AddSimpleMessageStreamProvider(Constants.MemoryProvider)
-                .ConfigureLogging(logging => logging.AddConsole())//.AddFilter(e => e >= LogLevel.Warning))
+                .ConfigureLogging(e => e.CustomJsonLogger())
                 .ConfigureServices(OrleansDependencyInjection)
                 .UseLinuxEnvironmentStatistics()
                 .UseDashboard(options =>

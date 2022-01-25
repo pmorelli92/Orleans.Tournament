@@ -20,11 +20,8 @@ namespace Orleans.Tournament.Projections.Teams
             _projectionManager = new ProjectionManager<TeamProjection>("read", "team_projection", postgresOptions);
         }
 
-        public async Task<TeamProjection> GetTeamAsync(Guid id)
-        {
-            var asd = await _projectionManager.GetProjectionAsync(id);
-            return asd;
-        }
+        public Task<TeamProjection> GetTeamAsync(Guid id)
+            => _projectionManager.GetProjectionAsync(id);
 
         public Task<IReadOnlyList<TeamProjection>> GetTeamsAsync()
             => _projectionManager.GetProjectionsAsync();

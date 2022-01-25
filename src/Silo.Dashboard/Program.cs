@@ -18,27 +18,24 @@ namespace Orleans.Tournament.Silo.Dashboard
             var clusterClient = webHost.Services.GetService<IClusterClient>();
             var appStopper = webHost.Services.GetService<AppStopper>();
 
-            logger.LogInformation("[IClusterClient] connecting");
+            // Connect to the Silo with retrial
             await clusterClient.Connect(e => RetryFilter(e, logger));
 
-            logger.LogInformation("[IWebHost] starting");
+            // Starting API
             await webHost.RunAsync(appStopper.TokenSource.Token);
-            logger.LogInformation("[IWebHost] ending");
 
-            logger.LogInformation("[IClusterClient] closing");
+            // When appStopper blocker triggers, end connection to Silo
             await clusterClient.Close();
-            logger.LogInformation("[IClusterClient] closed");
         }
 
         private static async Task<bool> RetryFilter(Exception exception, ILogger logger)
         {
-            logger.LogWarning("[IClusterClient] exception while connecting: {exception}", exception.Demystify());
+            logger.LogWarning("Exception while connecting to Silo: {exception}", exception);
             await Task.Delay(TimeSpan.FromSeconds(2));
             return true;
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
     }
 }

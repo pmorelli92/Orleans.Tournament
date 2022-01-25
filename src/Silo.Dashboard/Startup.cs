@@ -21,6 +21,9 @@ namespace Orleans.Tournament.Silo.Dashboard
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Adds HTTP Logging and customises any other ILogger instances
+            services.AddLogging(e => e.CustomJsonLogger());
+
             var clusterClient = CreateClient();
 
             services
@@ -50,6 +53,7 @@ namespace Orleans.Tournament.Silo.Dashboard
                     opt.Invariant = _fromEnvironment.PostgresInvariant;
                     opt.ConnectionString = _fromEnvironment.PostgresConnection;
                 })
+                .ConfigureLogging(e => e.CustomJsonLogger())
                 .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
                 .UseDashboard()
                 .Build();

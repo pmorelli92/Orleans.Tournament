@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Utils.Mvc\Utils.Mvc.csproj" />
+		<ProjectReference Include="..\Utils.Mvc\Utils.Mvc.csproj" />
     </ItemGroup>
 
 </Project>

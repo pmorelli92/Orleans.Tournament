@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.WebSockets;
@@ -78,7 +77,7 @@ namespace Orleans.Tournament.API.Middlewares
             }
             catch (Exception e)
             {
-                _logger.LogError("[Websocket] disconnect error -> {exception}", e.Demystify());
+                _logger.LogError("[Websocket] disconnect error -> {exception}", e);
             }
             finally
             {
