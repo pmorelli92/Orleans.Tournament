@@ -43,4 +43,3 @@ type TeamGrain(logger : ILogger<TeamGrain>) =
 
     member x.EmitErrorAsync (error : BusinessErrors) (cmd : ITraceable) =
         base.PublishErrorAsync((int error), error.ToString(), cmd.TraceId, cmd.InvokerUserId)
-

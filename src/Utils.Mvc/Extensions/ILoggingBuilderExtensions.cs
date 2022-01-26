@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Orleans.Tournament.Utils.Mvc.Extensions
 {
-    public static class ILoggingBuilderExtensions 
+    public static class ILoggingBuilderExtensions
     {
         public static ILoggingBuilder CustomJsonLogger(this ILoggingBuilder builder)
         {

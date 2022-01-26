@@ -69,7 +69,3 @@ let MatchIsNotDraw (matchSummary : MatchSummary option) =
         if ms.LocalGoals <> ms.AwayGoals then Ok ()
         else Error BusinessErrors.DrawResultIsNotAllowed
     | None -> Error BusinessErrors.DrawResultIsNotAllowed
-
-
-
-

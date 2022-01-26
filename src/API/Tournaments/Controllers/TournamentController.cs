@@ -31,7 +31,7 @@ namespace Orleans.Tournament.API.Tournaments.Controllers
 
         [Authorize(Roles = "write")]
         [HttpPost("api/tournament/create", Name = "Create tournament")]
-        [ProducesResponseType(typeof(ResourceResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ResourceResponse), (int)HttpStatusCode.OK)]
         public IActionResult CreateTournament([FromBody] CreateTournamentModel model)
         {
             var tournamentId = Guid.NewGuid();
@@ -45,7 +45,7 @@ namespace Orleans.Tournament.API.Tournaments.Controllers
 
         [Authorize(Roles = "write")]
         [HttpPut("api/tournament/{tournamentId:Guid}/team", Name = "Add team to tournament")]
-        [ProducesResponseType(typeof(TraceResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TraceResponse), (int)HttpStatusCode.OK)]
         public IActionResult AddTeams([FromRoute] Guid tournamentId, [FromBody] AddTeamModel model)
         {
             var traceId = Guid.NewGuid();
@@ -57,7 +57,7 @@ namespace Orleans.Tournament.API.Tournaments.Controllers
 
         [Authorize(Roles = "write")]
         [HttpPut("api/tournament/{tournamentId:Guid}/start", Name = "Start tournament")]
-        [ProducesResponseType(typeof(TraceResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TraceResponse), (int)HttpStatusCode.OK)]
         public IActionResult StartTournament([FromRoute] Guid tournamentId)
         {
             var traceId = Guid.NewGuid();
@@ -69,7 +69,7 @@ namespace Orleans.Tournament.API.Tournaments.Controllers
 
         [Authorize(Roles = "write")]
         [HttpPut("api/tournament/{tournamentId:Guid}/setMatchResult", Name = "Set Match Result")]
-        [ProducesResponseType(typeof(TraceResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TraceResponse), (int)HttpStatusCode.OK)]
         public IActionResult SetMatchResult([FromRoute] Guid tournamentId, [FromBody] SetMatchResultModel model)
         {
             var traceId = Guid.NewGuid();
@@ -81,24 +81,23 @@ namespace Orleans.Tournament.API.Tournaments.Controllers
             return Ok(new TraceResponse(traceId));
         }
 
-
         [Authorize(Roles = "read")]
         [HttpGet("api/tournament/{tournamentId:Guid}", Name = "Get tournament")]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(TournamentResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(TournamentResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetTournament([FromRoute] Guid tournamentId)
         {
             var projection = await _tournamentQueryHandler.GetTournamentAsync(tournamentId);
 
             return projection is null
                 ? NotFound()
-                : (IActionResult) Ok(TournamentResponse.From(projection));
+                : (IActionResult)Ok(TournamentResponse.From(projection));
         }
 
         [Authorize(Roles = "read")]
         [HttpGet("api/tournaments", Name = "Get tournaments")]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(TournamentResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(TournamentResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetTournaments()
         {
             var projection = await _tournamentQueryHandler.GetTournamentsAsync();

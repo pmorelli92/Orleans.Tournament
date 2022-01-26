@@ -31,7 +31,7 @@ namespace Orleans.Tournament.API.Teams.Controllers
 
         [Authorize(Roles = "write")]
         [HttpPost("api/team/create", Name = "Create team")]
-        [ProducesResponseType(typeof(ResourceResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ResourceResponse), (int)HttpStatusCode.OK)]
         public IActionResult CreateTeam([FromBody] CreateTeamModel model)
         {
             var teamId = Guid.NewGuid();
@@ -45,7 +45,7 @@ namespace Orleans.Tournament.API.Teams.Controllers
 
         [Authorize(Roles = "write")]
         [HttpPut("api/team/{teamId:Guid}/players", Name = "Add player to team")]
-        [ProducesResponseType(typeof(TraceResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TraceResponse), (int)HttpStatusCode.OK)]
         public IActionResult AddPlayers([FromRoute] Guid teamId, [FromBody] AddPlayerModel model)
         {
             var traceId = Guid.NewGuid();
@@ -61,21 +61,21 @@ namespace Orleans.Tournament.API.Teams.Controllers
 
         [Authorize(Roles = "read")]
         [HttpGet("api/team/{teamId:Guid}", Name = "Get team")]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(TeamResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(TeamResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetTeam([FromRoute] Guid teamId)
         {
             var projection = await _teamQueryHandler.GetTeamAsync(teamId);
 
             return projection is null
                 ? NotFound()
-                : (IActionResult) Ok(TeamResponse.From(projection));
+                : (IActionResult)Ok(TeamResponse.From(projection));
         }
 
         [Authorize(Roles = "read")]
         [HttpGet("api/teams", Name = "Get teams")]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(TeamResponse[]), (int) HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(TeamResponse[]), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetTeams()
         {
             var projection = await _teamQueryHandler.GetTeamsAsync();

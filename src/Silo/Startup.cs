@@ -1,7 +1,7 @@
-﻿using Orleans.CodeGeneration;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Orleans.CodeGeneration;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Orleans.Statistics;
@@ -12,6 +12,7 @@ using Orleans.Tournament.Utils.Mvc.Configuration;
 using Orleans.Tournament.Utils.Mvc.Extensions;
 using Orleans.Tournament.Utils.Mvc.Middlewares;
 using Constants = Orleans.Tournament.Domain.Helpers;
+
 [assembly: KnownAssembly(typeof(Constants))]
 
 namespace Orleans.Tournament.Silo

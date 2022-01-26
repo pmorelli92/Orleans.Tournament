@@ -4,6 +4,7 @@ using Orleans.Streams;
 using Orleans.Tournament.Domain.Abstractions;
 using Orleans.Tournament.Domain.Abstractions.Grains;
 using Constants = Orleans.Tournament.Domain.Helpers;
+
 namespace Orleans.Tournament.WebSockets
 {
     [ImplicitStreamSubscription(Constants.TeamNamespace)]

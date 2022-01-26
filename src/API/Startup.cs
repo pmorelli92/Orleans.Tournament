@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Orleans.CodeGeneration;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Orleans.Tournament.API.Middlewares;
@@ -10,10 +13,7 @@ using Orleans.Tournament.Projections.Tournaments;
 using Orleans.Tournament.Utils.Mvc.Configuration;
 using Orleans.Tournament.Utils.Mvc.Extensions;
 using Orleans.Tournament.Utils.Mvc.Middlewares;
-using Orleans.CodeGeneration;
 using Constants = Orleans.Tournament.Domain.Helpers;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 [assembly: KnownAssembly(typeof(Constants))]
 

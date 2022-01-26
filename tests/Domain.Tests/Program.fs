@@ -11,7 +11,6 @@ type DoucheGrain() =
 //        let wrap value = async { return value } |> Async.StartAsTask
 //        wrap true
 
-
 [<EntryPoint>]
 let main argv =
     let d = new DoucheGrain()
@@ -21,7 +20,6 @@ let main argv =
         } |> Async.RunSynchronously
     Console.WriteLine(strval2)
     0
-
 
 //    let trs = new TournamentState()
 //    let someTeam = Guid.NewGuid()
@@ -38,7 +36,6 @@ let main argv =
 //    | Error error ->
 //        Console.WriteLine(error)
 //        1
-
 
 //        member x.AddTeamAsync cmd =
 //            // There is no problem on validating on the controller using the

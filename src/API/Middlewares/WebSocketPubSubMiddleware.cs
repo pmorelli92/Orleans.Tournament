@@ -34,7 +34,7 @@ namespace Orleans.Tournament.API.Middlewares
         {
             if (!context.WebSockets.IsWebSocketRequest)
             {
-                context.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return;
             }
 
@@ -42,7 +42,7 @@ namespace Orleans.Tournament.API.Middlewares
 
             if (!auth.Succeeded)
             {
-                context.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return;
             }
 

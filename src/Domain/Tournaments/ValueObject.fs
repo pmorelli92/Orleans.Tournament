@@ -73,5 +73,3 @@ type Fixture =
                             { QuarterFinals = quarterFinals;
                               SemiFinals = Fixture.MaybeGeneratePhase quarterFinals;
                               Finals = None }
-
-

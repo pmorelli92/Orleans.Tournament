@@ -34,12 +34,16 @@ namespace Orleans.Tournament.Projections.Teams
             {
                 case TeamCreated obj:
                     return await Handle(obj);
+
                 case PlayerAdded obj:
                     return await Handle(obj);
+
                 case TournamentJoined obj:
                     return await Handle(obj);
+
                 case ErrorHasOccurred _:
                     return true;
+
                 default:
                     //PrefixLogger.LogError(
                     //    "unhandled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());

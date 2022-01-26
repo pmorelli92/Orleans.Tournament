@@ -33,7 +33,7 @@ namespace Orleans.Tournament.API.Identity
 
         public void Configure(IApplicationBuilder appBuilder)
         {
-            appBuilder.UseJwtSimpleServer(setup => setup.IssuerSigningKey =  _fromEnvironment.JwtIssuerKey);
+            appBuilder.UseJwtSimpleServer(setup => setup.IssuerSigningKey = _fromEnvironment.JwtIssuerKey);
             appBuilder.UseVersionCheck();
             appBuilder.UseMvc();
         }

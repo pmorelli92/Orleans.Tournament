@@ -17,10 +17,10 @@ namespace Orleans.Tournament.API.Identity.Authentication
         }
 
         [HttpPost("api/user/create", Name = "Create user")]
-        [ProducesResponseType(typeof(ResourceResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ResourceResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> CreateTeam([FromBody] CreateUser model)
         {
-            var claims = new[] {"write", "read"};
+            var claims = new[] { "write", "read" };
             var userResult = await _userStore.CreateUserAsync(model.Email, model.Password, model.Claims);
 
             return userResult.Match<IActionResult>(
@@ -37,5 +37,4 @@ namespace Orleans.Tournament.API.Identity.Authentication
 
         public IList<string> Claims { get; set; }
     }
-
 }
