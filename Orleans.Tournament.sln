@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_misc", "_misc", "{DA678CE1
 	ProjectSection(SolutionItems) = preProject
 		Makefile = Makefile
 		readme.md = readme.md
+		kind-cluster.yaml = kind-cluster.yaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "src\API\API.csproj", "{4407E188-9BCD-4AF8-B21B-BF4BC55CFFC7}"
@@ -32,7 +33,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_kubernetes", "_kubernetes"
 		kubernetes\api-config-maps.yaml = kubernetes\api-config-maps.yaml
 		kubernetes\api-deployment.yaml = kubernetes\api-deployment.yaml
 		kubernetes\api-service.yaml = kubernetes\api-service.yaml
-		kubernetes\kind-cluster.yaml = kubernetes\kind-cluster.yaml
 		kubernetes\postgres-deployment.yaml = kubernetes\postgres-deployment.yaml
 		kubernetes\postgres-service.yaml = kubernetes\postgres-service.yaml
 		kubernetes\silo-config-maps.yaml = kubernetes\silo-config-maps.yaml
