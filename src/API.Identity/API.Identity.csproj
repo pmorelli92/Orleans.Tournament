@@ -5,6 +5,7 @@
         <AssemblyName>Orleans.Tournament.API.Identity</AssemblyName>
         <RootNamespace>Orleans.Tournament.API.Identity</RootNamespace>
         <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>

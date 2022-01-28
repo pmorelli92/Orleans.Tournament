@@ -1,18 +1,16 @@
-using System;
 using System.Collections.Immutable;
 
-namespace Orleans.Tournament.API.Identity.Authentication
+namespace Orleans.Tournament.API.Identity.Authentication;
+
+public class User
 {
-    public class User
+    public User(Guid id, IImmutableList<string> claims)
     {
-        public Guid Id { get; }
-
-        public IImmutableList<string> Claims { get; }
-
-        public User(Guid id, IImmutableList<string> claims)
-        {
-            Id = id;
-            Claims = claims;
-        }
+        Id = id;
+        Claims = claims;
     }
+
+    public Guid Id { get; }
+
+    public IImmutableList<string> Claims { get; }
 }

@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Data;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Dapper;
 using LanguageExt;
 using Npgsql;
@@ -28,7 +25,9 @@ namespace Orleans.Tournament.API.Identity.Authentication
 
         public async Task<Validation<Unit, Guid>> CreateUserAsync(string email, string password, IList<string> claims)
         {
-            var isEmail = Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+            var isEmail = Regex.IsMatch(email,
+                @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
+                RegexOptions.IgnoreCase);
             if (isEmail == false) return Unit.Default;
 
             email = email.ToUpperInvariant();
@@ -46,13 +45,6 @@ namespace Orleans.Tournament.API.Identity.Authentication
             }
         }
 
-        private static (string hash, string saltKey) GetPasswordHash(string password)
-        {
-            var saltKey = BCrypt.Net.BCrypt.GenerateSalt();
-            var hash = BCrypt.Net.BCrypt.HashPassword(password, saltKey);
-            return (hash, saltKey);
-        }
-
         public async Task<Validation<Unit, User>> GetUserAsync(string email, string password)
         {
             using (var dbConnection = new NpgsqlConnection(_dbConnection))
@@ -66,29 +58,42 @@ namespace Orleans.Tournament.API.Identity.Authentication
                 return new User(userInfo.UserId, userInfo.Claims.ToImmutableList());
             }
         }
+
+        private static (string hash, string saltKey) GetPasswordHash(string password)
+        {
+            var saltKey = BCrypt.Net.BCrypt.GenerateSalt();
+            var hash = BCrypt.Net.BCrypt.HashPassword(password, saltKey);
+            return (hash, saltKey);
+        }
     }
 }
 
 internal static class UserStoreExtensions
 {
     internal static async Task<string> CheckIfEmailExistAsync(this IDbConnection @this, string email)
-        => await @this.QueryFirstOrDefaultAsync<string>(
-            "SELECT email FROM auth.user WHERE email = @email", param: new { email });
+    {
+        return await @this.QueryFirstOrDefaultAsync<string>(
+            "SELECT email FROM auth.user WHERE email = @email", new {email});
+    }
 
     internal static async Task InsertUserAsync(this IDbConnection @this,
         Guid userId, string email, string passwordHash, string saltKey, IList<string> claims)
-        => await @this.ExecuteAsync(
+    {
+        await @this.ExecuteAsync(
             "INSERT INTO auth.user (id, email, password_hash, salt_key, claims) VALUES (@userId, @email, @passwordHash, @saltKey, @claims)",
-            param: new { userId, email, passwordHash, saltKey, claims });
+            new {userId, email, passwordHash, saltKey, claims});
+    }
 
     internal static async Task<UserInfo> GetUserInfo(this IDbConnection @this, string email)
-        => await @this.QueryFirstOrDefaultAsync<UserInfo>(
+    {
+        return await @this.QueryFirstOrDefaultAsync<UserInfo>(
             @"SELECT
                 id AS UserId,
                 claims AS Claims,
                 salt_key AS SaltKey,
                 password_hash AS PasswordHash
-              FROM auth.user where email = @email", param: new { email });
+              FROM auth.user where email = @email", new {email});
+    }
 }
 
 public class UserInfo
