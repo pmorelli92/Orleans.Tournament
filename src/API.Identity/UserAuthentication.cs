@@ -85,8 +85,7 @@ public class UserAuthentication : ICreateUser, ILoginUser
         {
             Subject = new ClaimsIdentity(new[]
             {
-                new Claim("Id", user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, request.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, request.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             }.Concat(user.Claims.Cast<string>().Select(e => new Claim(ClaimTypes.Role, e)))),

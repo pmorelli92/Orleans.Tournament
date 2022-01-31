@@ -8,6 +8,8 @@ data:
   CLUSTER_ID: Local
   SERVICE_ID: Orleans-Tournament
   BUILD_VERSION: 0.0.1
+  JWT_ISSUER: orleans.tournament.com
+  JWT_AUDIENCE: orleans.tournament.com
 ---
 apiVersion: v1
 kind: ConfigMap

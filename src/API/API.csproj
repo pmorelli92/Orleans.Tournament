@@ -5,14 +5,16 @@
         <AssemblyName>Orleans.Tournament.API</AssemblyName>
         <RootNamespace>Orleans.Tournament.API</RootNamespace>
         <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JWTSimpleServer.InMemoryRefreshTokenStore" Version="0.0.4" />
         <PackageReference Include="Npgsql" Version="5.0.11" />
         <PackageReference Include="Microsoft.Orleans.Client" Version="3.6.0" />
         <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="3.6.0" />
         <PackageReference Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="3.6.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1"/>
     </ItemGroup>
 
     <ItemGroup>

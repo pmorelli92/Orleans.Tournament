@@ -37,7 +37,7 @@ spec:
             secretKeyRef:
               name: postgres-connection
               key: value
-        - name: JWT_ISSUER_KEY
+        - name: JWT_SIGNING_KEY
           valueFrom:
             secretKeyRef:
               name: jwt-issuer-key
