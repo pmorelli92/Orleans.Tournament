@@ -17,3 +17,5 @@ data:
   ASPNETCORE_ENVIRONMENT: Development
   ASPNETCORE_URLS: http://*:80
   BUILD_VERSION: 0.0.1
+  JWT_ISSUER: orleans.tournament.com
+  JWT_AUDIENCE: orleans.tournament.com

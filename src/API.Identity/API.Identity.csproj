@@ -5,19 +5,14 @@
         <AssemblyName>Orleans.Tournament.API.Identity</AssemblyName>
         <RootNamespace>Orleans.Tournament.API.Identity</RootNamespace>
         <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
-        <PackageReference Include="Npgsql" Version="5.0.11" />
-        <PackageReference Include="Dapper" Version="2.0.123" />
-        <PackageReference Include="LanguageExt.Core" Version="4.0.3" />
-        <PackageReference Include="JWTSimpleServer.InMemoryRefreshTokenStore" Version="0.0.4" />
+        <PackageReference Include="Npgsql" Version="6.0.3"/>
+        <PackageReference Include="Dapper" Version="2.0.123"/>
+        <PackageReference Include="BCrypt.Net-Next" Version="4.0.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1"/>
     </ItemGroup>
-
-    <ItemGroup>
-		<ProjectReference Include="..\Utils.Mvc\Utils.Mvc.csproj" />
-    </ItemGroup>
-
 </Project>

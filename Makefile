@@ -5,8 +5,11 @@ docker/build:
 	docker build -t ot-silo:local -f src/Silo/Dockerfile .
 	docker build -t ot-silo-dashboard:local -f src/Silo.Dashboard/Dockerfile .
 
+# Second and third line are to enable metrics server
 cluster/init:
 	kind create cluster --config=./kind-cluster.yaml
+	kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.5.0/components.yaml
+	kubectl patch -n kube-system deployment metrics-server --type=json -p '[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--kubelet-insecure-tls"}]'
 
 cluster/images:
 	-kind load docker-image \

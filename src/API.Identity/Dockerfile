@@ -8,9 +8,9 @@ RUN dotnet restore src/API.Identity
 COPY src/API.Identity/ src/API.Identity/
 COPY src/Utils.Mvc/ src/Utils.Mvc/
 
-RUN dotnet publish src/API.Identity -o src/API.Identity/out -c Release
+RUN dotnet publish src/API.Identity -o app -c Release
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine3.14
-COPY --from=build /src/API.Identity/out /app
 WORKDIR /app
+COPY --from=build app .
 ENTRYPOINT ["dotnet", "Orleans.Tournament.API.Identity.dll"]
