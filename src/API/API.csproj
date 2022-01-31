@@ -14,7 +14,7 @@
         <PackageReference Include="Microsoft.Orleans.Client" Version="3.6.0" />
         <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="3.6.0" />
         <PackageReference Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="3.6.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
     </ItemGroup>
 
     <ItemGroup>
