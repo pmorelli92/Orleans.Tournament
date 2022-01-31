@@ -10,10 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
 var buildVersion = configuration["BUILD_VERSION"];
 var postgresConnection = new ConnectionString(configuration["POSTGRES_CONNECTION"]);
-var jwtConfiguration = new JwtConfiguration(
-    configuration["JWT_ISSUER"],
-    configuration["JWT_AUDIENCE"],
-    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT_SIGNING_KEY"])));
+var jwtIssuer = configuration["JWT_ISSUER"];
+var jwtAudience = configuration["JWT_AUDIENCE"];
+var jwtSigningKey = Encoding.UTF8.GetBytes(configuration["JWT_SIGNING_KEY"]);
+
+var jwtConfiguration = new JwtConfiguration(jwtIssuer, jwtAudience, new SymmetricSecurityKey(jwtSigningKey));
 
 builder
     .Services
@@ -31,8 +32,8 @@ builder
     )
     .AddSingleton(jwtConfiguration)
     .AddSingleton(postgresConnection)
-    .AddTransient<ICreateUser, UserAuthentication>()
-    .AddTransient<ILoginUser, UserAuthentication>()
+    .AddSingleton<ICreateUser, UserAuthentication>()
+    .AddSingleton<ILoginUser, UserAuthentication>()
     .AddControllers();
 
 builder
@@ -63,7 +64,3 @@ app.UseAuthorization();
 app.MapGet("/version", () => Results.Ok(new {BuildVersion = buildVersion}));
 app.UseEndpoints(e => e.MapControllers());
 app.Run();
-
-public record ConnectionString(string Value);
-
-public record JwtConfiguration(string Issuer, string Audience, SymmetricSecurityKey SigningKey);

@@ -21,6 +21,9 @@ public interface ILoginUser
     Task<string> Handle(Login request);
 }
 
+public record ConnectionString(string Value);
+public record JwtConfiguration(string Issuer, string Audience, SymmetricSecurityKey SigningKey);
+
 public class UserAuthentication : ICreateUser, ILoginUser
 {
     private readonly ConnectionString _connectionString;

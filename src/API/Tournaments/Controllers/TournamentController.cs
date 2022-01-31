@@ -1,15 +1,11 @@
-using System;
-using System.Linq;
 using System.Net;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orleans.Tournament.API.Tournaments.Input;
 using Orleans.Tournament.API.Tournaments.Output;
 using Orleans.Tournament.Domain.Tournaments;
 using Orleans.Tournament.Projections.Tournaments;
-using Orleans.Tournament.Utils.Mvc.Responses;
 
 namespace Orleans.Tournament.API.Tournaments.Controllers
 {
