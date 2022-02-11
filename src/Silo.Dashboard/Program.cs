@@ -1,40 +1,74 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Orleans.Tournament.Utils.Mvc.Middlewares;
+using System.Text.Json;
+using Orleans;
+using Orleans.Configuration;
+using Orleans.Hosting;
 
-namespace Orleans.Tournament.Silo.Dashboard
-{
-    public class Program
+var builder = WebApplication.CreateBuilder(args);
+
+// Parse environment variables
+IConfiguration configuration = builder.Configuration;
+var clusterId = configuration["CLUSTER_ID"];
+var serviceId = configuration["SERVICE_ID"];
+var buildVersion = configuration["BUILD_VERSION"];
+var postgresConnection = configuration["POSTGRES_CONNECTION"];
+
+var appStopper = new CancellationTokenSource();
+
+// Orleans cluster connection
+var clusterClient = new ClientBuilder()
+    .Configure<ClusterOptions>(options =>
     {
-        public static async Task Main(string[] args)
-        {
-            var webHost = CreateWebHostBuilder(args).Build();
-            var logger = webHost.Services.GetService<ILogger<Program>>();
-            var clusterClient = webHost.Services.GetService<IClusterClient>();
-            var appStopper = webHost.Services.GetService<AppStopper>();
+        options.ClusterId = clusterId;
+        options.ServiceId = serviceId;
+    })
+    .UseAdoNetClustering(opt =>
+    {
+        opt.Invariant = "Npgsql";
+        opt.ConnectionString = postgresConnection;
+    })
+    .ConfigureLogging(e =>
+            e.AddJsonConsole(options =>
+            {
+                options.IncludeScopes = true;
+                options.TimestampFormat = "dd/MM/yyyy hh:mm:ss";
+                options.JsonWriterOptions = new JsonWriterOptions { Indented = true };
+            })
+            .AddFilter(level => level >= LogLevel.Warning)
+    )
+    .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
+    .UseDashboard()
+    .Build();
 
-            // Connect to the Silo with retrial
-            await clusterClient.Connect(e => RetryFilter(e, logger));
+builder
+    .Services
+    .AddSingleton(clusterClient)
+    .AddSingleton((IGrainFactory)clusterClient)
+    .AddServicesForSelfHostedDashboard(null, opt =>
+    {
+        opt.HideTrace = true;
+        opt.Port = 80;
+        opt.CounterUpdateIntervalMs = 5000;
+    });
 
-            // Starting API
-            await webHost.RunAsync(appStopper.TokenSource.Token);
+var app = builder.Build();
 
-            // When appStopper blocker triggers, end connection to Silo
-            await clusterClient.Close();
-        }
+app.UseOrleansDashboard();
+app.MapGet("/version", () => Results.Ok(new { BuildVersion = buildVersion }));
+app.MapGet("/leave", () =>
+{
+    appStopper.Cancel();
+    Results.Ok();
+});
 
-        private static async Task<bool> RetryFilter(Exception exception, ILogger logger)
-        {
-            logger.LogWarning("Exception while connecting to Silo: {exception}", exception);
-            await Task.Delay(TimeSpan.FromSeconds(2));
-            return true;
-        }
+// Connect to cluster
+await clusterClient.Connect(async e =>
+{
+    await Task.Delay(TimeSpan.FromSeconds(2));
+    return true;
+});
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
-    }
-}
+// Starting API
+await app.RunAsync(appStopper.Token);
+
+// When /leave is invoked, the appStopper will be cancelled and this code gets executed
+await clusterClient.Close();

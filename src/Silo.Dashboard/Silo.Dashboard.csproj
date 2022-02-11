@@ -5,6 +5,8 @@
         <AssemblyName>Orleans.Tournament.Silo.Dashboard</AssemblyName>
         <RootNamespace>Orleans.Tournament.Silo.Dashboard</RootNamespace>
         <LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,10 +16,6 @@
         <PackageReference Include="Microsoft.Orleans.OrleansRuntime" Version="3.6.0" />
         <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="3.6.0" />
         <PackageReference Include="OrleansDashboard" Version="3.6.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\Utils.Mvc\Utils.Mvc.csproj" />
     </ItemGroup>
 
     <ItemGroup>

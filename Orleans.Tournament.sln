@@ -5,18 +5,16 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9F5EA531-C4D9-4063-A782-CC0D4AD26844}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silo", "src\Silo\Silo.csproj", "{D2A953E7-DB1B-465E-AEBA-EEF188379B0E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils.Mvc", "src\Utils.Mvc\Utils.Mvc.csproj", "{754FB138-6786-411A-8C21-2703CF356B6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Silo", "src\Silo\Silo.csproj", "{D2A953E7-DB1B-465E-AEBA-EEF188379B0E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_misc", "_misc", "{DA678CE1-A6E5-4F52-9486-10C1EEE2888D}"
 	ProjectSection(SolutionItems) = preProject
+		kind-cluster.yaml = kind-cluster.yaml
 		Makefile = Makefile
 		readme.md = readme.md
-		kind-cluster.yaml = kind-cluster.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "src\API\API.csproj", "{4407E188-9BCD-4AF8-B21B-BF4BC55CFFC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "src\API\API.csproj", "{4407E188-9BCD-4AF8-B21B-BF4BC55CFFC7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_postgres", "_postgres", "{79862966-AD18-4425-BEA0-3E8B61D48E0B}"
 	ProjectSection(SolutionItems) = preProject
@@ -50,17 +48,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSockets", "src\WebSocket
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Abstractions", "src\Domain.Abstractions\Domain.Abstractions.csproj", "{3974D7FF-A47C-40D7-9B9D-F1ABB983F1C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Identity", "src\API.Identity\API.Identity.csproj", "{EBEE5B9C-6AD2-45D4-B847-40CE3C800221}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Identity", "src\API.Identity\API.Identity.csproj", "{EBEE5B9C-6AD2-45D4-B847-40CE3C800221}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4281688B-8FF3-4CB8-8623-068E13EE97EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSockets.Client", "tests\WebSockets.Client\WebSockets.Client.csproj", "{44F3713D-0DDD-4302-A0BE-8144AD32C630}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSockets.Client", "tests\WebSockets.Client\WebSockets.Client.csproj", "{44F3713D-0DDD-4302-A0BE-8144AD32C630}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silo.Dashboard", "src\Silo.Dashboard\Silo.Dashboard.csproj", "{BA428209-2DA2-401D-8475-BE4CFDF3C3C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Silo.Dashboard", "src\Silo.Dashboard\Silo.Dashboard.csproj", "{BA428209-2DA2-401D-8475-BE4CFDF3C3C4}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Domain", "src\Domain\Domain.fsproj", "{105505C1-B752-4888-8ED9-181E947B44CC}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Domain.Tests", "tests\Domain.Tests\Domain.Tests.fsproj", "{835C1DB6-2538-481E-9329-03ED56F00A4A}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Domain.Tests", "tests\Domain.Tests\Domain.Tests.fsproj", "{835C1DB6-2538-481E-9329-03ED56F00A4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,10 +70,6 @@ Global
 		{D2A953E7-DB1B-465E-AEBA-EEF188379B0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2A953E7-DB1B-465E-AEBA-EEF188379B0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2A953E7-DB1B-465E-AEBA-EEF188379B0E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{754FB138-6786-411A-8C21-2703CF356B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{754FB138-6786-411A-8C21-2703CF356B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{754FB138-6786-411A-8C21-2703CF356B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{754FB138-6786-411A-8C21-2703CF356B6A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4407E188-9BCD-4AF8-B21B-BF4BC55CFFC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4407E188-9BCD-4AF8-B21B-BF4BC55CFFC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4407E188-9BCD-4AF8-B21B-BF4BC55CFFC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -118,7 +112,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D2A953E7-DB1B-465E-AEBA-EEF188379B0E} = {3AC1680A-85E5-4E50-9ACF-03284A0A5B39}
-		{754FB138-6786-411A-8C21-2703CF356B6A} = {3AC1680A-85E5-4E50-9ACF-03284A0A5B39}
 		{4407E188-9BCD-4AF8-B21B-BF4BC55CFFC7} = {3AC1680A-85E5-4E50-9ACF-03284A0A5B39}
 		{7566F4C4-F404-4350-9FC9-3C7EF042720B} = {9F5EA531-C4D9-4063-A782-CC0D4AD26844}
 		{3AC1680A-85E5-4E50-9ACF-03284A0A5B39} = {9F5EA531-C4D9-4063-A782-CC0D4AD26844}
