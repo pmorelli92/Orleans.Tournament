@@ -5,7 +5,9 @@
         <AssemblyName>Orleans.Tournament.Projections</AssemblyName>
         <RootNamespace>Orleans.Tournament.Projections</RootNamespace>
         <LangVersion>latest</LangVersion>
-    </PropertyGroup>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Npgsql" Version="5.0.11" />

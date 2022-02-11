@@ -1,29 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+namespace Orleans.Tournament.Projections.Teams;
 
-namespace Orleans.Tournament.Projections.Teams
+public interface ITeamQueryHandler
 {
-    public interface ITeamQueryHandler
-    {
-        Task<TeamProjection> GetTeamAsync(Guid id);
+    Task<TeamProjection> GetTeamAsync(Guid id);
 
-        Task<IReadOnlyList<TeamProjection>> GetTeamsAsync();
+    Task<IReadOnlyList<TeamProjection>> GetTeamsAsync();
+}
+
+public class TeamQueryHandler : ITeamQueryHandler
+{
+    private readonly ProjectionManager<TeamProjection> _projectionManager;
+
+    public TeamQueryHandler(PostgresOptions postgresOptions)
+    {
+        _projectionManager = new ProjectionManager<TeamProjection>("read", "team_projection", postgresOptions);
     }
 
-    public class TeamQueryHandler : ITeamQueryHandler
-    {
-        private readonly ProjectionManager<TeamProjection> _projectionManager;
+    public Task<TeamProjection> GetTeamAsync(Guid id)
+        => _projectionManager.GetProjectionAsync(id);
 
-        public TeamQueryHandler(PostgresOptions postgresOptions)
-        {
-            _projectionManager = new ProjectionManager<TeamProjection>("read", "team_projection", postgresOptions);
-        }
-
-        public Task<TeamProjection> GetTeamAsync(Guid id)
-            => _projectionManager.GetProjectionAsync(id);
-
-        public Task<IReadOnlyList<TeamProjection>> GetTeamsAsync()
-            => _projectionManager.GetProjectionsAsync();
-    }
+    public Task<IReadOnlyList<TeamProjection>> GetTeamsAsync()
+        => _projectionManager.GetProjectionsAsync();
 }

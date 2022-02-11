@@ -1,12 +1,3 @@
-namespace Orleans.Tournament.Projections
-{
-    public class PostgresOptions
-    {
-        public string ConnectionString { get; }
+namespace Orleans.Tournament.Projections;
 
-        public PostgresOptions(string connectionString)
-        {
-            ConnectionString = connectionString;
-        }
-    }
-}
+public record PostgresOptions(string ConnectionString);

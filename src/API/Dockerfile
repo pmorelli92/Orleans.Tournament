@@ -3,7 +3,6 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine3.14 AS build
 COPY src/API/API.csproj src/API/API.csproj
 COPY src/Domain/Domain.fsproj src/Domain/Domain.fsproj
 COPY src/Projections/Projections.csproj src/Projections/Projections.csproj
-COPY src/Utils.Mvc/Utils.Mvc.csproj src/Utils.Mvc/Utils.Mvc.csproj
 COPY src/Domain.Abstractions/Domain.Abstractions.csproj src/Domain.Abstractions/Domain.Abstractions.csproj
 COPY src/WebSockets/WebSockets.csproj src/WebSockets/WebSockets.csproj
 
@@ -12,7 +11,6 @@ RUN dotnet restore src/API
 COPY src/API/ src/API/
 COPY src/Domain/ src/Domain/
 COPY src/Projections/ src/Projections/
-COPY src/Utils.Mvc/ src/Utils.Mvc/
 COPY src/Domain.Abstractions/ src/Domain.Abstractions/
 COPY src/WebSockets/ src/WebSockets/
 

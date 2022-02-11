@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System.Collections.Immutable; 
 using Microsoft.Extensions.Logging;
 using Orleans.Streams;
 using Orleans.Tournament.Domain.Abstractions;
@@ -8,93 +8,99 @@ using Orleans.Tournament.Domain.Tournaments;
 using Orleans.Tournament.Projections.Teams;
 using Constants = Orleans.Tournament.Domain.Helpers;
 
-namespace Orleans.Tournament.Projections.Tournaments
+namespace Orleans.Tournament.Projections.Tournaments;
+
+[ImplicitStreamSubscription(Constants.TournamentNamespace)]
+public class TournamentSubscriber : SubscriberGrain
 {
-    [ImplicitStreamSubscription(Constants.TournamentNamespace)]
-    public class TournamentSubscriber : SubscriberGrain
+    private readonly ITeamQueryHandler _teamQueryHandler;
+    private readonly ProjectionManager<TournamentProjection> _projectionManager;
+
+    public TournamentSubscriber(
+        PostgresOptions postgresOptions,
+        ITeamQueryHandler teamQueryHandler,
+        ILogger<TournamentSubscriber> logger)
+        : base(
+            new StreamOptions(Constants.MemoryProvider, Constants.TournamentNamespace),
+            logger)
     {
-        private readonly ITeamQueryHandler _teamQueryHandler;
-        private readonly ProjectionManager<TournamentProjection> _projectionManager;
+        _projectionManager = new ProjectionManager<TournamentProjection>("read", "tournament_projection", postgresOptions);
+        _teamQueryHandler = teamQueryHandler;
+    }
 
-        public TournamentSubscriber(
-            PostgresOptions postgresOptions,
-            ITeamQueryHandler teamQueryHandler,
-            ILogger<TournamentSubscriber> logger)
-            : base(
-                new StreamOptions(Constants.MemoryProvider, Constants.TournamentNamespace),
-                logger)
+    public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token = null)
+    {
+        switch (evt)
         {
-            _projectionManager = new ProjectionManager<TournamentProjection>("read", "tournament_projection", postgresOptions);
-            _teamQueryHandler = teamQueryHandler;
+            case TournamentCreated obj:
+                return await Handle(obj);
+
+            case TeamAdded obj:
+                return await Handle(obj);
+
+            case TournamentStarted obj:
+                return await Handle(obj);
+
+            case MatchResultSet obj:
+                return await Handle(obj);
+
+            case ErrorHasOccurred _:
+                return true;
+
+            default:
+                //logger.LogError(
+                //    "unhandled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
+                return false;
         }
+    }
 
-        public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token = null)
-        {
-            switch (evt)
-            {
-                case TournamentCreated obj:
-                    return await Handle(obj);
+    private async Task<bool> Handle(TournamentCreated evt)
+    {
+        var projection = new TournamentProjection(
+            evt.TournamentId,
+            evt.Name,
+            Enumerable.Empty<Team>().ToImmutableList(),
+            null); //TODO: Fix this
 
-                case TeamAdded obj:
-                    return await Handle(obj);
+        await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
+        return true;
+    }
 
-                case TournamentStarted obj:
-                    return await Handle(obj);
+    private async Task<bool> Handle(TeamAdded evt)
+    {
+        var team = await _teamQueryHandler.GetTeamAsync(evt.TeamId);
+        var teamObj = new Team(team.Id, team.Name);
 
-                case MatchResultSet obj:
-                    return await Handle(obj);
+        var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
 
-                case ErrorHasOccurred _:
-                    return true;
+        await _projectionManager.UpdateProjection(
+            this.GetPrimaryKey(),
+            projection with { Teams = projection.Teams.Add(teamObj) });
+        
+        return true;
+    }
 
-                default:
-                    //logger.LogError(
-                    //    "unhandled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
-                    return false;
-            }
-        }
+    // The idea is to serve the data in a friendly way to the user, in this case
+    // I am using the same value object that the state is using but it can be changed here
+    private async Task<bool> Handle(TournamentStarted evt)
+    {
+        var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
 
-        private async Task<bool> Handle(TournamentCreated evt)
-        {
-            var projection = TournamentProjection.New.SetName(evt.TournamentId, evt.Name);
-            await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
+        await _projectionManager.UpdateProjection(
+            this.GetPrimaryKey(),
+            projection with { Fixture = Fixture.Create(evt.Teams) });
 
-            return true;
-        }
+        return true;
+    }
 
-        private async Task<bool> Handle(TeamAdded evt)
-        {
-            var team = await _teamQueryHandler.GetTeamAsync(evt.TeamId);
-            var teamObj = new TournamentProjection.Team(team.Id, team.Name);
+    private async Task<bool> Handle(MatchResultSet evt)
+    {
+        var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
 
-            var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
-            await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection.AddTeam(teamObj));
+        await _projectionManager.UpdateProjection(
+            this.GetPrimaryKey(),
+            projection with { Fixture = projection.Fixture.SetMatchResult(evt.MatchInfo) });
 
-            return true;
-        }
-
-        // The idea is to serve the data in a friendly way to the user, in this case
-        // I am using the same value object that the state is using but it can be changed here
-        private async Task<bool> Handle(TournamentStarted evt)
-        {
-            var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
-
-            await _projectionManager.UpdateProjection(
-                this.GetPrimaryKey(),
-                projection.AddFixture(Fixture.Create(evt.Teams)));
-
-            return true;
-        }
-
-        private async Task<bool> Handle(MatchResultSet evt)
-        {
-            var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
-
-            await _projectionManager.UpdateProjection(
-                this.GetPrimaryKey(),
-                projection.AddFixture(projection.Fixture.SetMatchResult(evt.MatchInfo)));
-
-            return true;
-        }
+        return true;
     }
 }
