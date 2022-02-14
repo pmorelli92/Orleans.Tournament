@@ -1,15 +1,3 @@
-namespace Orleans.Tournament.Domain.Abstractions
-{
-    public class StreamOptions
-    {
-        public string Provider { get; }
+namespace Orleans.Tournament.Domain.Abstractions;
 
-        public string Namespace { get; }
-
-        public StreamOptions(string provider, string @namespace)
-        {
-            Provider = provider;
-            Namespace = @namespace;
-        }
-    }
-}
+public record StreamOptions(string Provider, string Namespace);

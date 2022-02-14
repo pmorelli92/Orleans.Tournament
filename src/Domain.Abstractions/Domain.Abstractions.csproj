@@ -5,6 +5,8 @@
         <AssemblyName>Orleans.Tournament.Domain.Abstractions</AssemblyName>
         <RootNamespace>Orleans.Tournament.Domain.Abstractions</RootNamespace>
         <LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>

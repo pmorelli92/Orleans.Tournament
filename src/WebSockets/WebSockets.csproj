@@ -5,6 +5,8 @@
         <AssemblyName>Orleans.Tournament.WebSockets</AssemblyName>
         <RootNamespace>Orleans.Tournament.WebSockets</RootNamespace>
         <LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>

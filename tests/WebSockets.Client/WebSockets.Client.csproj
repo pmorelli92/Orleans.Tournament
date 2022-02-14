@@ -6,6 +6,8 @@
         <AssemblyName>Orleans.Tournament.Tests.WebSockets.Client</AssemblyName>
         <RootNamespace>Orleans.Tournament.Tests.WebSockets.Client</RootNamespace>
         <LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
 </Project>

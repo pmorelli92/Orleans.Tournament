@@ -1,11 +1,8 @@
-using System;
+namespace Orleans.Tournament.Domain.Abstractions;
 
-namespace Orleans.Tournament.Domain.Abstractions
+public interface ITraceable
 {
-    public interface ITraceable
-    {
-        Guid TraceId { get; }
+    Guid TraceId { get; }
 
-        Guid InvokerUserId { get; }
-    }
+    Guid InvokerUserId { get; }
 }
