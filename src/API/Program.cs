@@ -50,7 +50,7 @@ var clusterClient = new ClientBuilder()
             })
             .AddFilter(level => level >= LogLevel.Warning)
     )
-    .AddSimpleMessageStreamProvider(Helpers.MemoryProvider)
+    .AddSimpleMessageStreamProvider(Helpers.InMemoryStream)
     .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
     .Build();
 

@@ -49,7 +49,7 @@ var clusterSilo = new SiloHostBuilder()
     .ConfigureEndpoints(siloPort, gatewayPort)
     .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
     .AddMemoryGrainStorage("PubSubStore")
-    .AddSimpleMessageStreamProvider(Helpers.MemoryProvider)
+    .AddSimpleMessageStreamProvider(Helpers.InMemoryStream)
     .ConfigureLogging(e =>
         e.AddJsonConsole(options =>
         {

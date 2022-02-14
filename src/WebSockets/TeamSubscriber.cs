@@ -6,24 +6,22 @@ using Constants = Orleans.Tournament.Domain.Helpers;
 
 namespace Orleans.Tournament.WebSockets;
 
+// Subscribes to the InMemoryStream for the TeamNamespace
+// Each event will be then published back on the stream but on the WebSocketNamespace
 [ImplicitStreamSubscription(Constants.TeamNamespace)]
 public class TeamSubscriber : SubscriberGrain
 {
-    public TeamSubscriber(ILogger<TeamSubscriber> logger)
-        : base(
-            new StreamOptions(Constants.MemoryProvider, Constants.TeamNamespace),
-            logger)
+    public TeamSubscriber()
+        : base(new StreamConfig(Constants.InMemoryStream, Constants.TeamNamespace))
     {
     }
 
     public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token = null)
     {
         if (evt is ITraceable obj)
-        {
-            var streamToPublish = GetStreamProvider(Constants.MemoryProvider);
-            var stream = streamToPublish.GetStream<object>(obj.InvokerUserId, Constants.WebSocketNamespace);
-            await stream.OnNextAsync(new WebSocketMessage(evt.GetType().Name, evt));
-        }
+            await StreamProvider!
+                .GetStream<WebSocketMessage>(obj.InvokerUserId, Constants.WebSocketNamespace)
+                .OnNextAsync(new WebSocketMessage(evt.GetType().Name, evt));
 
         return true;
     }

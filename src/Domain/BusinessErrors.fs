@@ -1,7 +1,7 @@
 module Orleans.Tournament.Domain.Helpers
 
 [<Literal>]
-let MemoryProvider = "MemoryProvider";
+let InMemoryStream = "InMemoryStream";
 [<Literal>]
 let WebSocketNamespace = "WebSocketNamespace";
 [<Literal>]

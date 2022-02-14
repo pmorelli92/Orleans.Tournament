@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Orleans.EventSourcing;
 using Orleans.Streams;
 using Orleans.Tournament.Domain.Abstractions.Events;
@@ -8,41 +7,36 @@ namespace Orleans.Tournament.Domain.Abstractions.Grains;
 public abstract class EventSourcedGrain<TState> : JournaledGrain<TState>
     where TState : class, new()
 {
-    private IAsyncStream<object> _stream;
+    private readonly string _type;
+    private readonly string _namespace;
+    protected IStreamProvider? StreamProvider;
 
-    private readonly StreamOptions _streamOpt;
-    private readonly ILogger _logger;
-
-    protected EventSourcedGrain(
-        StreamOptions streamOpt,
-        ILogger logger)
+    protected EventSourcedGrain(StreamConfig streamConfig)
     {
-        _streamOpt = streamOpt;
-        _logger = logger;
+        (_type, _namespace) = streamConfig;
     }
 
-    public override async Task OnActivateAsync()
+    public override Task OnActivateAsync()
     {
-        var streamProvider = GetStreamProvider(_streamOpt.Provider);
-        _stream = streamProvider.GetStream<object>(this.GetPrimaryKey(), _streamOpt.Namespace);
-        await base.OnActivateAsync();
+        // StreamProvider cannot be obtained outside the Orleans lifecycle methods
+        StreamProvider = GetStreamProvider(_type);
+        
+        return base.OnActivateAsync();
     }
 
     protected async Task PersistPublishAsync(object evt)
     {
         RaiseEvent(evt);
 
-        _logger.LogInformation(
-            "handled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
-
-        await _stream.OnNextAsync(evt);
+        await StreamProvider!
+            .GetStream<object>(this.GetPrimaryKey(), _namespace)
+            .OnNextAsync(evt);
     }
 
-    protected async Task PublishErrorAsync(int code, string name, Guid traceId, Guid invokerUserId)
+    protected async Task PublishErrorAsync(ErrorHasOccurred evt)
     {
-        _logger.LogInformation(
-            "handled error [{code}]-[{name}] for resource id: [{grainId}]", code, name, this.GetPrimaryKey());
-
-        await _stream.OnNextAsync(new ErrorHasOccurred(code, name, traceId, invokerUserId));
+        await StreamProvider!
+            .GetStream<object>(this.GetPrimaryKey(), _namespace)
+            .OnNextAsync(evt);
     }
 }

@@ -18,11 +18,9 @@ public class TeamSubscriber : SubscriberGrain
 
     public TeamSubscriber(
         PostgresOptions postgresOptions,
-        ITournamentQueryHandler tournamentQueryHandler,
-        ILogger<TeamSubscriber> logger)
+        ITournamentQueryHandler tournamentQueryHandler)
         : base(
-            new StreamOptions(Constants.MemoryProvider, Constants.TeamNamespace),
-            logger)
+            new StreamConfig(Constants.InMemoryStream, Constants.TeamNamespace))
     {
         _tournamentQueryHandler = tournamentQueryHandler;
         _projectionManager = new ProjectionManager<TeamProjection>("read", "team_projection", postgresOptions);

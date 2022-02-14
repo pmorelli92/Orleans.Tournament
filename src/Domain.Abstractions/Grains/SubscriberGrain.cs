@@ -1,59 +1,41 @@
-using Microsoft.Extensions.Logging;
 using Orleans.Streams;
 
 namespace Orleans.Tournament.Domain.Abstractions.Grains;
 
+// This interface is needed for Orleans' Grain activation
 public interface ISubscriber : IGrainWithGuidKey
 {
 }
 
 public abstract class SubscriberGrain : Grain, ISubscriber
 {
-    private StreamSubscriptionHandle<object> _subscription;
+    private readonly string _type;
+    private readonly string _namespace;
+    private StreamSubscriptionHandle<object>? _sub;
 
-    private readonly StreamOptions _streamOpt;
-    protected readonly ILogger _logger;
+    protected IStreamProvider? StreamProvider;
 
-    protected SubscriberGrain(
-        StreamOptions streamOpt,
-        ILogger logger)
+    protected SubscriberGrain(StreamConfig streamConfig)
     {
-        _streamOpt = streamOpt;
-        _logger = logger;
+        (_type, _namespace) = streamConfig;
     }
 
-    public override async Task OnActivateAsync()
+    public async override Task OnActivateAsync()
     {
-        var guid = this.GetPrimaryKey();
-        var streamProvider = GetStreamProvider(_streamOpt.Provider);
-        var stream = streamProvider.GetStream<object>(guid, _streamOpt.Namespace);
+        // StreamProvider cannot be obtained outside the Orleans lifecycle methods
+        StreamProvider = GetStreamProvider(_type);
 
-        var subscriptionHandles = await stream.GetAllSubscriptionHandles();
-        var subs = subscriptionHandles.FirstOrDefault(e => e.HandleId == guid);
-        if (subs != null)
-        {
-            _subscription = subs;
-            await subs.ResumeAsync(OnNextAsync);
-        }
-        else
-        {
-            _subscription = await stream.SubscribeAsync(OnNextAsync);
-        }
+        _sub = await StreamProvider
+            .GetStream<object>(this.GetPrimaryKey(), _namespace)
+            .SubscribeAsync(HandleAsync);
+
+        await base.OnActivateAsync();
     }
 
-    public override Task OnDeactivateAsync()
+    public async override Task OnDeactivateAsync()
     {
-        _subscription.UnsubscribeAsync();
-        return base.OnDeactivateAsync();
-    }
-
-    public async Task OnNextAsync(object evt, StreamSequenceToken token)
-    {
-        var handled = await HandleAsync(evt, token);
-
-        if (handled)
-            _logger.LogInformation(
-            "handled event of type [{evtType}] for resource id: [{grainId}]", evt.GetType().Name, this.GetPrimaryKey());
+        await _sub!.UnsubscribeAsync();
+        await base.OnDeactivateAsync();
     }
 
     public abstract Task<bool> HandleAsync(object evt, StreamSequenceToken token);

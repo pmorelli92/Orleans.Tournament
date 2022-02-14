@@ -1,31 +1,24 @@
-using System;
-using System.Linq;
 using System.Net;
 using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Orleans.Streams;
+using Orleans.Tournament.WebSockets;
 using Constants = Orleans.Tournament.Domain.Helpers;
 
 namespace Orleans.Tournament.API.Middlewares
 {
     public class WebSocketPubSubMiddleware
     {
-        private readonly RequestDelegate _next;
         private readonly IClusterClient _clusterClient;
         private readonly ILogger<WebSocketPubSubMiddleware> _logger;
 
         public WebSocketPubSubMiddleware(
-            RequestDelegate next,
+            RequestDelegate _,
             IClusterClient clusterClient,
             ILogger<WebSocketPubSubMiddleware> logger)
         {
-            _next = next;
             _logger = logger;
             _clusterClient = clusterClient;
         }
@@ -46,7 +39,7 @@ namespace Orleans.Tournament.API.Middlewares
                 return;
             }
 
-            var subscription = default(StreamSubscriptionHandle<object>);
+            var subscription = default(StreamSubscriptionHandle<WebSocketMessage>);
             var userId = new Guid(auth.Ticket.Principal.Claims.Single(e => e.Type == ClaimTypes.NameIdentifier).Value);
 
             try
@@ -55,8 +48,9 @@ namespace Orleans.Tournament.API.Middlewares
                 _logger.LogInformation("[Websocket] opened connection for UserId: {userId}", userId);
 
                 subscription = await
-                    _clusterClient.GetStreamProvider(name: Constants.MemoryProvider)
-                    .GetStream<object>(userId, Constants.WebSocketNamespace)
+                    _clusterClient
+                    .GetStreamProvider(Constants.InMemoryStream)
+                    .GetStream<WebSocketMessage>(userId, Constants.WebSocketNamespace)
                     .SubscribeAsync(async (evt, st) =>
                     {
                         var bytes = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(evt));

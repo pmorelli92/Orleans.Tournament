@@ -1,10 +1,10 @@
 namespace Orleans.Tournament.Domain.Teams
-open Microsoft.Extensions.Logging
 open Orleans.Tournament.Domain.Helpers
 open Orleans.Tournament.Domain.Abstractions
 open Orleans.Tournament.Domain.Abstractions.Grains
 open System.Threading.Tasks
 open Orleans
+open Orleans.Tournament.Domain.Abstractions.Events
 
 type ITeamGrain =
     inherit IGrainWithGuidKey
@@ -15,10 +15,9 @@ type ITeamGrain =
     // Queries
     abstract TeamExistAsync: unit -> Task<bool>
 
-type TeamGrain(logger : ILogger<TeamGrain>) =
+type TeamGrain() =
     inherit EventSourcedGrain<TeamState>(
-        new StreamOptions(MemoryProvider, TeamNamespace),
-        logger)
+        new StreamConfig(InMemoryStream, TeamNamespace))
 
     interface ITeamGrain with
         member x.CreateAsync cmd =
@@ -42,4 +41,4 @@ type TeamGrain(logger : ILogger<TeamGrain>) =
             // wrap x.State.Created
 
     member x.EmitErrorAsync (error : BusinessErrors) (cmd : ITraceable) =
-        base.PublishErrorAsync((int error), error.ToString(), cmd.TraceId, cmd.InvokerUserId)
+        base.PublishErrorAsync(new ErrorHasOccurred((int error), error.ToString(), cmd.TraceId, cmd.InvokerUserId))
