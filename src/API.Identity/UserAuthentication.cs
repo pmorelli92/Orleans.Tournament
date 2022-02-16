@@ -5,7 +5,7 @@ using Dapper;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 
-namespace Orleans.Tournament.API.Identity;
+namespace Tournament.API.Identity;
 
 public record Login(string Email, string Password);
 
@@ -47,7 +47,7 @@ public class UserAuthentication : ICreateUser, ILoginUser
         await using var dbConnection = new NpgsqlConnection(_connectionString.Value);
 
         var fetchedEmail = await dbConnection.QueryFirstOrDefaultAsync<string>(
-            "SELECT email FROM auth.user WHERE email = @email", new {email});
+            "SELECT email FROM auth.user WHERE email = @email", new { email });
 
         if (!string.IsNullOrEmpty(fetchedEmail))
             throw new Exception("the user already exists");
@@ -57,7 +57,7 @@ public class UserAuthentication : ICreateUser, ILoginUser
 
         await dbConnection.ExecuteAsync(
             "INSERT INTO auth.user (id, email, password_hash, salt_key, claims) VALUES (@userId, @email, @passwordHash, @saltKey, @claims)",
-            new {userId, email, passwordHash, saltKey, request.Claims});
+            new { userId, email, passwordHash, saltKey, request.Claims });
 
         return userId;
     }
@@ -73,7 +73,7 @@ public class UserAuthentication : ICreateUser, ILoginUser
                 claims AS Claims,
                 salt_key AS SaltKey,
                 password_hash AS PasswordHash
-              FROM auth.user where email = @email", new {email});
+              FROM auth.user where email = @email", new { email });
 
         if (user is null)
             throw new Exception("user does not exists");

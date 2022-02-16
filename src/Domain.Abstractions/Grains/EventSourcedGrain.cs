@@ -1,8 +1,9 @@
+using Orleans;
 using Orleans.EventSourcing;
 using Orleans.Streams;
-using Orleans.Tournament.Domain.Abstractions.Events;
+using Tournament.Domain.Abstractions.Events;
 
-namespace Orleans.Tournament.Domain.Abstractions.Grains;
+namespace Tournament.Domain.Abstractions.Grains;
 
 public abstract class EventSourcedGrain<TState> : JournaledGrain<TState>
     where TState : class, new()
@@ -20,7 +21,7 @@ public abstract class EventSourcedGrain<TState> : JournaledGrain<TState>
     {
         // StreamProvider cannot be obtained outside the Orleans lifecycle methods
         StreamProvider = GetStreamProvider(_type);
-        
+
         return base.OnActivateAsync();
     }
 

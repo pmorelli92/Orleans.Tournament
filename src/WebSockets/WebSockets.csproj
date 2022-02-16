@@ -2,8 +2,8 @@
 
     <PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-        <AssemblyName>Orleans.Tournament.WebSockets</AssemblyName>
-        <RootNamespace>Orleans.Tournament.WebSockets</RootNamespace>
+        <AssemblyName>Tournament.WebSockets</AssemblyName>
+        <RootNamespace>Tournament.WebSockets</RootNamespace>
         <LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -15,7 +15,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Domain.Abstractions\Domain.Abstractions.csproj" />
-        <ProjectReference Include="..\Domain\Domain.fsproj" />
-    </ItemGroup>
+		<ProjectReference Include="..\DomainC\DomainC.csproj" />
+	</ItemGroup>
 
 </Project>

@@ -1,14 +1,14 @@
 using System.Collections.Immutable;
-using Microsoft.Extensions.Logging;
+using Orleans;
 using Orleans.Streams;
-using Orleans.Tournament.Domain.Abstractions;
-using Orleans.Tournament.Domain.Abstractions.Events;
-using Orleans.Tournament.Domain.Abstractions.Grains;
-using Orleans.Tournament.Domain.Teams;
-using Orleans.Tournament.Projections.Tournaments;
-using Constants = Orleans.Tournament.Domain.Helpers;
+using Tournament.Domain;
+using Tournament.Domain.Abstractions;
+using Tournament.Domain.Abstractions.Events;
+using Tournament.Domain.Abstractions.Grains;
+using Tournament.Domain.Teams;
+using Tournament.Projections.Tournaments;
 
-namespace Orleans.Tournament.Projections.Teams;
+namespace Tournament.Projections.Teams;
 
 [ImplicitStreamSubscription(Constants.TeamNamespace)]
 public class TeamSubscriber : SubscriberGrain
@@ -76,7 +76,7 @@ public class TeamSubscriber : SubscriberGrain
     {
         var tournament = await _tournamentQueryHandler.GetTournamentAsync(evt.TournamentId);
         var tournamentObj = new Tournament(tournament.Id, tournament.Name);
-        
+
         var projection = await _projectionManager.GetProjectionAsync(this.GetPrimaryKey());
 
         await _projectionManager.UpdateProjection(

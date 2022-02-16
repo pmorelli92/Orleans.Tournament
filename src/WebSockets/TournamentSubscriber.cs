@@ -1,9 +1,10 @@
-﻿using Orleans.Streams;
-using Orleans.Tournament.Domain.Abstractions;
-using Orleans.Tournament.Domain.Abstractions.Grains;
-using Constants = Orleans.Tournament.Domain.Helpers;
+﻿using Orleans;
+using Orleans.Streams;
+using Tournament.Domain;
+using Tournament.Domain.Abstractions;
+using Tournament.Domain.Abstractions.Grains;
 
-namespace Orleans.Tournament.WebSockets;
+namespace Tournament.WebSockets;
 
 // Subscribes to the InMemoryStream for the TournamentNamespace
 // Each event will be then published back on the stream but on the WebSocketNamespace
@@ -21,7 +22,7 @@ public class TournamentSubscriber : SubscriberGrain
             await StreamProvider!
                 .GetStream<WebSocketMessage>(obj.InvokerUserId, Constants.WebSocketNamespace)
                 .OnNextAsync(new WebSocketMessage(evt.GetType().Name, evt));
-        
+
         return true;
     }
 }

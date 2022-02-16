@@ -4,12 +4,13 @@ using Orleans.CodeGeneration;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Orleans.Statistics;
-using Orleans.Tournament.Domain;
-using Orleans.Tournament.Projections;
-using Orleans.Tournament.Projections.Teams;
-using Orleans.Tournament.Projections.Tournaments;
+using Tournament.Domain;
+using Tournament.Projections;
+using Tournament.Projections.Teams;
+using Tournament.Projections.Tournaments;
+using Results = Microsoft.AspNetCore.Http.Results;
 
-[assembly: KnownAssembly(typeof(Helpers))]
+[assembly: KnownAssembly(typeof(Constants))]
 var builder = WebApplication.CreateBuilder(args);
 
 // Parse environment variables
@@ -49,7 +50,7 @@ var clusterSilo = new SiloHostBuilder()
     .ConfigureEndpoints(siloPort, gatewayPort)
     .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
     .AddMemoryGrainStorage("PubSubStore")
-    .AddSimpleMessageStreamProvider(Helpers.InMemoryStream)
+    .AddSimpleMessageStreamProvider(Constants.InMemoryStream)
     .ConfigureLogging(e =>
         e.AddJsonConsole(options =>
         {

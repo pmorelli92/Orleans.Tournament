@@ -1,14 +1,14 @@
-using System.Collections.Immutable; 
-using Microsoft.Extensions.Logging;
+using System.Collections.Immutable;
+using Orleans;
 using Orleans.Streams;
-using Orleans.Tournament.Domain.Abstractions;
-using Orleans.Tournament.Domain.Abstractions.Events;
-using Orleans.Tournament.Domain.Abstractions.Grains;
-using Orleans.Tournament.Domain.Tournaments;
-using Orleans.Tournament.Projections.Teams;
-using Constants = Orleans.Tournament.Domain.Helpers;
+using Tournament.Domain;
+using Tournament.Domain.Abstractions;
+using Tournament.Domain.Abstractions.Events;
+using Tournament.Domain.Abstractions.Grains;
+using Tournament.Domain.Tournaments;
+using Tournament.Projections.Teams;
 
-namespace Orleans.Tournament.Projections.Tournaments;
+namespace Tournament.Projections.Tournaments;
 
 [ImplicitStreamSubscription(Constants.TournamentNamespace)]
 public class TournamentSubscriber : SubscriberGrain
@@ -74,7 +74,7 @@ public class TournamentSubscriber : SubscriberGrain
         await _projectionManager.UpdateProjection(
             this.GetPrimaryKey(),
             projection with { Teams = projection.Teams.Add(teamObj) });
-        
+
         return true;
     }
 
@@ -97,7 +97,7 @@ public class TournamentSubscriber : SubscriberGrain
 
         await _projectionManager.UpdateProjection(
             this.GetPrimaryKey(),
-            projection with { Fixture = projection.Fixture.SetMatchResult(evt.MatchInfo) });
+            projection with { Fixture = projection.Fixture.SetMatchResult(evt.Match) });
 
         return true;
     }

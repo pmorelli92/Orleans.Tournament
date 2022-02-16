@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <AssemblyName>Orleans.Tournament.Silo.Dashboard</AssemblyName>
-        <RootNamespace>Orleans.Tournament.Silo.Dashboard</RootNamespace>
+        <AssemblyName>Tournament.Silo.Dashboard</AssemblyName>
+        <RootNamespace>Tournament.Silo.Dashboard</RootNamespace>
         <LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>

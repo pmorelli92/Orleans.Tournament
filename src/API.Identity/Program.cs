@@ -2,7 +2,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Orleans.Tournament.API.Identity;
+using Tournament.API.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,6 +61,6 @@ var app = builder.Build();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapGet("/version", () => Results.Ok(new {BuildVersion = buildVersion}));
+app.MapGet("/version", () => Results.Ok(new { BuildVersion = buildVersion }));
 app.UseEndpoints(e => e.MapControllers());
 app.Run();

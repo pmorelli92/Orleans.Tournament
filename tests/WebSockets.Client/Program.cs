@@ -22,7 +22,8 @@ var client = new ClientWebSocket();
 client.Options.SetRequestHeader("Authorization", $"Bearer {accessToken}");
 var cts = new CancellationTokenSource();
 
-await Task.Factory.StartNew(async () => {
+await Task.Factory.StartNew(async () =>
+{
     await client.ConnectAsync(uri, CancellationToken.None);
 
     if (client.State != WebSocketState.Open)

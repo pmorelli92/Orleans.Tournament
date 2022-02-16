@@ -1,4 +1,4 @@
-namespace Orleans.Tournament.API;
+namespace Tournament.API;
 
 public record TraceResponse(Guid TraceId);
 

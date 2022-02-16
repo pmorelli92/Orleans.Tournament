@@ -1,4 +1,4 @@
-namespace Orleans.Tournament.Projections.Tournaments;
+namespace Tournament.Projections.Tournaments;
 
 public interface ITournamentQueryHandler
 {

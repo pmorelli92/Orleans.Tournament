@@ -1,7 +1,7 @@
 using Dapper;
 using Npgsql;
 
-namespace Orleans.Tournament.Projections;
+namespace Tournament.Projections;
 
 public class ProjectionManager<T>
 {

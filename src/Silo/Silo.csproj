@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <AssemblyName>Orleans.Tournament.Silo</AssemblyName>
-        <RootNamespace>Orleans.Tournament.Silo</RootNamespace>
+        <AssemblyName>Tournament.Silo</AssemblyName>
+        <RootNamespace>Tournament.Silo</RootNamespace>
         <LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -21,8 +21,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Domain\Domain.fsproj" />
-        <ProjectReference Include="..\Projections\Projections.csproj" />
+		<ProjectReference Include="..\DomainC\DomainC.csproj" />
+		<ProjectReference Include="..\Projections\Projections.csproj" />
         <ProjectReference Include="..\WebSockets\WebSockets.csproj" />
     </ItemGroup>
 

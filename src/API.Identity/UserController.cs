@@ -2,7 +2,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Orleans.Tournament.API.Identity;
+namespace Tournament.API.Identity;
 
 public class UserController : ControllerBase
 {
@@ -19,7 +19,7 @@ public class UserController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("api/user/create", Name = "Create user")]
-    [ProducesResponseType(typeof(UserResponse), (int) HttpStatusCode.Created)]
+    [ProducesResponseType(typeof(UserResponse), (int)HttpStatusCode.Created)]
     public async Task<IActionResult> CreateUser([FromBody] UserRequest request)
     {
         try
@@ -37,7 +37,7 @@ public class UserController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("api/user/login", Name = "Login user")]
-    [ProducesResponseType(typeof(LoginResponse), (int) HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(LoginResponse), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> LoginUser([FromBody] LoginRequest request)
     {
         try

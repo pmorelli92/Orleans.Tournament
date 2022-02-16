@@ -6,13 +6,14 @@ using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Configuration;
 using Orleans.Hosting;
-using Orleans.Tournament.API.Middlewares;
-using Orleans.Tournament.Domain;
-using Orleans.Tournament.Projections;
-using Orleans.Tournament.Projections.Teams;
-using Orleans.Tournament.Projections.Tournaments;
-[assembly: KnownAssembly(typeof(Helpers))]
+using Tournament.API.Middlewares;
+using Tournament.Domain;
+using Tournament.Projections;
+using Tournament.Projections.Teams;
+using Tournament.Projections.Tournaments;
+using Results = Microsoft.AspNetCore.Http.Results;
 
+[assembly: KnownAssembly(typeof(Constants))]
 var builder = WebApplication.CreateBuilder(args);
 
 // Parse environment variables
@@ -46,11 +47,11 @@ var clusterClient = new ClientBuilder()
             {
                 options.IncludeScopes = true;
                 options.TimestampFormat = "dd/MM/yyyy hh:mm:ss";
-                options.JsonWriterOptions = new JsonWriterOptions {Indented = true};
+                options.JsonWriterOptions = new JsonWriterOptions { Indented = true };
             })
             .AddFilter(level => level >= LogLevel.Warning)
     )
-    .AddSimpleMessageStreamProvider(Helpers.InMemoryStream)
+    .AddSimpleMessageStreamProvider(Constants.InMemoryStream)
     .ConfigureApplicationParts(parts => parts.AddFromDependencyContext().WithReferences())
     .Build();
 

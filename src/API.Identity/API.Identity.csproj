@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <AssemblyName>Orleans.Tournament.API.Identity</AssemblyName>
-        <RootNamespace>Orleans.Tournament.API.Identity</RootNamespace>
+        <AssemblyName>Tournament.API.Identity</AssemblyName>
+        <RootNamespace>Tournament.API.Identity</RootNamespace>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>

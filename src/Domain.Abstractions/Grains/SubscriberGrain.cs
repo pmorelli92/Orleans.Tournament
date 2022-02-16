@@ -1,6 +1,7 @@
+using Orleans;
 using Orleans.Streams;
 
-namespace Orleans.Tournament.Domain.Abstractions.Grains;
+namespace Tournament.Domain.Abstractions.Grains;
 
 // This interface is needed for Orleans' Grain activation
 public interface ISubscriber : IGrainWithGuidKey
@@ -20,7 +21,7 @@ public abstract class SubscriberGrain : Grain, ISubscriber
         (_type, _namespace) = streamConfig;
     }
 
-    public async override Task OnActivateAsync()
+    public override async Task OnActivateAsync()
     {
         // StreamProvider cannot be obtained outside the Orleans lifecycle methods
         StreamProvider = GetStreamProvider(_type);
@@ -32,7 +33,7 @@ public abstract class SubscriberGrain : Grain, ISubscriber
         await base.OnActivateAsync();
     }
 
-    public async override Task OnDeactivateAsync()
+    public override async Task OnDeactivateAsync()
     {
         await _sub!.UnsubscribeAsync();
         await base.OnDeactivateAsync();

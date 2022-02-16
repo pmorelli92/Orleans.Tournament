@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
-using Orleans.Tournament.Domain.Tournaments;
+using Tournament.Domain.Tournaments;
 
-namespace Orleans.Tournament.Projections.Tournaments;
+namespace Tournament.Projections.Tournaments;
 
 public record Team(Guid Id, string Name);
 

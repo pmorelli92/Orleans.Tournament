@@ -1,4 +1,4 @@
-namespace Orleans.Tournament.Domain.Abstractions;
+namespace Tournament.Domain.Abstractions;
 
 public interface ITraceable
 {

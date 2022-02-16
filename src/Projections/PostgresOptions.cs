@@ -1,3 +1,3 @@
-namespace Orleans.Tournament.Projections;
+namespace Tournament.Projections;
 
 public record PostgresOptions(string ConnectionString);

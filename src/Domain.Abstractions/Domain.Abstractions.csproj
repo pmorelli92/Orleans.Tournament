@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <AssemblyName>Orleans.Tournament.Domain.Abstractions</AssemblyName>
-        <RootNamespace>Orleans.Tournament.Domain.Abstractions</RootNamespace>
+        <AssemblyName>Tournament.Domain.Abstractions</AssemblyName>
+        <RootNamespace>Tournament.Domain.Abstractions</RootNamespace>
         <LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>

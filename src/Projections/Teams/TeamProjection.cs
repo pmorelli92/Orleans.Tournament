@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
 
-namespace Orleans.Tournament.Projections.Teams;
+namespace Tournament.Projections.Teams;
 
 public record Tournament(Guid Id, string Name);
 
