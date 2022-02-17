@@ -31,12 +31,23 @@ public record Phase(List<Match> Matches, bool Played)
 
     private static Phase GeneratePhase(List<Guid> teams)
     {
-        var localTeams = teams.Take(teams.Count / 2).ToList();
-        var awayTeams = teams.Skip(teams.Count / 2).ToList();
-
         var matches = new List<Match>();
-        for (var i = 0; i < localTeams.Count; i++)
-            matches.Add(new Match(localTeams[i], awayTeams[i], null));
+
+        for (var i = 0; i < teams.Count; i++) 
+        {
+            var local = teams[i];
+            i++;
+            var away = teams[i];
+
+            matches.Add(new Match(local, away, null));
+        }
+
+        //var localTeams = teams.Take(teams.Count / 2).ToList();
+        //var awayTeams = teams.Skip(teams.Count / 2).ToList();
+
+        //var matches = new List<Match>();
+        //for (var i = 0; i < localTeams.Count; i++)
+        //    matches.Add(new Match(localTeams[i], awayTeams[i], null));
 
         return new Phase(matches, false);
     }
