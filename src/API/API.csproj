@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-		<ProjectReference Include="..\DomainC\DomainC.csproj" />
+		<ProjectReference Include="..\Domain\Domain.csproj" />
 		<ProjectReference Include="..\Projections\Projections.csproj" />
         <ProjectReference Include="..\WebSockets\WebSockets.csproj" />
     </ItemGroup>

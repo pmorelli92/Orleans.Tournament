@@ -1,6 +1,5 @@
 ﻿using Orleans;
 using Tournament.Domain.Abstractions;
-using Tournament.Domain.Abstractions.Events;
 using Tournament.Domain.Abstractions.Grains;
 using Tournament.Domain.Teams;
 
@@ -29,7 +28,7 @@ public class TournamentGrain : EventSourcedGrain<TournamentState>, ITournamentGr
         var task = State.TournamentDoesNotExists() switch
         {
             Results.Unit => PersistPublishAsync(new TournamentCreated(cmd.Name, cmd.TournamentId, cmd.TraceId, cmd.InvokerUserId)),
-            Results x => PublishErrorAsync(new ErrorHasOccurred((int)x, nameof(CreateTournament), cmd.TraceId, cmd.InvokerUserId))
+            Results x => PublishErrorAsync(new ErrorHasOccurred((int)x, x.ToString(), cmd.TraceId, cmd.InvokerUserId))
         };
 
         await task;
@@ -52,7 +51,7 @@ public class TournamentGrain : EventSourcedGrain<TournamentState>, ITournamentGr
         var task = result switch
         {
             Results.Unit => PersistPublishAsync(new TeamAdded(cmd.TeamId, cmd.TournamentId, cmd.TraceId, cmd.InvokerUserId)),
-            Results x => PublishErrorAsync(new ErrorHasOccurred((int)x, nameof(AddTeam), cmd.TraceId, cmd.InvokerUserId))
+            Results x => PublishErrorAsync(new ErrorHasOccurred((int)x, x.ToString(), cmd.TraceId, cmd.InvokerUserId))
         };
 
         await task;
@@ -65,10 +64,13 @@ public class TournamentGrain : EventSourcedGrain<TournamentState>, ITournamentGr
             State.TournamentDidNotStart(),
             State.EightTeamsToStartTournament());
 
+        // Randomizer seed
+        var seed = DateTime.Now.Millisecond;
+
         var task = result switch
         {
-            Results.Unit => PersistPublishAsync(new TournamentStarted(cmd.TournamentId, State.Teams, cmd.TraceId, cmd.InvokerUserId)),
-            Results x => PublishErrorAsync(new ErrorHasOccurred((int)x, nameof(TournamentStarted), cmd.TraceId, cmd.InvokerUserId))
+            Results.Unit => PersistPublishAsync(new TournamentStarted(cmd.TournamentId, State.Teams, seed, cmd.TraceId, cmd.InvokerUserId)),
+            Results x => PublishErrorAsync(new ErrorHasOccurred((int)x, x.ToString(), cmd.TraceId, cmd.InvokerUserId))
         };
 
         await task;
@@ -85,7 +87,7 @@ public class TournamentGrain : EventSourcedGrain<TournamentState>, ITournamentGr
         var task = result switch
         {
             Results.Unit => PersistPublishAsync(new MatchResultSet(cmd.TournamentId, cmd.Match, cmd.TraceId, cmd.InvokerUserId)),
-            Results x => PublishErrorAsync(new ErrorHasOccurred((int)x, nameof(SetMatchResult), cmd.TraceId, cmd.InvokerUserId))
+            Results x => PublishErrorAsync(new ErrorHasOccurred((int)x, x.ToString(), cmd.TraceId, cmd.InvokerUserId))
         };
 
         await task;

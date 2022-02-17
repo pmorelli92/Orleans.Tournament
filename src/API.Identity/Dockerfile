@@ -11,4 +11,4 @@ RUN dotnet publish src/API.Identity -o app -c Release
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine3.14
 WORKDIR /app
 COPY --from=build app .
-ENTRYPOINT ["dotnet", "Orleans.Tournament.API.Identity.dll"]
+ENTRYPOINT ["dotnet", "Tournament.API.Identity.dll"]

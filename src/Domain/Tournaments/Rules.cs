@@ -50,9 +50,9 @@ public partial class TournamentState
         else if (Fixture.Semi != null)
             currentPhase = Fixture.Semi;
 
-        var currentMatch = currentPhase.Matches.Where(e =>
+        var currentMatch = currentPhase.Matches.SingleOrDefault(e =>
             e.LocalTeamId == match.LocalTeamId &&
-            e.AwayTeamId == match.AwayTeamId).FirstOrDefault();
+            e.AwayTeamId == match.AwayTeamId);
 
         if (currentMatch is null)
             return Results.MatchDoesNotExist;

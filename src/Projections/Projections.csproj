@@ -17,7 +17,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Domain.Abstractions\Domain.Abstractions.csproj" />
-        <ProjectReference Include="..\DomainC\DomainC.csproj" />
+        <ProjectReference Include="..\Domain\Domain.csproj" />
 	</ItemGroup>
 
 </Project>

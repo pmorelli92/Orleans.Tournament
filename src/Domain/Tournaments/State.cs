@@ -23,8 +23,8 @@ public partial class TournamentState
     public void Apply(TeamAdded evt)
         => Teams.Add(evt.TeamId);
 
-    public void Apply(TournamentStarted _)
-        => Fixture = Fixture.Create(Teams);
+    public void Apply(TournamentStarted evt)
+        => Fixture = Fixture.Create(Teams, evt.Seed);
 
     public void Apply(MatchResultSet evt)
         => Fixture = Fixture!.SetMatchResult(evt.Match);

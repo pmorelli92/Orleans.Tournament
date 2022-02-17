@@ -15,15 +15,17 @@ public record Phase(List<Match> Matches, bool Played)
         if (Played)
             return this;
 
-        // Get all the matches but the one we are setting the result to
-        var newMatchList = Matches.Where(e =>
-            e.LocalTeamId != match.LocalTeamId &&
-            e.AwayTeamId != match.AwayTeamId).ToList();
+        // Find match index
+        var index = Matches.FindIndex(e =>
+            e.LocalTeamId == match.LocalTeamId &&
+            e.AwayTeamId == match.AwayTeamId);
+
+
+        Matches[index] = match;
 
         return this with
         {
-            Matches = newMatchList.Append(match).ToList(),
-            Played = newMatchList.All(e => e.MatchResult is not null)
+            Played = Matches.All(e => e.MatchResult is not null)
         };
     }
 
@@ -39,10 +41,10 @@ public record Phase(List<Match> Matches, bool Played)
         return new Phase(matches, false);
     }
 
-    public static Phase GenerateRandomPhase(List<Guid> teams)
+    public static Phase GenerateRandomPhase(List<Guid> teams, int seed)
     {
-        var seed = new Random();
-        return GeneratePhase(teams.OrderBy(e => seed.Next()).ToList());
+        var rnd = new Random(seed);
+        return GeneratePhase(teams.OrderBy(e => rnd.Next()).ToList());
     }
 
     public static Phase? MaybeGenerateNewPhaseFromCurrent(Phase current)
@@ -62,8 +64,8 @@ public record Phase(List<Match> Matches, bool Played)
 
 public record Fixture(Phase Quarter, Phase? Semi, Phase? Final)
 {
-    public static Fixture Create(List<Guid> teams)
-        => new(Phase.GenerateRandomPhase(teams), null, null);
+    public static Fixture Create(List<Guid> teams, int seed)
+        => new(Phase.GenerateRandomPhase(teams, seed), null, null);
 
     public Fixture SetMatchResult(Match match)
     {

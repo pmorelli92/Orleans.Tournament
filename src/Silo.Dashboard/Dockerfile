@@ -11,4 +11,4 @@ RUN dotnet publish src/Silo.Dashboard -o /src/Silo.Dashboard/out -c Release
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine3.14
 COPY --from=build /src/Silo.Dashboard/out /app
 WORKDIR /app
-ENTRYPOINT ["dotnet", "Orleans.Tournament.Silo.Dashboard.dll"]
+ENTRYPOINT ["dotnet", "Tournament.Silo.Dashboard.dll"]

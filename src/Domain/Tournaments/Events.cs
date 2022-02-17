@@ -17,6 +17,7 @@ public record TeamAdded(
 public record TournamentStarted(
     Guid TournamentId,
     List<Guid> Teams,
+    int Seed,
     Guid TraceId,
     Guid InvokerUserId) : ITraceable;
 

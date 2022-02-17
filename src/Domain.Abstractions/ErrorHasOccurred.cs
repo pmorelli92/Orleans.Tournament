@@ -1,4 +1,4 @@
-namespace Tournament.Domain.Abstractions.Events;
+namespace Tournament.Domain.Abstractions;
 
 public record ErrorHasOccurred(
     int Code,

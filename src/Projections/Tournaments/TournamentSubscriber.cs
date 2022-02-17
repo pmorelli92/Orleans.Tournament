@@ -3,7 +3,6 @@ using Orleans;
 using Orleans.Streams;
 using Tournament.Domain;
 using Tournament.Domain.Abstractions;
-using Tournament.Domain.Abstractions.Events;
 using Tournament.Domain.Abstractions.Grains;
 using Tournament.Domain.Tournaments;
 using Tournament.Projections.Teams;
@@ -86,7 +85,7 @@ public class TournamentSubscriber : SubscriberGrain
 
         await _projectionManager.UpdateProjection(
             this.GetPrimaryKey(),
-            projection with { Fixture = Fixture.Create(evt.Teams) });
+            projection with { Fixture = Fixture.Create(evt.Teams, evt.Seed) });
 
         return true;
     }

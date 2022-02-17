@@ -1,7 +1,6 @@
 using Orleans;
 using Orleans.EventSourcing;
 using Orleans.Streams;
-using Tournament.Domain.Abstractions.Events;
 
 namespace Tournament.Domain.Abstractions.Grains;
 

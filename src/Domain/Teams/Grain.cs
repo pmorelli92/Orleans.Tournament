@@ -1,6 +1,5 @@
 ﻿using Orleans;
 using Tournament.Domain.Abstractions;
-using Tournament.Domain.Abstractions.Events;
 using Tournament.Domain.Abstractions.Grains;
 
 namespace Tournament.Domain.Teams;
@@ -29,7 +28,7 @@ public class TeamGrain : EventSourcedGrain<TeamState>, ITeamGrain
         var task = State.TeamDoesNotExists() switch
         {
             Results.Unit => PersistPublishAsync(new TeamCreated(cmd.Name, cmd.TeamId, cmd.TraceId, cmd.InvokerUserId)),
-            Results x => PublishErrorAsync(new ErrorHasOccurred((int)x, nameof(CreateTeam), cmd.TraceId, cmd.InvokerUserId))
+            Results x => PublishErrorAsync(new ErrorHasOccurred((int)x, x.ToString(), cmd.TraceId, cmd.InvokerUserId))
         };
 
         await task;
@@ -40,7 +39,7 @@ public class TeamGrain : EventSourcedGrain<TeamState>, ITeamGrain
         var task = State.TeamExists() switch
         {
             Results.Unit => PersistPublishAsync(new PlayerAdded(cmd.Name, cmd.TeamId, cmd.TraceId, cmd.InvokerUserId)),
-            Results x => PublishErrorAsync(new ErrorHasOccurred((int)x, nameof(AddPlayer), cmd.TraceId, cmd.InvokerUserId))
+            Results x => PublishErrorAsync(new ErrorHasOccurred((int)x, x.ToString(), cmd.TraceId, cmd.InvokerUserId))
         };
 
         await task;

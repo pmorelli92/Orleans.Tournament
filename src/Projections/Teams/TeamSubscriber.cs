@@ -3,7 +3,6 @@ using Orleans;
 using Orleans.Streams;
 using Tournament.Domain;
 using Tournament.Domain.Abstractions;
-using Tournament.Domain.Abstractions.Events;
 using Tournament.Domain.Abstractions.Grains;
 using Tournament.Domain.Teams;
 using Tournament.Projections.Tournaments;
