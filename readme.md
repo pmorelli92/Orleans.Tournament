@@ -77,11 +77,17 @@ In this case there is not a rollback strategy nor management as it is not a desi
 
 ### Async communication
 
+Given the async nature of Orleans the commands executed by a user should not return results on how does the resource looks after a command succeded, and IF the command succeded. Instead the response will contain a `TraceId` as a GUID representation of the intent of the user. The user will receive a message via websockets indicating what happened for that TraceId. The frontend can reflect the changes accordingly.
+
+![Websockets](/img/websockets.drawio.png)
+
 ### Authentication
 
-### Websockets
+Not all the users should receive via websockets all the events that happened on the system, but only for those which that user triggered. For that purpose is that this solution contains an authentication system in place. Each command executed will contain a `TraceId` but also an `InvokerUserId` that can also serve as an audit log. The user will only get websocket messages for those events on which the `InvokerUserId` matches with the one on the JWT Token.
 
 ### Fallback strategies
+
+It makes sense to have a fallback mechanism in case a websocket event did not arrive due to network issues. This could be a key value database where a user can search for a `TraceId` to find the response to react for a command executed. This is not currently implemented here.
 
 ### Infrastructure
 
