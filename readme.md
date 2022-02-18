@@ -49,7 +49,7 @@ The Fixture is inmutable. This means that the methods exposed by it do not cause
 One of the advantages of using an Actor Model Framework is the innate segregation of commands and queries. The commands are executed against a certain Actor (Grain) and cause side effects, such as the publishing of an Event.
 However, the queries do not go against a Grain, instead they go against a read database that gets populated via projections.
 
-![CQRS and projections.](/img/projections.svg)
+![CQRS and projections.](/img/projections.drawio.png)
 
 This is, in fact, eventual consistency. There are some milliseconds between the source of truth (Grain) changes to be reflected in the projections that are queryable. This should not be a problem, but one needs to make sure to enable retry strategies in case the database is down while consuming an event from the stream, etc.
 
