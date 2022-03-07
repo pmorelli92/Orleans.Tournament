@@ -3,8 +3,8 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
-		<AssemblyName>Tournament.Tests.WebSockets.Client</AssemblyName>
-        <RootNamespace>Tournament.Tests.WebSockets.Client</RootNamespace>
+		<AssemblyName>Tournament.Utils.WebSockets.Client</AssemblyName>
+        <RootNamespace>Tournament.Utils.WebSockets.Client</RootNamespace>
         <LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
