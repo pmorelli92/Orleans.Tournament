@@ -3,10 +3,10 @@ using Xunit;
 
 namespace Tournament.Domain.Tests;
 
-public class FixtureTests 
+public class FixtureTests
 {
     [Fact]
-    public void PlayMatch() 
+    public void SetMatchResult_Should_Preserve_Index_Position()
     {
         var teams = new List<Guid>() {
             new Guid("10000000-0000-0000-0000-000000000000"),
@@ -21,18 +21,24 @@ public class FixtureTests
 
         var sut = Fixture.Create(teams, 1);
 
-
-        var firstBracket = sut.Quarter.Matches[0];
+        var expected = sut.Quarter.Matches[0];
+        var expectedLocalGoals = 2;
+        var expectedAwayGoals = 0;
 
         var setMatch = new Match(
-            firstBracket.LocalTeamId,
-            firstBracket.AwayTeamId,
-            new MatchResult(2, 0));
-
-        Console.WriteLine(sut.Quarter.Matches);
+            expected.LocalTeamId,
+            expected.AwayTeamId,
+            new MatchResult(expectedLocalGoals, expectedAwayGoals));
 
         sut = sut.SetMatchResult(setMatch);
 
-        Console.WriteLine(sut.Quarter.Matches);
+        // The index should be the same
+        var actual = sut.Quarter.Matches[0];
+
+        Assert.Equal(actual.LocalTeamId, expected.LocalTeamId);
+        Assert.Equal(actual.AwayTeamId, expected.AwayTeamId);
+        Assert.NotNull(actual.MatchResult);
+        Assert.Equal(actual.MatchResult!.LocalGoals, expectedLocalGoals);
+        Assert.Equal(actual.MatchResult.AwayGoals, expectedAwayGoals);
     }
 }
