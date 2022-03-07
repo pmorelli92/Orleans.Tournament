@@ -60,11 +60,15 @@ public class Controller : ControllerBase
     [ProducesResponseType(typeof(TeamResponse), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetTeam([FromRoute] Guid teamId)
     {
-        var projection = await _teamQueryHandler.GetTeamAsync(teamId);
-
-        return projection is null
-            ? NotFound()
-            : (IActionResult)Ok(TeamResponse.From(projection));
+        try
+        {
+            var projection = await _teamQueryHandler.GetTeamAsync(teamId);
+            return Ok(TeamResponse.From(projection));
+        }
+        catch
+        {
+            return NotFound();
+        }
     }
 
     [Authorize(Roles = "read")]

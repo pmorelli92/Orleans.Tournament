@@ -82,11 +82,15 @@ public class Controller : ControllerBase
     [ProducesResponseType(typeof(TournamentResponse), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetTournament([FromRoute] Guid tournamentId)
     {
-        var projection = await _tournamentQueryHandler.GetTournamentAsync(tournamentId);
-
-        return projection is null
-            ? NotFound()
-            : (IActionResult)Ok(TournamentResponse.From(projection));
+        try
+        {
+            var projection = await _tournamentQueryHandler.GetTournamentAsync(tournamentId);
+            return Ok(TournamentResponse.From(projection));
+        }
+        catch
+        {
+            return NotFound();
+        }
     }
 
     [Authorize(Roles = "read")]
