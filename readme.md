@@ -18,7 +18,7 @@ This project is a backend oriented demo with websocket capabilities that relies 
 
 Click to view it on Loom with sound.
 
-[![demo](https://cdn.loom.com/sessions/thumbnails/295a8f4dd71a474cb59b09388422deb9-with-play.gif)](https://www.loom.com/share/295a8f4dd71a474cb59b09388422deb9){:target="_blank"}
+[![demo](https://cdn.loom.com/sessions/thumbnails/295a8f4dd71a474cb59b09388422deb9-with-play.gif)](https://www.loom.com/share/295a8f4dd71a474cb59b09388422deb9)
 
 ## Domain
 
