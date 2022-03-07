@@ -70,7 +70,7 @@ public class Controller : ControllerBase
         var traceId = Guid.NewGuid();
         var tournament = _clusterClient.GetGrain<ITournamentGrain>(tournamentId);
 
-        var matchInfo = new Match(model.LocalTeamId, model.AwayTeamId, new MatchResult(model.LocalGoals, model.AwayGoals));
+        var matchInfo = new Match(model.LocalTeamId, model.AwayTeamId, new MatchResult(model.LocalGoals, model.AwayGoals, true));
 
         tournament.SetMatchResultAsync(new SetMatchResult(tournamentId, matchInfo, traceId, GetUserId));
         return Ok(new TraceResponse(traceId));

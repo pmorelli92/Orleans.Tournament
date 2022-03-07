@@ -28,9 +28,15 @@ public class ProjectionManager<T>
 
         var payload = await connection.QuerySingleOrDefaultAsync<string>(_getQuery, param: new { id });
 
-        return payload is null
-            ? default
-            : System.Text.Json.JsonSerializer.Deserialize<T>(payload);
+        if (string.IsNullOrEmpty(payload))
+            throw new Exception("the projection with the supplied ID does not exist");
+
+        var projection = System.Text.Json.JsonSerializer.Deserialize<T>(payload);
+
+        if (projection is null)
+            throw new Exception("the projection is null, this indicates the json stored is not in sync with the projection");
+
+        return projection;
     }
 
     public async Task<IReadOnlyList<T>> GetProjectionsAsync()
@@ -38,8 +44,12 @@ public class ProjectionManager<T>
         using var connection = new NpgsqlConnection(_postgresOptions.ConnectionString);
 
         var payloads = await connection.QueryAsync<string>(_getAllQuery);
+
+        // Merge all the payloads into a json array
         var array = $"[{string.Join(",", payloads)}]";
-        return System.Text.Json.JsonSerializer.Deserialize<IReadOnlyList<T>>(array);
+
+        return System.Text.Json.JsonSerializer.Deserialize<IReadOnlyList<T>>(array)
+                ?? Enumerable.Empty<T>().ToList();
     }
 
     public async Task UpdateProjection(Guid id, T projection)

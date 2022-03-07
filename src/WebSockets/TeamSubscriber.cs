@@ -16,7 +16,7 @@ public class TeamSubscriber : SubscriberGrain
     {
     }
 
-    public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token = null)
+    public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token)
     {
         if (evt is ITraceable obj)
             await StreamProvider!

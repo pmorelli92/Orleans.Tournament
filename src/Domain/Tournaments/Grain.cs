@@ -64,7 +64,7 @@ public class TournamentGrain : EventSourcedGrain<TournamentState>, ITournamentGr
             State.TournamentDidNotStart(),
             State.EightTeamsToStartTournament());
 
-        // Randomizer seed
+        // Randomize seed
         var seed = DateTime.Now.Millisecond;
 
         var task = result switch
@@ -81,7 +81,7 @@ public class TournamentGrain : EventSourcedGrain<TournamentState>, ITournamentGr
         var result = ResultsUtil.Eval(
             State.TournamentExists(),
             State.TournamentStarted(),
-            State.MatchIsNotDraw(cmd.Match.MatchResult!),
+            State.MatchIsNotDraw(cmd.Match.MatchResult),
             State.MatchExistsAndIsNotPlayed(cmd.Match));
 
         var task = result switch

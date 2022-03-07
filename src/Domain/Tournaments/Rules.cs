@@ -28,26 +28,26 @@ public partial class TournamentState
             : Results.TournamentCantStartWithLessThanEightTeams;
 
     public Results TournamentStarted()
-        => Fixture is not null
+        => Fixture.Quarter.IsEmpty == false
             ? Results.Unit
             : Results.TournamentDidNotStart;
 
     public Results TournamentDidNotStart()
-        => Fixture is null
+        => Fixture.Quarter.IsEmpty
             ? Results.Unit
             : Results.TournamentAlreadyStarted;
 
     public Results MatchExistsAndIsNotPlayed(Match match)
     {
-        if (Fixture is null)
+        if (Fixture.Quarter.IsEmpty)
             return Results.TournamentDidNotStart;
 
         // Get current phase
         var currentPhase = Fixture.Quarter;
 
-        if (Fixture.Final != null)
+        if (!Fixture.Final.IsEmpty)
             currentPhase = Fixture.Final;
-        else if (Fixture.Semi != null)
+        else if (!Fixture.Semi.IsEmpty)
             currentPhase = Fixture.Semi;
 
         var currentMatch = currentPhase.Matches.SingleOrDefault(e =>
@@ -57,7 +57,7 @@ public partial class TournamentState
         if (currentMatch is null)
             return Results.MatchDoesNotExist;
 
-        if (currentMatch.MatchResult is not null)
+        if (currentMatch.MatchResult.Played)
             return Results.MatchAlreadyPlayed;
 
         return Results.Unit;

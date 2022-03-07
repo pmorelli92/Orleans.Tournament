@@ -17,13 +17,13 @@ public class TeamAddedSaga : SubscriberGrain
     {
     }
 
-    public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token = null)
+    public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token)
     {
         if (evt is not TeamAdded obj)
             return true;
 
         // We already know that the Team exists, as it was validated
-        // on the AddTeam command, and before publishing the TeamAdded event
+        // on the AddTeam command and before publishing the TeamAdded event
         var teamGrain = GrainFactory.GetGrain<ITeamGrain>(obj.TeamId);
 
         var joinTournamentCmd = new JoinTournament(obj.TeamId, obj.TournamentId, obj.TraceId, obj.InvokerUserId);

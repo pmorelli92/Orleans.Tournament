@@ -25,7 +25,7 @@ public class TournamentSubscriber : SubscriberGrain
         _teamQueryHandler = teamQueryHandler;
     }
 
-    public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token = null)
+    public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token)
     {
         switch (evt)
         {
@@ -57,7 +57,7 @@ public class TournamentSubscriber : SubscriberGrain
             evt.TournamentId,
             evt.Name,
             Enumerable.Empty<Team>().ToImmutableList(),
-            null); //TODO: Fix this
+            Fixture.Empty);
 
         await _projectionManager.UpdateProjection(this.GetPrimaryKey(), projection);
         return true;

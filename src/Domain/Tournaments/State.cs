@@ -6,11 +6,12 @@ public partial class TournamentState
     public bool Created { get; set; }
     public string Name { get; set; }
     public List<Guid> Teams { get; set; }
-    public Fixture? Fixture { get; set; }
+    public Fixture Fixture { get; set; }
 
     public TournamentState()
     {
         Name = string.Empty;
+        Fixture = Fixture.Empty;
         Teams = Enumerable.Empty<Guid>().ToList();
     }
 

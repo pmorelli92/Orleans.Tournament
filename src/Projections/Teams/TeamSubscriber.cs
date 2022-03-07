@@ -25,7 +25,7 @@ public class TeamSubscriber : SubscriberGrain
         _projectionManager = new ProjectionManager<TeamProjection>("read", "team_projection", postgresOptions);
     }
 
-    public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token = null)
+    public override async Task<bool> HandleAsync(object evt, StreamSequenceToken token)
     {
         switch (evt)
         {
