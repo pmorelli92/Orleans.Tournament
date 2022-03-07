@@ -28,7 +28,7 @@ public class FixtureTests
         var setMatch = new Match(
             expected.LocalTeamId,
             expected.AwayTeamId,
-            new MatchResult(expectedLocalGoals, expectedAwayGoals));
+            new MatchResult(expectedLocalGoals, expectedAwayGoals, true));
 
         sut = sut.SetMatchResult(setMatch);
 
