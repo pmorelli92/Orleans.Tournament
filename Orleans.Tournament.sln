@@ -58,7 +58,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Silo.Dashboard", "src\Silo.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain.csproj", "{1EEF9340-E207-46D2-8935-F534F4142EA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "tests\Domain.Tests\Domain.Tests.csproj", "{6B5166F4-5B7D-4046-B6AB-5167B021B7A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Tests", "tests\Domain.Tests\Domain.Tests.csproj", "{6B5166F4-5B7D-4046-B6AB-5167B021B7A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{5EB73322-1D5E-4D93-93AF-C8B912D75EF9}"
+	ProjectSection(SolutionItems) = preProject
+		img\projections.drawio.png = img\projections.drawio.png
+		img\websockets.drawio.png = img\websockets.drawio.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +129,7 @@ Global
 		{BA428209-2DA2-401D-8475-BE4CFDF3C3C4} = {3AC1680A-85E5-4E50-9ACF-03284A0A5B39}
 		{1EEF9340-E207-46D2-8935-F534F4142EA6} = {9F5EA531-C4D9-4063-A782-CC0D4AD26844}
 		{6B5166F4-5B7D-4046-B6AB-5167B021B7A0} = {4281688B-8FF3-4CB8-8623-068E13EE97EB}
+		{5EB73322-1D5E-4D93-93AF-C8B912D75EF9} = {DA678CE1-A6E5-4F52-9486-10C1EEE2888D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C2CAF119-A4CB-4DE8-9F3C-CFD9D8757724}
