@@ -21,3 +21,27 @@ data:
   BUILD_VERSION: 0.0.1
   JWT_ISSUER: orleans.tournament.com
   JWT_AUDIENCE: orleans.tournament.com
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: silo-config
+data:
+  ASPNETCORE_ENVIRONMENT: Development
+  ASPNETCORE_URLS: http://*:80
+  CLUSTER_ID: Local
+  SERVICE_ID: Orleans-Tournament
+  SILO_PORT: "30711"
+  GATEWAY_PORT: "30710"
+  BUILD_VERSION: 0.0.1
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: silo-dashboard-config
+data:
+  ASPNETCORE_ENVIRONMENT: Development
+  ASPNETCORE_URLS: http://*:80
+  CLUSTER_ID: Local
+  SERVICE_ID: Orleans-Tournament
+  BUILD_VERSION: 0.0.1

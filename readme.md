@@ -2,17 +2,18 @@
 
 This project is a backend oriented demo with websocket capabilities that relies heavily in the Actor Model Framework implementation of Microsoft Orleans. I gave myself the luxury of experimenting with some technologies and practices that might be useful on a real world distributed system.
 
-## Table of Contents
-1. [Demo.](#demo)
-2. [Domain.](#domain)
-2. [DDD and immutability.](#ddd-and-immutability)
-3. [CQRS, projections, event sourcing and eventual consistency.](#cqrs-projections-event-sourcing-and-eventual-consistency)
-4. [Sagas.](#sagas)
-5. [Async communication via websockets.](#async-communication-via-websockets)
-6. [Authentication.](#authentication)
-7. [Infrastructure (Kubernetes).](#infrastructure-kubernetes)
-8. [How to run it.](#how-to-run-it)
-9. [Tests.](#tests)
+| **Table of Contents**  |
+|---|
+| [Demo](#demo)  |
+|  [Domain](#domain) |
+| [DDD and immutability](#ddd-and-immutability)  |
+| [CQRS, projections, event sourcing and eventual consistency](#cqrs-projections-event-sourcing-and-eventual-consistency) |
+| [Sagas](#sagas) |
+| [Async communication via websockets](#async-communication-via-websockets) |
+| [Authentication](#authentication) |
+| [Infrastructure (Kubernetes)](#infrastructure-kubernetes) |
+| [How to run it](#how-to-run-it) |
+| [Tests](#tests) |
 
 ## Demo
 
@@ -114,12 +115,54 @@ It makes sense to have a fallback mechanism in case a websocket event did not ar
 
 ## Infrastructure (Kubernetes)
 
-TBD
+The solution consists on different projects that need to be executed at the same time:
+
+- API.Identity: Create user and generate token.
+- API: Entrypoint for the user to invoke commands, connects to the Orleans cluster as a client.
+- Silo: Orleans cluster, handles everything related to Orleans such as placement, streams, etc.
+- Silo.Dashboard: Orleans client that displays metrics and information.
+
+It also requires an instance of Postgres to be running and also accessible for connection.
+
+Taking in consideration that the API could be split in smaller ones and the Silos should be scalable, I decided to create Kubernetes manifests to host this application. As it is not a common practice to have your own Kubernetes cluster locally, I also decided on using `Kind` which uses the docker engine to host a single node of Kubernetes locally.
+
+I am not going to enter into details of how this works, but just so you know that `Docker Desktop` and `Kind` are required to be installed to run this solution. Of course, one can choose to run locally instead, bear in mind that in that scenario you need to be able to connect to a Postgres instance as mentioned above.
+
+All the Kubernetes configuration files can be found on the `kubernetes` folder. **NOTE:** *There are also "secrets" on the mentioned folder, for a real world application please do not store your secrets in plain text on your repository*.
 
 ## How to run it
 
-TBD
+As mentioned before, it is required to have docker installed as well as `kind` command line and `kubectl`. It is also suggested to have `make` support, so you don't have to manually go through the commands one by one.
+
+Initial bootstrap:
+
+```
+make run
+```
+
+Trigger rebuild of images and recreation of all the pods:
+
+```
+make restart
+```
+
+If you see something like this, everything should be up and running:
+
+![running terminal](/img/running.png)
+
+Now you can access with the following endpoints:
+
+- [API (Port 30703)](http://localhost:30703/version)
+- [API Identity (Port 30704)](http://localhost:30704/version)
+- [Silo Dashboard (Port 30702)](http://localhost:30702)
+
+You can use the Postman collection below to try out the functionality as you can see on the demo. This collection assigns values from previous responses so you don't have to modify the requests manually but just execute them in order.
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/7368453-13049026-2905-4a52-979d-4e619e8c806c?action=collection%2Ffork&collection-url=entityId%3D7368453-13049026-2905-4a52-979d-4e619e8c806c%26entityType%3Dcollection%26workspaceId%3De2e94935-58da-4b5e-9215-d61b78393014#?env%5BOrleans%20Tournament%5D=W3sia2V5IjoiQXBpSWRlbnRpdHlVcmwiLCJ2YWx1ZSI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzA3MDQiLCJlbmFibGVkIjp0cnVlLCJzZXNzaW9uVmFsdWUiOiJodHRwOi8vbG9jYWxob3N0OjMwNzA0Iiwic2Vzc2lvbkluZGV4IjowfSx7ImtleSI6IkFwaVVybCIsInZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDozMDcwMyIsImVuYWJsZWQiOnRydWUsInNlc3Npb25WYWx1ZSI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzA3MDMiLCJzZXNzaW9uSW5kZXgiOjF9LHsia2V5IjoiU2lsb0Rhc2hib2FyZFVybCIsInZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDozMDcwMiIsImVuYWJsZWQiOnRydWUsInNlc3Npb25WYWx1ZSI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzA3MDIiLCJzZXNzaW9uSW5kZXgiOjJ9LHsia2V5IjoiU2lsb1VybCIsInZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDozMDcwMSIsImVuYWJsZWQiOnRydWUsInNlc3Npb25WYWx1ZSI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzA3MDEiLCJzZXNzaW9uSW5kZXgiOjN9XQ==)
 
 ## Tests
 
-TBD
+Tests are not yet implemented, but you can see a simple example on the `Domain.Tests` project. I would like the unit tests just to cover the domain functionality:
+
+- Given a state, apply an event, assert the modified state.
+- Given a value object, invoke a method, assert the returned record.

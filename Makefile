@@ -20,19 +20,12 @@ cluster/images:
 	ot-postgres:local
 
 cluster/apply:
-	kubectl create secret generic postgres-connection --from-literal=value="Server=postgres-service;Port=5432;User Id=dbuser;Password=dbpassword;Database=orleans-tournament"; \
-	kubectl create secret generic jwt-issuer-key --from-literal=value="mUL-M6N5]4;S9XHp"
 	kubectl apply -f kubernetes
 
 cluster/teardown:
-	-kubectl delete secret postgres-connection
-	-kubectl delete secret jwt-issuer-key
-	-kubectl delete deployment api-deployment
-	-kubectl delete deployment api-identity-deployment
-	-kubectl delete deployment postgres-deployment
-	-kubectl delete deployment silo-deployment
-	-kubectl delete deployment silo-dashboard-deployment
+	kubectl delete secret --all
+	kubectl delete deployment --all
 
-run: docker/build cluster/init cluster/images cluster/apply
+run: cluster/init docker/build cluster/images cluster/apply
 
 restart: docker/build cluster/images cluster/teardown cluster/apply
