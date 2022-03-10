@@ -11,7 +11,7 @@
 
     <ItemGroup>
         <PackageReference Include="Ben.Demystifier" Version="0.4.1" />
-        <PackageReference Include="Npgsql" Version="5.0.11" />
+        <PackageReference Include="Npgsql" Version="6.0.3" />
         <PackageReference Include="Microsoft.Orleans.Client" Version="3.6.0" />
         <PackageReference Include="Microsoft.Orleans.OrleansRuntime" Version="3.6.0" />
         <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="3.6.0" />

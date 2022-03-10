@@ -1,4 +1,6 @@
-﻿CREATE TABLE OrleansStorage
+﻿-- https://github.com/dotnet/orleans/blob/3.x/src/AdoNet/Orleans.Persistence.AdoNet/PostgreSQL-Persistence.sql
+-- https://github.com/dotnet/orleans/blob/3.x/src/AdoNet/Orleans.Persistence.AdoNet/Migrations/PostgreSQL-Persistence-3.6.0.sql
+CREATE TABLE OrleansStorage
 (
     grainidhash integer NOT NULL,
     grainidn0 bigint NOT NULL,
@@ -10,7 +12,7 @@
     payloadbinary bytea,
     payloadxml xml,
     payloadjson text,
-    modifiedon timestamp without time zone NOT NULL,
+    modifiedon timestamptz NOT NULL,
     version integer
 );
 
@@ -56,7 +58,7 @@ AS $function$
     -- If the version number explicitly returned is still the same, Orleans interprets it so the update did not succeed
     -- and throws an InconsistentStateException.
     --
-    -- See further information at https://dotnet.github.io/orleans/Documentation/Core-Features/Grain-Persistence.html. 
+    -- See further information at https://dotnet.github.io/orleans/Documentation/Core-Features/Grain-Persistence.html.
     IF _GrainStateVersion IS NOT NULL
     THEN
         UPDATE OrleansStorage
@@ -147,7 +149,6 @@ INSERT INTO OrleansQuery(QueryKey, QueryText)
 VALUES
 (
     'WriteToStorageKey','
-
         select * from WriteToStorage(@GrainIdHash, @GrainIdN0, @GrainIdN1, @GrainTypeHash, @GrainTypeString, @GrainIdExtensionString, @ServiceId, @GrainStateVersion, @PayloadBinary, @PayloadJson, CAST(@PayloadXml AS xml));
 ');
 
