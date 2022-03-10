@@ -26,8 +26,6 @@ var postgresConnection = configuration["POSTGRES_CONNECTION"];
 
 var postgresOptions = new PostgresOptions(postgresConnection);
 
-var appStopper = new CancellationTokenSource();
-
 // Orleans cluster silo
 var clusterSilo = new SiloHostBuilder()
     .Configure<ClusterOptions>(options =>
@@ -93,9 +91,11 @@ builder
 var app = builder.Build();
 
 app.MapGet("/version", () => Results.Ok(new { BuildVersion = buildVersion }));
-app.MapGet("/leave", () =>
+app.MapGet("/leave", async () =>
 {
-    appStopper.Cancel();
+    // Stop the Silo
+    await clusterSilo.StopAsync();
+    await clusterSilo.Stopped;
     Results.Ok();
 });
 
@@ -103,8 +103,4 @@ app.MapGet("/leave", () =>
 await clusterSilo.StartAsync();
 
 // Starting API
-await app.RunAsync(appStopper.Token);
-
-// When /leave is invoked, the appStopper will be cancelled and this code gets executed
-await clusterSilo.StopAsync();
-await clusterSilo.Stopped;
+await app.RunAsync();

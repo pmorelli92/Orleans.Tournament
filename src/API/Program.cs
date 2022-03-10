@@ -28,8 +28,6 @@ var jwtSigningKey = Encoding.UTF8.GetBytes(configuration["JWT_SIGNING_KEY"]);
 
 var postgresOptions = new PostgresOptions(postgresConnection);
 
-var appStopper = new CancellationTokenSource();
-
 // Orleans cluster connection
 var clusterClient = new ClientBuilder()
     .Configure<ClusterOptions>(options =>
@@ -99,9 +97,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapGet("/version", () => Results.Ok(new { BuildVersion = buildVersion }));
-app.MapGet("/leave", () =>
+app.MapGet("/leave", async () =>
 {
-    appStopper.Cancel();
+    await clusterClient.Close();
     Results.Ok();
 });
 
@@ -118,7 +116,4 @@ await clusterClient.Connect(async e =>
 });
 
 // Starting API
-await app.RunAsync(appStopper.Token);
-
-// When /leave is invoked, the appStopper will be cancelled and this code gets executed
-await clusterClient.Close();
+await app.RunAsync();

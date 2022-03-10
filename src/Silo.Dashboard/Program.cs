@@ -12,8 +12,6 @@ var serviceId = configuration["SERVICE_ID"];
 var buildVersion = configuration["BUILD_VERSION"];
 var postgresConnection = configuration["POSTGRES_CONNECTION"];
 
-var appStopper = new CancellationTokenSource();
-
 // Orleans cluster connection
 var clusterClient = new ClientBuilder()
     .Configure<ClusterOptions>(options =>
@@ -54,9 +52,9 @@ var app = builder.Build();
 
 app.UseOrleansDashboard();
 app.MapGet("/version", () => Results.Ok(new { BuildVersion = buildVersion }));
-app.MapGet("/leave", () =>
+app.MapGet("/leave", async () =>
 {
-    appStopper.Cancel();
+    await clusterClient.Close();
     Results.Ok();
 });
 
@@ -68,7 +66,4 @@ await clusterClient.Connect(async e =>
 });
 
 // Starting API
-await app.RunAsync(appStopper.Token);
-
-// When /leave is invoked, the appStopper will be cancelled and this code gets executed
-await clusterClient.Close();
+await app.RunAsync();
